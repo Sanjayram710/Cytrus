@@ -147,7 +147,7 @@ export default function Footer() {
 
         {/* Footer Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-luxury-cream/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-luxury-cream/40 uppercase tracking-widest">
-          <p>© 2026 CYTRUS HAUTE COUTURE. ALL RIGHTS RESERVED.</p>
+          <p>© 2026 CYTRUS. ALL RIGHTS RESERVED.</p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
             <a href="#" className="hover:text-luxury-cream">PRIVACY POLICY</a>
             <a href="#" className="hover:text-luxury-cream">TERMS OF SERVICE</a>

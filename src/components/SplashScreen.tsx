@@ -59,15 +59,6 @@ export default function SplashScreen() {
             >
               CYTRUS
             </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.7 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-[9px] sm:text-[10px] tracking-[0.45em] uppercase text-luxury-gold mt-2 font-semibold"
-            >
-              HAUTE COUTURE
-            </motion.p>
           </motion.div>
 
           {/* Luxury 2-Second Progress Line Indicator */}

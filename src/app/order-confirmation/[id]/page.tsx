@@ -50,7 +50,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
         </p>
 
         <p className="text-xs text-gray-700 leading-relaxed max-w-lg mx-auto mb-10">
-          We have received your haute couture order. An email receipt and SMS notification with dispatch tracking will be sent to <span className="font-bold text-luxury-black">{order.customerEmail}</span>.
+          We have received your CYTRUS order. An email receipt and SMS notification with dispatch tracking will be sent to <span className="font-bold text-luxury-black">{order.customerEmail}</span>.
         </p>
 
         {/* Details Grid */}
