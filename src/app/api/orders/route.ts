@@ -64,11 +64,20 @@ export async function POST(req: Request) {
 
     const orderNumber = `LXW-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
 
+    // Check if session user exists in database to prevent foreign key constraint violations
+    let validUserId: string | undefined = undefined;
+    if (session?.id) {
+      const existingUser = await prisma.user.findUnique({ where: { id: session.id } });
+      if (existingUser) {
+        validUserId = existingUser.id;
+      }
+    }
+
     // 4. Create Order in database
     const order = await prisma.order.create({
       data: {
         orderNumber,
-        userId: session?.id,
+        userId: validUserId,
         customerName: validated.customerName,
         customerEmail: validated.customerEmail,
         customerPhone: validated.customerPhone,
@@ -131,7 +140,7 @@ export async function POST(req: Request) {
         await prisma.couponUsage.create({
           data: {
             couponId: couponRecord.id,
-            userId: session?.id,
+            userId: validUserId,
             orderId: order.id,
           },
         });
