@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Search, X, Check } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
+import ImageUploadInput from '@/components/ImageUploadInput';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -277,6 +278,20 @@ export default function AdminProductsPage() {
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <ImageUploadInput
+                  label="Primary Product Image"
+                  value={formData.imageUrl}
+                  onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                />
+
+                <ImageUploadInput
+                  label="Secondary Hover Image (Optional)"
+                  value={formData.imageUrl2}
+                  onChange={(url) => setFormData({ ...formData, imageUrl2: url })}
                 />
               </div>
 

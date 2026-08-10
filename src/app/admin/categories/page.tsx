@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Plus, X } from 'lucide-react';
+import ImageUploadInput from '@/components/ImageUploadInput';
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<any[]>([]);
@@ -136,16 +137,11 @@ export default function AdminCategoriesPage() {
                 />
               </div>
 
-              <div>
-                <label className="block uppercase font-bold mb-1">Cover Image URL</label>
-                <input
-                  type="url"
-                  required
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full border border-luxury-border p-2.5 bg-white font-mono focus:outline-none focus:border-luxury-gold"
-                />
-              </div>
+              <ImageUploadInput
+                label="Cover Image"
+                value={formData.image}
+                onChange={(url) => setFormData({ ...formData, image: url })}
+              />
 
               <button
                 type="submit"

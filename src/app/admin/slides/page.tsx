@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Sliders, Edit, Plus, Trash2, X, Eye, EyeOff } from 'lucide-react';
+import ImageUploadInput from '@/components/ImageUploadInput';
 
 export default function AdminSlidesPage() {
   const [slides, setSlides] = useState<any[]>([]);
@@ -204,16 +205,11 @@ export default function AdminSlidesPage() {
                 />
               </div>
 
-              <div>
-                <label className="block uppercase font-bold mb-1">Desktop Image URL (1920x1080)</label>
-                <input
-                  type="url"
-                  required
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full border border-luxury-border p-2.5 bg-white font-mono focus:outline-none focus:border-luxury-gold"
-                />
-              </div>
+              <ImageUploadInput
+                label="Desktop Image (1920x1080)"
+                value={formData.image}
+                onChange={(url) => setFormData({ ...formData, image: url })}
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
