@@ -68,19 +68,19 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   };
 
   const navLinks = [
-    { name: 'New Arrivals', href: '/shop?newArrival=true' },
-    { name: 'Dresses', href: '/category/dresses' },
-    { name: 'Sarees & Ethnic', href: '/category/sarees' },
-    { name: 'Collections', href: '/shop?collection=silk-symphony' },
-    { name: 'Best Sellers', href: '/shop?bestSeller=true' },
-    { name: 'Sale', href: '/shop?sale=true' },
+    { name: 'Oversized Tees', href: '/category/oversized-tees' },
+    { name: 'Graphic Tees', href: '/category/graphic-tees' },
+    { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
+    { name: 'Minimalist', href: '/category/minimalist-embroidered' },
+    { name: 'Pima Essentials', href: '/category/pima-cotton-essentials' },
+    { name: 'Polos & Henleys', href: '/category/polo-henley-tees' },
   ];
 
   return (
     <>
       {/* Top Announcement Bar */}
       <div className="bg-luxury-black text-luxury-cream text-[11px] font-medium uppercase tracking-[0.2em] py-2 text-center relative z-50">
-        Complimentary Worldwide Shipping on Orders Over ₹10,000 | Code: <span className="text-luxury-gold font-bold">LUXE10</span>
+        Complimentary Express Shipping on Orders Over ₹2,000 | Code: <span className="text-luxury-gold font-bold">LUXE10</span>
       </div>
 
       {/* Main Header / Sticky Glass Nav */}
@@ -130,7 +130,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 LUXEWEAR
               </span>
               <span className="text-[9px] tracking-[0.4em] uppercase text-luxury-gold font-medium -mt-1">
-                HAUTE COUTURE
+                HEAVYWEIGHT TEES
               </span>
             </Link>
 
@@ -154,12 +154,11 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               <button
                 onClick={onOpenSearch}
                 className="hidden lg:block p-1 text-luxury-black hover:text-luxury-gold transition-colors"
-                title="Search Products"
+                title="Search T-Shirts"
               >
                 <Search className="w-5 h-5" />
               </button>
 
-              {/* Wishlist Link */}
               <Link
                 href="/wishlist"
                 className="relative p-1 text-luxury-black hover:text-luxury-gold transition-colors"
@@ -173,7 +172,6 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 )}
               </Link>
 
-              {/* Account Dropdown */}
               {user ? (
                 <div className="relative group">
                   <Link
@@ -186,7 +184,6 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                     </span>
                   </Link>
 
-                  {/* Account Popover Menu */}
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-luxury-border shadow-luxury rounded-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto py-2 z-50">
                     {user.role === 'ADMIN' && (
                       <Link
@@ -220,7 +217,6 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 </Link>
               )}
 
-              {/* Cart Drawer Trigger */}
               <button
                 onClick={openCart}
                 className="relative p-1 text-luxury-black hover:text-luxury-gold transition-colors flex items-center"

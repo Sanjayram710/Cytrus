@@ -25,10 +25,10 @@ export default function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps)
           </button>
 
           <h2 className="font-serif text-2xl font-bold uppercase tracking-wider text-luxury-black mb-1">
-            LUXEWEAR Size Guide
+            LUXEWEAR T-Shirt Size Guide
           </h2>
           <p className="text-xs uppercase tracking-widest text-luxury-gold mb-6 font-semibold">
-            Standard Luxury Couture Measurements (Inches)
+            Oversized & Heavyweight Cut Measurements (Inches)
           </p>
 
           <div className="overflow-x-auto">
@@ -36,64 +36,56 @@ export default function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps)
               <thead>
                 <tr className="border-b-2 border-luxury-black bg-luxury-beige/50 text-luxury-black font-serif uppercase tracking-widest">
                   <th className="p-3">Size</th>
-                  <th className="p-3">Bust (In)</th>
-                  <th className="p-3">Waist (In)</th>
-                  <th className="p-3">Hip (In)</th>
-                  <th className="p-3">UK / IND</th>
+                  <th className="p-3">Chest Width (In)</th>
+                  <th className="p-3">Tee Length (In)</th>
+                  <th className="p-3">Shoulder Drop (In)</th>
+                  <th className="p-3">Fit Profile</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-luxury-border text-luxury-black font-medium">
                 <tr>
-                  <td className="p-3 font-bold">XS</td>
-                  <td className="p-3">31 - 32.5</td>
-                  <td className="p-3">24 - 25.5</td>
-                  <td className="p-3">34 - 35.5</td>
-                  <td className="p-3">6 - 8</td>
-                </tr>
-                <tr>
                   <td className="p-3 font-bold">S</td>
-                  <td className="p-3">33 - 34.5</td>
-                  <td className="p-3">26 - 27.5</td>
-                  <td className="p-3">36 - 37.5</td>
-                  <td className="p-3">8 - 10</td>
+                  <td className="p-3">42"</td>
+                  <td className="p-3">28.5"</td>
+                  <td className="p-3">21.5"</td>
+                  <td className="p-3 font-semibold text-luxury-gold">Relaxed Boxy</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-bold">M</td>
-                  <td className="p-3">35 - 36.5</td>
-                  <td className="p-3">28 - 29.5</td>
-                  <td className="p-3">38 - 39.5</td>
-                  <td className="p-3">10 - 12</td>
+                  <td className="p-3">44"</td>
+                  <td className="p-3">29.5"</td>
+                  <td className="p-3">22.5"</td>
+                  <td className="p-3 font-semibold text-luxury-gold">Relaxed Boxy</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-bold">L</td>
-                  <td className="p-3">37 - 39.0</td>
-                  <td className="p-3">30 - 32.0</td>
-                  <td className="p-3">40 - 42.0</td>
-                  <td className="p-3">12 - 14</td>
+                  <td className="p-3">46"</td>
+                  <td className="p-3">30.5"</td>
+                  <td className="p-3">23.5"</td>
+                  <td className="p-3 font-semibold text-luxury-gold">Oversized Drop</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-bold">XL</td>
-                  <td className="p-3">40 - 42.0</td>
-                  <td className="p-3">33 - 35.0</td>
-                  <td className="p-3">43 - 45.0</td>
-                  <td className="p-3">14 - 16</td>
+                  <td className="p-3">48"</td>
+                  <td className="p-3">31.5"</td>
+                  <td className="p-3">24.5"</td>
+                  <td className="p-3 font-semibold text-luxury-gold">Oversized Drop</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-bold">XXL</td>
-                  <td className="p-3">43 - 45.0</td>
-                  <td className="p-3">36 - 38.0</td>
-                  <td className="p-3">46 - 48.0</td>
-                  <td className="p-3">16 - 18</td>
+                  <td className="p-3">50"</td>
+                  <td className="p-3">32.5"</td>
+                  <td className="p-3">25.5"</td>
+                  <td className="p-3 font-semibold text-luxury-gold">Ultra Oversized</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <div className="mt-6 p-4 bg-white border border-luxury-border text-[11px] text-gray-600 leading-relaxed">
-            <p className="font-bold uppercase tracking-wider text-luxury-black mb-1">How to Measure:</p>
-            <p><strong>Bust:</strong> Measure around the fullest part of your bust.</p>
-            <p><strong>Waist:</strong> Measure around your natural waistline, keeping tape comfortably loose.</p>
-            <p><strong>Hips:</strong> Measure around the fullest part of your hips.</p>
+            <p className="font-bold uppercase tracking-wider text-luxury-black mb-1">Fit & Care Recommendation:</p>
+            <p>• Our <strong>Oversized Tees</strong> feature dropped shoulders and a wide boxy body width. Stick to your true size for the intended streetwear drape, or size down for a standard fit.</p>
+            <p>• Pre-shrunk 280 GSM organic cotton. Machine wash cold with similar colors; lay flat to dry.</p>
           </div>
         </div>
       </div>

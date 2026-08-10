@@ -243,9 +243,8 @@ async function main() {
     await prisma.heroSlide.create({ data: slide });
   }
 
-  console.log('--- Seeding 32 Luxury T-Shirt Products ---');
+  console.log('--- Seeding 11 Unique Luxury T-Shirt Products ---');
   const productsMaster = [
-    // OVERSIZED TEES (1-6)
     {
       name: 'Monolith 280 GSM Heavyweight Oversized Tee',
       slug: 'monolith-280gsm-oversized-tee',
@@ -301,8 +300,6 @@ async function main() {
       colors: [{ name: 'Obsidian Black', hex: '#121212' }],
       sizes: ['S', 'M', 'L', 'XL'],
     },
-
-    // GRAPHIC TEES (4-8)
     {
       name: 'Cybernetic Renaissance Graphic Tee',
       slug: 'cybernetic-renaissance-graphic-tee',
@@ -339,8 +336,6 @@ async function main() {
       colors: [{ name: 'Vintage Acid Wash', hex: '#4A4A4A' }],
       sizes: ['M', 'L', 'XL'],
     },
-
-    // VINTAGE WASH TEES (9-12)
     {
       name: 'Acid Washed Mineral Slub Tee',
       slug: 'acid-washed-mineral-slub-tee',
@@ -359,8 +354,6 @@ async function main() {
       colors: [{ name: 'Acid Slate', hex: '#708090' }, { name: 'Acid Violet', hex: '#4B0082' }],
       sizes: ['S', 'M', 'L', 'XL'],
     },
-
-    // MINIMALIST EMBROIDERED (13-16)
     {
       name: 'Maison Tonal Crest Embroidered Tee',
       slug: 'maison-tonal-crest-embroidered-tee',
@@ -379,8 +372,6 @@ async function main() {
       colors: [{ name: 'Sand Beige', hex: '#C19A6B' }, { name: 'Obsidian Black', hex: '#121212' }, { name: 'Cream White', hex: '#FFFDD0' }],
       sizes: ['S', 'M', 'L', 'XL'],
     },
-
-    // PIMA COTTON ESSENTIALS (17-20)
     {
       name: 'Supima Cotton Ultra-Soft Crewneck Tee',
       slug: 'supima-cotton-ultrasoft-crewneck',
@@ -399,8 +390,6 @@ async function main() {
       colors: [{ name: 'Optic White', hex: '#FFFFFF' }, { name: 'Navy Blue', hex: '#000080' }, { name: 'Heather Grey', hex: '#D3D3D3' }],
       sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     },
-
-    // POLO & HENLEY TEES (21-24)
     {
       name: 'Waffle-Knit Heavy Cotton Henley Tee',
       slug: 'waffle-knit-heavy-henley-tee',
@@ -437,8 +426,6 @@ async function main() {
       colors: [{ name: 'French Blue', hex: '#4682B4' }, { name: 'Optic White', hex: '#FFFFFF' }],
       sizes: ['S', 'M', 'L', 'XL'],
     },
-
-    // ATHLEISURE & ATHLETIC (25-32)
     {
       name: 'Bamboo Ribbed Stretch Muscle Fit Tee',
       slug: 'bamboo-ribbed-stretch-muscle-tee',
@@ -489,11 +476,11 @@ async function main() {
         },
         variants: {
           create: p.sizes.flatMap((size) =>
-            p.colors.map((color) => ({
+            p.colors.map((color, colorIdx) => ({
               size,
               color: color.name,
               colorHex: color.hex,
-              sku: `${p.sku}-${size}-${color.name.slice(0, 3).toUpperCase()}`,
+              sku: `${p.sku}-${size}-C${colorIdx + 1}`,
               stock: Math.floor(5 + Math.random() * 10),
               price: p.price,
             }))
@@ -504,7 +491,6 @@ async function main() {
 
     createdProducts.push(prod);
 
-    // Create inventory record
     await prisma.inventory.create({
       data: {
         productId: prod.id,
