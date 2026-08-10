@@ -49,9 +49,20 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
           Order Reference: <span className="text-luxury-black font-bold">{order.orderNumber}</span>
         </p>
 
-        <p className="text-xs text-gray-700 leading-relaxed max-w-lg mx-auto mb-10">
-          We have received your CYTRUS order. An email receipt and SMS notification with dispatch tracking will be sent to <span className="font-bold text-luxury-black">{order.customerEmail}</span>.
+        <p className="text-xs text-gray-700 leading-relaxed max-w-lg mx-auto mb-6">
+          We have received your CYTRUS order. An official receipt and SMS notification with dispatch tracking will be sent to your contact details.
         </p>
+
+        <div className="bg-luxury-cream border border-luxury-border p-4 mb-8 max-w-lg mx-auto text-left space-y-2">
+          <div className="flex items-center space-x-2 text-xs text-luxury-black font-semibold">
+            <span className="text-base">📧</span>
+            <span>Official Email Receipt dispatched to <strong className="text-luxury-gold">{order.customerEmail}</strong></span>
+          </div>
+          <div className="flex items-center space-x-2 text-xs text-luxury-black font-semibold">
+            <span className="text-base">📱</span>
+            <span>SMS Notification sent to <strong className="text-luxury-gold">{order.customerPhone}</strong></span>
+          </div>
+        </div>
 
         {/* Details Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left border-t border-b border-luxury-border py-8 mb-10 text-xs">

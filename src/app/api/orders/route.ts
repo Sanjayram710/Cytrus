@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 import { recalculateCartAndVerifyStock } from '@/lib/cart-server';
 import { validateCouponCode } from '@/lib/coupon';
+import { sendOrderEmailReceipt, sendOrderSMSNotification } from '@/lib/notifications';
 import { z } from 'zod';
 
 const orderSchema = z.object({
@@ -147,12 +148,23 @@ export async function POST(req: Request) {
       }
     }
 
+    // 7. Dispatch automated Email Receipt and SMS Notifications to customer
+    try {
+      await sendOrderEmailReceipt(order as any);
+      await sendOrderSMSNotification(order as any);
+    } catch (notifErr) {
+      console.error('Notification dispatch warning:', notifErr);
+    }
+
     return NextResponse.json({
       success: true,
       orderId: order.id,
       orderNumber: order.orderNumber,
       total: order.total,
       paymentMethod: order.paymentMethod,
+      customerEmail: order.customerEmail,
+      customerPhone: order.customerPhone,
+      receiptDispatched: true,
     });
   } catch (error: any) {
     if (error instanceof z.ZodError) {
