@@ -68,26 +68,27 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   };
 
   const navLinks = [
-    { name: 'Oversized Tees', href: '/category/oversized-tees' },
-    { name: 'Graphic Tees', href: '/category/graphic-tees' },
-    { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
-    { name: 'Minimalist', href: '/category/minimalist-embroidered' },
-    { name: 'Pima Essentials', href: '/category/pima-cotton-essentials' },
-    { name: 'Polos & Henleys', href: '/category/polo-henley-tees' },
+    { name: 'Men', href: '/shop?gender=men' },
+    { name: 'Women', href: '/shop?gender=women' },
+    { name: 'Oversized', href: '/category/oversized-tees' },
+    { name: 'Graphic', href: '/category/graphic-tees' },
+    { name: 'Vintage', href: '/category/vintage-wash-tees' },
+    { name: 'Collections', href: '/shop' },
+    { name: 'Sale', href: '/shop?sale=true' },
   ];
 
   return (
     <>
-      {/* Main Header / Sticky Glass Nav */}
+      {/* Main Header / Sticky Nav */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled ? 'glass-nav shadow-subtle py-3' : 'bg-luxury-cream/90 backdrop-blur-md py-5 border-b border-luxury-border'
+          scrolled ? 'glass-nav shadow-subtle py-2 bg-luxury-cream/95 backdrop-blur-md' : 'bg-luxury-cream/95 backdrop-blur-md py-3.5 border-b border-luxury-border'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between min-h-[44px]">
-            {/* 1. Left Wing: Desktop Search / Mobile Menu */}
-            <div className="flex items-center space-x-4 w-28 sm:w-36 lg:w-44 justify-start flex-shrink-0">
+          <div className="relative flex items-center justify-between min-h-[58px]">
+            {/* 1. Left: Mobile Menu & Category Links */}
+            <div className="flex items-center space-x-4 lg:space-x-7">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
@@ -97,92 +98,57 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 <Menu className="w-6 h-6" />
               </button>
 
-              {/* Desktop Search Trigger */}
-              <button
-                onClick={onOpenSearch}
-                className="hidden lg:flex items-center space-x-2 text-luxury-black hover:text-luxury-gold transition-colors group p-1"
-                title="Search Products"
-              >
-                <Search className="w-4 h-4 text-luxury-black group-hover:text-luxury-gold transition-colors" />
-                <span className="text-[11px] uppercase tracking-[0.2em] font-medium">Search</span>
-              </button>
-            </div>
-
-            {/* 2. Center Stage: Left Nav + CYTRUS Logo + Right Nav */}
-            <div className="flex items-center justify-center flex-1 px-2">
-              {/* Desktop Left Nav Links */}
-              <nav className="hidden lg:flex items-center justify-end space-x-5 xl:space-x-8 flex-1 pr-5 xl:pr-8">
-                {navLinks.slice(0, 3).map((link) => (
+              {/* Desktop Nav Links (Left aligned like Rare Rabbit) */}
+              <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
+                {navLinks.map((link) => (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-xs uppercase tracking-[0.15em] font-medium transition-colors hover:text-luxury-gold whitespace-nowrap ${
-                      pathname === link.href ? 'text-luxury-gold border-b border-luxury-gold pb-0.5' : 'text-luxury-black'
+                    className={`text-xs uppercase tracking-[0.18em] font-semibold transition-all hover:text-luxury-gold whitespace-nowrap ${
+                      pathname === link.href ? 'text-luxury-gold font-bold border-b-2 border-luxury-gold pb-0.5' : 'text-luxury-black'
                     }`}
                   >
                     {link.name}
                   </Link>
                 ))}
               </nav>
+            </div>
 
-              {/* Brand Logo - Perfectly Centered */}
-              <Link href="/" className="flex flex-col items-center group px-3 xl:px-6 flex-shrink-0">
-                <span className="font-serif text-2xl sm:text-3xl font-bold tracking-[0.25em] text-luxury-black group-hover:text-luxury-gold transition-colors text-center">
+            {/* 2. Center: Logo Emblem on Top + CYTRUS Text Underneath */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-auto">
+              <Link href="/" className="flex flex-col items-center group py-0.5">
+                <img
+                  src="/logo.png"
+                  alt="CYTRUS"
+                  className="h-8 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105"
+                />
+                <span className="font-sans text-[11px] sm:text-[12px] font-bold tracking-[0.25em] uppercase text-luxury-black group-hover:text-luxury-gold transition-colors mt-0.5">
                   CYTRUS
                 </span>
-                <span className="text-[8px] sm:text-[9px] tracking-[0.4em] uppercase text-luxury-gold font-semibold -mt-1 text-center">
-                  HAUTE COUTURE
-                </span>
               </Link>
-
-              {/* Desktop Right Nav Links */}
-              <nav className="hidden lg:flex items-center justify-start space-x-5 xl:space-x-8 flex-1 pl-5 xl:pl-8">
-                {navLinks.slice(3).map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`text-xs uppercase tracking-[0.15em] font-medium transition-colors hover:text-luxury-gold whitespace-nowrap ${
-                      pathname === link.href ? 'text-luxury-gold border-b border-luxury-gold pb-0.5' : 'text-luxury-black'
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </nav>
             </div>
 
-            {/* 3. Right Wing: Action Icons (Wishlist, Account, Cart, Mobile Search) */}
-            <div className="flex items-center justify-end space-x-3 sm:space-x-5 w-28 sm:w-36 lg:w-44 flex-shrink-0">
-              {/* Mobile Search Icon */}
+            {/* 3. Right: Action Icons (Search, User, Wishlist, Bag with Badge) */}
+            <div className="flex items-center space-x-3 sm:space-x-5">
+              {/* Search Button */}
               <button
                 onClick={onOpenSearch}
-                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors lg:hidden"
+                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
+                title="Search Products"
                 aria-label="Search"
               >
                 <Search className="w-5 h-5" />
               </button>
 
-              <Link
-                href="/wishlist"
-                className="relative p-1 text-luxury-black hover:text-luxury-gold transition-colors"
-                title="Saved Wishlist"
-              >
-                <Heart className="w-5 h-5" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-luxury-gold text-luxury-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-
+              {/* Account / User */}
               {user ? (
                 <div className="relative group">
                   <Link
                     href={user.role === 'ADMIN' ? '/admin' : '/account'}
-                    className="flex items-center space-x-1.5 p-1 text-luxury-black hover:text-luxury-gold transition-colors"
+                    className="flex items-center space-x-1.5 p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
                   >
                     <User className="w-5 h-5" />
-                    <span className="hidden sm:inline text-xs tracking-wider uppercase font-medium">
+                    <span className="hidden xl:inline text-xs tracking-wider uppercase font-medium">
                       {user.name.split(' ')[0]}
                     </span>
                   </Link>
@@ -213,22 +179,41 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               ) : (
                 <Link
                   href="/login"
-                  className="p-1 text-luxury-black hover:text-luxury-gold transition-colors"
+                  className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
                   title="Sign In"
                 >
                   <User className="w-5 h-5" />
                 </Link>
               )}
 
+              {/* Wishlist Link */}
+              <Link
+                href="/wishlist"
+                className="relative p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
+                title="Saved Wishlist"
+              >
+                <Heart className="w-5 h-5" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 bg-luxury-gold text-luxury-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* Cart Drawer Trigger with Badge */}
               <button
                 onClick={openCart}
-                className="relative p-1 text-luxury-black hover:text-luxury-gold transition-colors flex items-center"
+                className="relative p-1.5 text-luxury-black hover:text-luxury-gold transition-colors flex items-center"
                 aria-label="View Cart"
               >
                 <ShoppingBag className="w-5 h-5" />
-                {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-luxury-black text-luxury-cream text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                {itemCount > 0 ? (
+                  <span className="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center">
                     {itemCount}
+                  </span>
+                ) : (
+                  <span className="absolute -top-0.5 -right-0.5 bg-luxury-black text-luxury-cream text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    0
                   </span>
                 )}
               </button>
@@ -247,9 +232,12 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
           <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-luxury-cream shadow-2xl p-6 flex flex-col justify-between z-50">
             <div>
               <div className="flex items-center justify-between border-b border-luxury-border pb-4">
-                <span className="font-serif text-xl font-bold tracking-widest text-luxury-black">
-                  CYTRUS
-                </span>
+                <div className="flex items-center space-x-2">
+                  <img src="/logo.png" alt="CYTRUS" className="h-7 w-7 object-contain" />
+                  <span className="font-sans text-base font-bold tracking-[0.2em] text-luxury-black">
+                    CYTRUS
+                  </span>
+                </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-1 text-luxury-black hover:text-luxury-gold"
