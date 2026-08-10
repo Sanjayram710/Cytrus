@@ -68,13 +68,9 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   };
 
   const navLinks = [
-    { name: 'Men', href: '/shop?gender=men' },
-    { name: 'Women', href: '/shop?gender=women' },
-    { name: 'Oversized', href: '/category/oversized-tees' },
-    { name: 'Graphic', href: '/category/graphic-tees' },
-    { name: 'Vintage', href: '/category/vintage-wash-tees' },
-    { name: 'Collections', href: '/shop' },
-    { name: 'Sale', href: '/shop?sale=true' },
+    { name: 'Oversized Tees', href: '/category/oversized-tees' },
+    { name: 'Graphic Tees', href: '/category/graphic-tees' },
+    { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
   ];
 
   return (
@@ -82,13 +78,13 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
       {/* Main Header / Sticky Nav */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled ? 'glass-nav shadow-subtle py-2 bg-luxury-cream/95 backdrop-blur-md' : 'bg-luxury-cream/95 backdrop-blur-md py-3.5 border-b border-luxury-border'
+          scrolled ? 'glass-nav shadow-subtle py-2.5 bg-luxury-cream/95 backdrop-blur-md' : 'bg-luxury-cream/95 backdrop-blur-md py-4 border-b border-luxury-border'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between min-h-[58px]">
+          <div className="relative flex items-center justify-between min-h-[64px] sm:min-h-[72px]">
             {/* 1. Left: Mobile Menu & Category Links */}
-            <div className="flex items-center space-x-4 lg:space-x-7">
+            <div className="flex items-center space-x-4 lg:space-x-8">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
@@ -98,13 +94,13 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 <Menu className="w-6 h-6" />
               </button>
 
-              {/* Desktop Nav Links (Left aligned like Rare Rabbit) */}
-              <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
+              {/* Desktop Nav Links (Only Oversized Tees, Graphic Tees, Vintage Wash) */}
+              <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-xs uppercase tracking-[0.18em] font-semibold transition-all hover:text-luxury-gold whitespace-nowrap ${
+                    className={`text-xs sm:text-[13px] uppercase tracking-[0.18em] font-semibold transition-all hover:text-luxury-gold whitespace-nowrap ${
                       pathname === link.href ? 'text-luxury-gold font-bold border-b-2 border-luxury-gold pb-0.5' : 'text-luxury-black'
                     }`}
                   >
@@ -114,15 +110,15 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               </nav>
             </div>
 
-            {/* 2. Center: Logo Emblem on Top + CYTRUS Text Underneath */}
+            {/* 2. Center: Logo Emblem on Top + CYTRUS Text Underneath (Bigger) */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-auto">
               <Link href="/" className="flex flex-col items-center group py-0.5">
                 <img
                   src="/logo.png"
                   alt="CYTRUS"
-                  className="h-8 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105"
+                  className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"
                 />
-                <span className="font-sans text-[11px] sm:text-[12px] font-bold tracking-[0.25em] uppercase text-luxury-black group-hover:text-luxury-gold transition-colors mt-0.5">
+                <span className="font-sans text-xs sm:text-sm md:text-[14px] font-extrabold tracking-[0.28em] uppercase text-luxury-black group-hover:text-luxury-gold transition-colors mt-1">
                   CYTRUS
                 </span>
               </Link>
