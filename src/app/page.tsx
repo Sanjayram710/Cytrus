@@ -21,7 +21,6 @@ export default function HomePage() {
   const { toggleWishlist, isInWishlist } = useWishlistStore();
 
   useEffect(() => {
-    // Fetch Hero Slides
     fetch('/api/hero-slides')
       .then((res) => res.json())
       .then((data) => {
@@ -29,7 +28,6 @@ export default function HomePage() {
       })
       .catch(() => {});
 
-    // Fetch New Arrivals
     fetch('/api/products?newArrival=true&limit=8')
       .then((res) => res.json())
       .then((data) => {
@@ -37,7 +35,6 @@ export default function HomePage() {
       })
       .catch(() => {});
 
-    // Fetch Featured Products
     fetch('/api/products?featured=true&limit=4')
       .then((res) => res.json())
       .then((data) => {
@@ -45,7 +42,6 @@ export default function HomePage() {
       })
       .catch(() => {});
 
-    // Fetch Categories & Collections
     fetch('/api/categories')
       .then((res) => res.json())
       .then((data) => {
@@ -85,17 +81,17 @@ export default function HomePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-luxury-border pb-4">
           <div>
             <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
-              FALL / WINTER 2026
+              FALL / WINTER 2026 DROPS
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-luxury-black mt-1">
-              New Arrivals
+              New T-Shirt Arrivals
             </h2>
           </div>
           <Link
             href="/shop?newArrival=true"
             className="mt-4 md:mt-0 text-xs font-bold uppercase tracking-[0.2em] text-luxury-black hover:text-luxury-gold transition-colors inline-flex items-center space-x-1"
           >
-            <span>Explore All New Arrivals</span>
+            <span>Explore All T-Shirts</span>
             <ArrowRight className="w-4 h-4 ml-1" />
           </Link>
         </div>
@@ -108,7 +104,6 @@ export default function HomePage() {
 
             return (
               <div key={product.id} className="group relative bg-white border border-luxury-border/60 hover:border-luxury-gold transition-all duration-300">
-                {/* Image & Hover Action Overlay */}
                 <div className="relative h-80 sm:h-96 overflow-hidden bg-luxury-cream">
                   <Link href={`/product/${product.slug}`}>
                     <img
@@ -123,10 +118,9 @@ export default function HomePage() {
                     />
                   </Link>
 
-                  {/* Badges */}
                   <div className="absolute top-3 left-3 flex flex-col space-y-1 z-10">
                     <span className="bg-luxury-black text-luxury-cream text-[10px] uppercase font-bold tracking-widest px-2.5 py-1">
-                      NEW
+                      NEW DROP
                     </span>
                     {product.discountPercentage > 0 && (
                       <span className="bg-luxury-gold text-luxury-black text-[10px] uppercase font-bold tracking-widest px-2 py-0.5">
@@ -135,7 +129,6 @@ export default function HomePage() {
                     )}
                   </div>
 
-                  {/* Wishlist Button */}
                   <button
                     onClick={() =>
                       toggleWishlist({
@@ -153,7 +146,6 @@ export default function HomePage() {
                     <Heart className={`w-4 h-4 ${isWish ? 'fill-current' : ''}`} />
                   </button>
 
-                  {/* Hover Quick Actions */}
                   <div className="absolute bottom-4 inset-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex space-x-2 z-10">
                     <button
                       onClick={() => setQuickViewProduct(product)}
@@ -172,10 +164,9 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Content info */}
                 <div className="p-4">
                   <p className="text-[10px] font-semibold text-luxury-gold uppercase tracking-[0.2em] mb-1">
-                    {product.category?.name || 'COUTURE'}
+                    {product.category?.name || 'HEAVYWEIGHT TEE'}
                   </p>
                   <Link href={`/product/${product.slug}`}>
                     <h3 className="font-serif text-sm font-bold text-luxury-black group-hover:text-luxury-gold transition-colors line-clamp-1">
@@ -204,13 +195,13 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-luxury-gold text-xs font-semibold uppercase tracking-[0.35em]">
-              CURATED CAPSULES
+              STREETWEAR EDITS
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight mt-2 mb-4">
-              Editorial Collections
+              Featured T-Shirt Collections
             </h2>
             <p className="text-xs sm:text-sm font-light text-luxury-cream/70 leading-relaxed">
-              Explore themed haute couture edits crafted for evening galas, high-sun retreats, and heritage celebrations.
+              Explore mineral-washed vintage fades, 300 GSM graphic back prints, and raw Peruvian Pima cotton essentials.
             </p>
           </div>
 
@@ -236,7 +227,7 @@ export default function HomePage() {
                     {col.description}
                   </p>
                   <span className="text-[11px] uppercase font-bold tracking-[0.2em] text-luxury-gold flex items-center space-x-1 group-hover:translate-x-1 transition-transform">
-                    <span>EXPLORE EDIT</span>
+                    <span>DISCOVER COLLECTION</span>
                     <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </span>
                 </div>
@@ -250,10 +241,10 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-xl mx-auto mb-12">
           <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
-            BY CATEGORY
+            BY CUT & GRAMMAGE
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-luxury-black mt-1">
-            Shop By Silhouette
+            Shop T-Shirts By Silhouette
           </h2>
         </div>
 
@@ -275,7 +266,7 @@ export default function HomePage() {
                   {cat.name}
                 </h3>
                 <span className="text-[10px] uppercase tracking-widest text-luxury-cream/70 mt-1">
-                  {cat._count?.products || 10}+ Styles
+                  {cat._count?.products || 5}+ Styles
                 </span>
               </div>
             </Link>
@@ -288,26 +279,26 @@ export default function HomePage() {
         <div className="relative bg-luxury-black text-luxury-cream overflow-hidden border border-luxury-gold/40 shadow-luxury py-16 px-8 sm:px-16 flex flex-col md:flex-row items-center justify-between">
           <div className="max-w-xl text-center md:text-left mb-8 md:mb-0 z-10">
             <span className="text-luxury-gold text-xs uppercase font-bold tracking-[0.35em] block mb-2">
-              EXCLUSIVE COUTURE OFFER
+              INTRODUCTORY DROP PROMO
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-extrabold uppercase leading-tight mb-4">
-              Enjoy 10% Off Your First Trunk Show Order
+              Get ₹500 Off Your First Heavyweight Tee
             </h2>
             <p className="text-xs sm:text-sm font-light text-luxury-cream/80 leading-relaxed mb-6">
-              Use promotional voucher code <span className="text-luxury-gold font-bold">LUXE10</span> at checkout to claim your introductory privilege.
+              Apply voucher code <span className="text-luxury-gold font-bold">TEE500</span> at checkout on orders over ₹1,500.
             </p>
             <Link
               href="/shop"
               className="inline-block bg-luxury-gold text-luxury-black font-bold text-xs uppercase tracking-[0.2em] px-8 py-4 hover:bg-white transition-colors"
             >
-              CLAIM YOUR OFFER NOW
+              SHOP T-SHIRT DROPS NOW
             </Link>
           </div>
 
           <div className="relative w-64 h-64 sm:w-80 sm:h-80 z-10">
             <img
-              src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=800"
-              alt="Promotional Fashion"
+              src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=800"
+              alt="Heavyweight Tee Promo"
               className="w-full h-full object-cover border-2 border-luxury-gold rounded-sm filter brightness-90 shadow-2xl"
             />
           </div>
@@ -320,28 +311,28 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[480px]">
               <img
-                src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=1000"
-                alt="CYTRUS Atelier"
+                src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=1000"
+                alt="CYTRUS T-Shirt Studio"
                 className="w-full h-full object-cover shadow-2xl"
               />
               <div className="absolute -bottom-6 -right-6 bg-luxury-black text-luxury-cream p-6 hidden sm:block border border-luxury-gold">
-                <p className="font-serif text-2xl font-bold text-luxury-gold">EST. 2026</p>
-                <p className="text-[10px] uppercase tracking-widest text-luxury-cream/80">HAUTE COUTURE ATELIER</p>
+                <p className="font-serif text-2xl font-bold text-luxury-gold">280 GSM</p>
+                <p className="text-[10px] uppercase tracking-widest text-luxury-cream/80">FRENCH TERRY COTTON</p>
               </div>
             </div>
 
             <div className="space-y-6">
               <span className="text-xs uppercase font-semibold tracking-[0.35em] text-luxury-gold">
-                THE CYTRUS MAISON
+                THE CYTRUS ATELIER
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-luxury-black">
-                Where Timeless Indian Heritage Meets Modern Paris Runway
+                Architectural Oversized Fits & Non-Deforming Heavy Ribbed Collars
               </h2>
               <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                Founded with a devotion to rare textiles and architectural tailoring, CYTRUS brings together master Banarasi weavers, hand Chikankari artisans, and French drape patternmakers under one roof.
+                Most t-shirts lose their structure after three washes. At CYTRUS, every garment is constructed with high-density 280-300 GSM French Terry organic cotton and double-needle reinforced necklines.
               </p>
               <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                Every dress, saree, and tailored coat is crafted with mulberry silk, hand-strung crystals, and gold zari wire designed to endure for generations.
+                From hand-dyed mineral acid washes to high-density puff prints, our t-shirts are crafted for the modern luxury streetwear aesthetic.
               </p>
 
               <div className="pt-2">
@@ -349,7 +340,7 @@ export default function HomePage() {
                   href="/shop"
                   className="inline-block border-b-2 border-luxury-black text-luxury-black font-serif text-sm font-bold uppercase tracking-widest hover:text-luxury-gold hover:border-luxury-gold transition-colors pb-1"
                 >
-                  Read Our Full Maison Story →
+                  Explore All T-Shirt Silhouettes →
                 </Link>
               </div>
             </div>
