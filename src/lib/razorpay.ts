@@ -1,8 +1,8 @@
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 
-const key_id = process.env.RAZORPAY_KEY_ID || 'rzp_test_luxewear_mock_key';
-const key_secret = process.env.RAZORPAY_KEY_SECRET || 'luxewear_mock_secret_key';
+const key_id = process.env.RAZORPAY_KEY_ID || 'rzp_test_cytrus_mock_key';
+const key_secret = process.env.RAZORPAY_KEY_SECRET || 'cytrus_mock_secret_key';
 
 export const razorpayInstance = new Razorpay({
   key_id,
@@ -27,7 +27,7 @@ export async function createRazorpayOrder(amountInRupees: number, orderId: strin
     currency: 'INR',
     receipt: orderId,
     notes: {
-      platform: 'LUXEWEAR',
+      platform: 'CYTRUS',
       orderId,
     },
   });

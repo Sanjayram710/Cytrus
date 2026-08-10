@@ -132,7 +132,7 @@ export default function CheckoutPage() {
           key: rzpData.key,
           amount: rzpData.razorpayOrder.amount,
           currency: 'INR',
-          name: 'LUXEWEAR Haute Couture',
+          name: 'CYTRUS Haute Couture',
           description: `Order ${orderData.orderNumber}`,
           order_id: rzpData.razorpayOrder.id,
           handler: async function (response: any) {

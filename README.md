@@ -1,6 +1,6 @@
-# LUXEWEAR — Premium Fashion E-Commerce Platform
+# CYTRUS — Premium Fashion E-Commerce Platform
 
-LUXEWEAR is an editorial, production-ready haute couture fashion e-commerce web application featuring a customer storefront and a protected admin dashboard.
+CYTRUS is an editorial, production-ready haute couture fashion e-commerce web application featuring a customer storefront and a protected admin dashboard.
 
 ---
 
@@ -52,11 +52,11 @@ npm install
 The repository includes pre-configured defaults in `.env`:
 ```env
 DATABASE_URL="file:./dev.db"
-JWT_SECRET="luxewear_super_secret_jwt_key_2026_production_grade"
+JWT_SECRET="cytrus_super_secret_jwt_key_2026_production_grade"
 NEXTAUTH_URL="http://localhost:3000"
 
-RAZORPAY_KEY_ID="rzp_test_luxewear_mock_key"
-RAZORPAY_KEY_SECRET="luxewear_mock_secret_key"
+RAZORPAY_KEY_ID="rzp_test_cytrus_mock_key"
+RAZORPAY_KEY_SECRET="cytrus_mock_secret_key"
 ```
 
 ### 3. Push Database Schema & Seed Data
@@ -78,7 +78,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 | Role | Email | Password |
 |---|---|---|
-| **Admin** | `admin@luxewear.com` | `Admin@123` |
+| **Admin** | `admin@cytrus.com` | `Admin@123` |
 | **Customer** | `aarya.sharma@example.com` | `Customer@123` |
 
 ---
@@ -93,4 +93,4 @@ npm test
 ---
 
 ## 📄 License
-© 2026 LUXEWEAR HAUTE COUTURE. All Rights Reserved.
+© 2026 CYTRUS HAUTE COUTURE. All Rights Reserved.

@@ -33,8 +33,8 @@ async function main() {
 
   const admin = await prisma.user.create({
     data: {
-      name: 'LUXEWEAR Admin',
-      email: 'admin@luxewear.com',
+      name: 'CYTRUS Admin',
+      email: 'admin@cytrus.com',
       password: adminPassword,
       role: 'ADMIN',
       phone: '+91 98765 43210',
@@ -1044,7 +1044,7 @@ async function main() {
     ],
   });
 
-  console.log('✅ LUXEWEAR Database Seeded Successfully!');
+  console.log('✅ CYTRUS Database Seeded Successfully!');
 }
 
 main()

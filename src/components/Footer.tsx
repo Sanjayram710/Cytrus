@@ -76,10 +76,10 @@ export default function Footer() {
           {/* Brand Gazette Newsletter Column */}
           <div className="md:col-span-2 space-y-4">
             <h3 className="font-serif text-2xl font-bold tracking-[0.2em] text-luxury-cream">
-              LUXEWEAR
+              CYTRUS
             </h3>
             <p className="text-xs text-luxury-cream/70 leading-relaxed max-w-sm">
-              Subscribe to the LUXEWEAR Gazette for exclusive invitation-only runway previews, private trunk shows, and editorial lookbooks.
+              Subscribe to the CYTRUS Gazette for exclusive invitation-only runway previews, private trunk shows, and editorial lookbooks.
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2 max-w-md pt-2">
@@ -147,7 +147,7 @@ export default function Footer() {
 
         {/* Footer Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-luxury-cream/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-luxury-cream/40 uppercase tracking-widest">
-          <p>© 2026 LUXEWEAR HAUTE COUTURE. ALL RIGHTS RESERVED.</p>
+          <p>© 2026 CYTRUS HAUTE COUTURE. ALL RIGHTS RESERVED.</p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
             <a href="#" className="hover:text-luxury-cream">PRIVACY POLICY</a>
             <a href="#" className="hover:text-luxury-cream">TERMS OF SERVICE</a>

@@ -321,7 +321,7 @@ export default function HomePage() {
             <div className="relative h-[480px]">
               <img
                 src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=1000"
-                alt="LUXEWEAR Atelier"
+                alt="CYTRUS Atelier"
                 className="w-full h-full object-cover shadow-2xl"
               />
               <div className="absolute -bottom-6 -right-6 bg-luxury-black text-luxury-cream p-6 hidden sm:block border border-luxury-gold">
@@ -332,13 +332,13 @@ export default function HomePage() {
 
             <div className="space-y-6">
               <span className="text-xs uppercase font-semibold tracking-[0.35em] text-luxury-gold">
-                THE LUXEWEAR MAISON
+                THE CYTRUS MAISON
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-luxury-black">
                 Where Timeless Indian Heritage Meets Modern Paris Runway
               </h2>
               <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                Founded with a devotion to rare textiles and architectural tailoring, LUXEWEAR brings together master Banarasi weavers, hand Chikankari artisans, and French drape patternmakers under one roof.
+                Founded with a devotion to rare textiles and architectural tailoring, CYTRUS brings together master Banarasi weavers, hand Chikankari artisans, and French drape patternmakers under one roof.
               </p>
               <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
                 Every dress, saree, and tailored coat is crafted with mulberry silk, hand-strung crystals, and gold zari wire designed to endure for generations.

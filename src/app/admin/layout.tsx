@@ -64,7 +64,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <ShieldCheck className="w-6 h-6 text-luxury-gold" />
             <div>
               <span className="font-serif text-lg font-bold tracking-widest block text-luxury-cream">
-                LUXEWEAR
+                CYTRUS
               </span>
               <span className="text-[9px] uppercase tracking-[0.3em] text-luxury-gold font-bold">
                 ADMIN CONSOLE

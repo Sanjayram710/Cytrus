@@ -5,7 +5,7 @@ import { hashPassword, comparePassword, signToken, verifyToken } from '../src/li
 
 async function runTests() {
   console.log('==============================================');
-  console.log('   LUXEWEAR AUTOMATED VERIFICATION TEST SUITE');
+  console.log('    CYTRUS AUTOMATED VERIFICATION TEST SUITE');
   console.log('==============================================\n');
 
   let passed = 0;
@@ -28,7 +28,7 @@ async function runTests() {
   const isValidPass = await comparePassword(password, hashed);
   assert(isValidPass, 'Password hashing & comparison logic');
 
-  const token = signToken({ id: 'user_1', name: 'Test Admin', email: 'admin@luxewear.com', role: 'ADMIN' });
+  const token = signToken({ id: 'user_1', name: 'Test Admin', email: 'admin@cytrus.com', role: 'ADMIN' });
   const verifiedUser = verifyToken(token);
   assert(verifiedUser?.role === 'ADMIN', 'JWT Token generation and role verification');
 

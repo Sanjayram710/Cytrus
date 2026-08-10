@@ -48,7 +48,7 @@ export default function LoginPage() {
           CLIENT ACCESS
         </span>
         <h1 className="font-serif text-3xl font-bold text-luxury-black mt-1 mb-2">
-          Sign In to LUXEWEAR
+          Sign In to CYTRUS
         </h1>
         <p className="text-xs text-gray-500 uppercase tracking-widest mb-8">
           Access your saved wishlist, order tracking, and bespoke fit profile.
@@ -107,7 +107,7 @@ export default function LoginPage() {
           </p>
           <div className="p-3 bg-luxury-cream border border-luxury-border text-[11px] text-gray-700 text-left font-mono">
             <p className="font-bold text-luxury-black">Demo Credentials:</p>
-            <p>Admin: admin@luxewear.com / Admin@123</p>
+            <p>Admin: admin@cytrus.com / Admin@123</p>
             <p>Customer: aarya.sharma@example.com / Customer@123</p>
           </div>
         </div>

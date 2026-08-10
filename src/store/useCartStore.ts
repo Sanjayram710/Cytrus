@@ -112,7 +112,7 @@ export const useCartStore = create<CartStore>()(
       },
     }),
     {
-      name: 'luxewear_cart_storage',
+      name: 'cytrus_cart_storage',
     }
   )
 );

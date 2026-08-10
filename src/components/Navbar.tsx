@@ -90,71 +90,79 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            {/* Left: Mobile Menu Button & Search icon */}
-            <div className="flex items-center space-x-4 lg:hidden">
+          <div className="flex items-center justify-between min-h-[44px]">
+            {/* 1. Left Wing: Desktop Search / Mobile Menu */}
+            <div className="flex items-center space-x-4 w-28 sm:w-36 lg:w-44 justify-start flex-shrink-0">
+              {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
+                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors lg:hidden"
                 aria-label="Open menu"
               >
                 <Menu className="w-6 h-6" />
               </button>
+
+              {/* Desktop Search Trigger */}
               <button
                 onClick={onOpenSearch}
-                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
-                aria-label="Search"
+                className="hidden lg:flex items-center space-x-2 text-luxury-black hover:text-luxury-gold transition-colors group p-1"
+                title="Search Products"
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-4 h-4 text-luxury-black group-hover:text-luxury-gold transition-colors" />
+                <span className="text-[11px] uppercase tracking-[0.2em] font-medium">Search</span>
               </button>
             </div>
 
-            {/* Desktop Left Nav Links */}
-            <nav className="hidden lg:flex items-center space-x-8">
-              {navLinks.slice(0, 3).map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`text-xs uppercase tracking-[0.15em] font-medium transition-colors hover:text-luxury-gold ${
-                    pathname === link.href ? 'text-luxury-gold border-b border-luxury-gold pb-0.5' : 'text-luxury-black'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </nav>
+            {/* 2. Center Stage: Left Nav + CYTRUS Logo + Right Nav */}
+            <div className="flex items-center justify-center flex-1 px-2">
+              {/* Desktop Left Nav Links */}
+              <nav className="hidden lg:flex items-center justify-end space-x-5 xl:space-x-8 flex-1 pr-5 xl:pr-8">
+                {navLinks.slice(0, 3).map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`text-xs uppercase tracking-[0.15em] font-medium transition-colors hover:text-luxury-gold whitespace-nowrap ${
+                      pathname === link.href ? 'text-luxury-gold border-b border-luxury-gold pb-0.5' : 'text-luxury-black'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </nav>
 
-            {/* Brand Logo - Centered */}
-            <Link href="/" className="flex flex-col items-center group">
-              <span className="font-serif text-2xl sm:text-3xl font-bold tracking-[0.25em] text-luxury-black group-hover:text-luxury-gold transition-colors">
-                LUXEWEAR
-              </span>
-              <span className="text-[9px] tracking-[0.4em] uppercase text-luxury-gold font-medium -mt-1">
-                HAUTE COUTURE
-              </span>
-            </Link>
+              {/* Brand Logo - Perfectly Centered */}
+              <Link href="/" className="flex flex-col items-center group px-3 xl:px-6 flex-shrink-0">
+                <span className="font-serif text-2xl sm:text-3xl font-bold tracking-[0.25em] text-luxury-black group-hover:text-luxury-gold transition-colors text-center">
+                  CYTRUS
+                </span>
+                <span className="text-[8px] sm:text-[9px] tracking-[0.4em] uppercase text-luxury-gold font-semibold -mt-1 text-center">
+                  HAUTE COUTURE
+                </span>
+              </Link>
 
-            {/* Desktop Right Nav Links */}
-            <nav className="hidden lg:flex items-center space-x-8">
-              {navLinks.slice(3).map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`text-xs uppercase tracking-[0.15em] font-medium transition-colors hover:text-luxury-gold ${
-                    pathname === link.href ? 'text-luxury-gold border-b border-luxury-gold pb-0.5' : 'text-luxury-black'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </nav>
+              {/* Desktop Right Nav Links */}
+              <nav className="hidden lg:flex items-center justify-start space-x-5 xl:space-x-8 flex-1 pl-5 xl:pl-8">
+                {navLinks.slice(3).map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`text-xs uppercase tracking-[0.15em] font-medium transition-colors hover:text-luxury-gold whitespace-nowrap ${
+                      pathname === link.href ? 'text-luxury-gold border-b border-luxury-gold pb-0.5' : 'text-luxury-black'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </nav>
+            </div>
 
-            {/* Right Action Icons (Search, User, Wishlist, Cart) */}
-            <div className="flex items-center space-x-5 sm:space-x-6">
+            {/* 3. Right Wing: Action Icons (Wishlist, Account, Cart, Mobile Search) */}
+            <div className="flex items-center justify-end space-x-3 sm:space-x-5 w-28 sm:w-36 lg:w-44 flex-shrink-0">
+              {/* Mobile Search Icon */}
               <button
                 onClick={onOpenSearch}
-                className="hidden lg:block p-1 text-luxury-black hover:text-luxury-gold transition-colors"
-                title="Search Products"
+                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors lg:hidden"
+                aria-label="Search"
               >
                 <Search className="w-5 h-5" />
               </button>
@@ -249,7 +257,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
             <div>
               <div className="flex items-center justify-between border-b border-luxury-border pb-4">
                 <span className="font-serif text-xl font-bold tracking-widest text-luxury-black">
-                  LUXEWEAR
+                  CYTRUS
                 </span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}

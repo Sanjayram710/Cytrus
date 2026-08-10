@@ -25,7 +25,7 @@ export default function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps)
           </button>
 
           <h2 className="font-serif text-2xl font-bold uppercase tracking-wider text-luxury-black mb-1">
-            LUXEWEAR Size Guide
+            CYTRUS Size Guide
           </h2>
           <p className="text-xs uppercase tracking-widest text-luxury-gold mb-6 font-semibold">
             Standard Luxury Couture Measurements (Inches)

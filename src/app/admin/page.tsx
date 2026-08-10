@@ -28,7 +28,7 @@ export default function AdminDashboardPage() {
       <div className="border-b border-luxury-border pb-4">
         <h1 className="font-serif text-3xl font-bold text-luxury-black">Dashboard Overview</h1>
         <p className="text-xs uppercase tracking-widest text-luxury-gold font-bold mt-1">
-          LUXEWEAR Maison Live Real-Time Analytics
+          CYTRUS Maison Live Real-Time Analytics
         </p>
       </div>
 

@@ -85,7 +85,7 @@ function ShopContent() {
       {/* Header Banner */}
       <div className="border-b border-luxury-border pb-8 mb-8 text-center sm:text-left">
         <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
-          LUXEWEAR CATALOG
+          CYTRUS CATALOG
         </span>
         <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-luxury-black mt-1">
           {currentCategory ? `${currentCategory.replace('-', ' ')} Collection` : 'All Couture & Ready-To-Wear'}

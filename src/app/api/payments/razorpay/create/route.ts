@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       razorpayOrder,
-      key: process.env.RAZORPAY_KEY_ID || 'rzp_test_luxewear_mock_key',
+      key: process.env.RAZORPAY_KEY_ID || 'rzp_test_cytrus_mock_key',
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Razorpay order creation failed' }, { status: 500 });

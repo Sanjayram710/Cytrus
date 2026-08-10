@@ -43,7 +43,7 @@ function SearchResultsContent() {
       </div>
 
       {loading ? (
-        <div className="text-center py-16 text-xs uppercase tracking-widest text-luxury-gold">Searching LUXEWEAR Catalog...</div>
+        <div className="text-center py-16 text-xs uppercase tracking-widest text-luxury-gold">Searching CYTRUS Catalog...</div>
       ) : products.length === 0 ? (
         <div className="text-center py-20 bg-white border border-luxury-border p-8">
           <Search className="w-12 h-12 text-luxury-gold mx-auto mb-4" />

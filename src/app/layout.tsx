@@ -17,10 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>LUXEWEAR | Luxury Fashion & Bespoke Couture</title>
+        <title>CYTRUS | Luxury Fashion & Bespoke Couture</title>
         <meta
           name="description"
-          content="Discover LUXEWEAR luxury fashion dresses, handcrafted mulberry silk evening gowns, Banarasi sarees, and bespoke couture collections."
+          content="Discover CYTRUS luxury fashion dresses, handcrafted mulberry silk evening gowns, Banarasi sarees, and bespoke couture collections."
         />
       </head>
       <body className="min-h-screen flex flex-col justify-between bg-luxury-cream text-luxury-black font-sans antialiased">
