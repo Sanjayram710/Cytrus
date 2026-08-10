@@ -2,6 +2,8 @@ import { NextResponse } from 'next';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   try {
     const contentType = req.headers.get('content-type') || '';
@@ -12,13 +14,12 @@ export async function POST(req: Request) {
       const formData = await req.formData();
       const file = formData.get('file') as File | null;
       if (!file) {
-        return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
+        return NextResponse.json({ error: 'No file found in request' }, { status: 400 });
       }
       originalName = file.name;
       const bytes = await file.arrayBuffer();
       buffer = Buffer.from(bytes);
     } else {
-      // Base64 Data URL JSON body fallback
       const body = await req.json();
       if (!body.base64) {
         return NextResponse.json({ error: 'No image data provided' }, { status: 400 });
@@ -33,8 +34,8 @@ export async function POST(req: Request) {
     await mkdir(uploadsDir, { recursive: true });
 
     // Generate unique safe filename
-    const safeFileName = originalName.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const uniqueFileName = `upload_${Date.now()}_${safeFileName}`;
+    const safeName = originalName.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const uniqueFileName = `upload_${Date.now()}_${safeName}`;
     const filePath = path.join(uploadsDir, uniqueFileName);
 
     await writeFile(filePath, buffer);
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
       fileName: uniqueFileName,
     });
   } catch (error: any) {
-    console.error('File upload error:', error);
+    console.error('File upload API error:', error);
     return NextResponse.json({ error: error.message || 'File upload failed' }, { status: 500 });
   }
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { UploadCloud, Link as LinkIcon, X, Check, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { UploadCloud, X, Loader2 } from 'lucide-react';
 
 interface ImageUploadInputProps {
   value: string;
@@ -26,22 +26,37 @@ export default function ImageUploadInput({
     setError('');
 
     try {
-      // Convert file to Base64 Data URL for robust client-side payload
+      // 1. First try standard multipart FormData upload
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.url) {
+        onChange(data.url);
+        setUploading(false);
+        return;
+      }
+
+      // 2. Fallback to Base64 JSON payload if FormData stream had issues
       const reader = new FileReader();
       reader.onload = async () => {
         const base64 = reader.result as string;
         try {
-          const res = await fetch('/api/admin/upload', {
+          const b64Res = await fetch('/api/admin/upload', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ base64, fileName: file.name }),
           });
-
-          const data = await res.json();
-          if (res.ok && data.url) {
-            onChange(data.url);
+          const b64Data = await b64Res.json();
+          if (b64Res.ok && b64Data.url) {
+            onChange(b64Data.url);
           } else {
-            setError(data.error || 'Failed to upload image');
+            setError(b64Data.error || 'Failed to upload image');
           }
         } catch (err) {
           setError('Upload failed. Please try again.');
@@ -51,7 +66,7 @@ export default function ImageUploadInput({
       };
       reader.readAsDataURL(file);
     } catch (err) {
-      setError('Error reading file');
+      setError('Upload failed. Please try again.');
       setUploading(false);
     }
   };
