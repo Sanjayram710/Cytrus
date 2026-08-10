@@ -92,92 +92,20 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between min-h-[64px] sm:min-h-[72px]">
-            {/* 1. Left Wing: Search Icon + (In-Place Search Bar OR Category Links) */}
-            <div className="flex items-center space-x-3 sm:space-x-4 max-w-[42%] z-10">
+          <div className="flex items-center justify-between min-h-[64px] sm:min-h-[72px]">
+            {/* Left Group: Logo on Far Left + Generous Space + Search & Category Links */}
+            <div className="flex items-center">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors lg:hidden"
+                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors lg:hidden mr-3"
                 aria-label="Open menu"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
-              {/* Left Search Icon */}
-              <button
-                onClick={() => {
-                  setInlineSearchOpen(!inlineSearchOpen);
-                }}
-                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors flex items-center flex-shrink-0"
-                title="Search"
-                aria-label="Search"
-              >
-                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-luxury-black hover:text-luxury-gold transition-colors" />
-              </button>
-
-              {/* Desktop Dynamic Left Area: Smoothly swaps between Search Input and Category Links */}
-              <div className="hidden lg:flex items-center pl-3 xl:pl-5">
-                <AnimatePresence mode="wait">
-                  {inlineSearchOpen ? (
-                    <motion.form
-                      key="search-input-active"
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -8 }}
-                      transition={{ duration: 0.2 }}
-                      onSubmit={handleSearchSubmit}
-                      className="flex items-center border-b border-luxury-black pb-0.5 w-[220px] xl:w-[260px]"
-                    >
-                      <input
-                        type="text"
-                        placeholder="Search CYTRUS tees..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        autoFocus
-                        className="bg-transparent text-xs text-luxury-black placeholder:text-gray-400 focus:outline-none w-full tracking-wider"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setInlineSearchOpen(false);
-                          setSearchQuery('');
-                        }}
-                        className="text-gray-400 hover:text-luxury-black p-0.5 ml-1"
-                        title="Close Search"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </motion.form>
-                  ) : (
-                    <motion.nav
-                      key="nav-links-default"
-                      initial={{ opacity: 0, x: 8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 8 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex items-center space-x-6 xl:space-x-8"
-                    >
-                      {navLinks.map((link) => (
-                        <Link
-                          key={link.name}
-                          href={link.href}
-                          className={`text-[11px] uppercase tracking-[0.2em] font-medium transition-all hover:text-luxury-gold whitespace-nowrap ${
-                            pathname === link.href ? 'text-luxury-gold font-bold border-b border-luxury-gold pb-0.5' : 'text-luxury-black/80 hover:text-luxury-black'
-                          }`}
-                        >
-                          {link.name}
-                        </Link>
-                      ))}
-                    </motion.nav>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* 2. Center: Logo Emblem on Top + CYTRUS Text Underneath (Exact Dead Center) */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-auto z-10">
-              <Link href="/" className="flex flex-col items-center group py-0.5">
+              {/* Brand Logo on Left Corner: Circular Logo Image on top + "CYTRUS" underneath */}
+              <Link href="/" className="flex flex-col items-center group py-0.5 flex-shrink-0">
                 <img
                   src="/logo.png"
                   alt="CYTRUS"
@@ -187,10 +115,83 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   CYTRUS
                 </span>
               </Link>
+
+              {/* Space between Logo and Search Icon + Categories */}
+              <div className="flex items-center ml-8 sm:ml-12 lg:ml-16">
+                {/* Search Icon */}
+                <button
+                  onClick={() => {
+                    setInlineSearchOpen(!inlineSearchOpen);
+                  }}
+                  className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors flex items-center flex-shrink-0"
+                  title="Search"
+                  aria-label="Search"
+                >
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5 text-luxury-black hover:text-luxury-gold transition-colors" />
+                </button>
+
+                {/* Desktop Dynamic Area: Search Input (when active) OR Category Links */}
+                <div className="hidden lg:flex items-center pl-4 xl:pl-6">
+                  <AnimatePresence mode="wait">
+                    {inlineSearchOpen ? (
+                      <motion.form
+                        key="search-input-active"
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -8 }}
+                        transition={{ duration: 0.2 }}
+                        onSubmit={handleSearchSubmit}
+                        className="flex items-center border-b border-luxury-black pb-0.5 w-[220px] xl:w-[260px]"
+                      >
+                        <input
+                          type="text"
+                          placeholder="Search CYTRUS tees..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          autoFocus
+                          className="bg-transparent text-xs text-luxury-black placeholder:text-gray-400 focus:outline-none w-full tracking-wider"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setInlineSearchOpen(false);
+                            setSearchQuery('');
+                          }}
+                          className="text-gray-400 hover:text-luxury-black p-0.5 ml-1"
+                          title="Close Search"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </motion.form>
+                    ) : (
+                      <motion.nav
+                        key="nav-links-default"
+                        initial={{ opacity: 0, x: 8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 8 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex items-center space-x-6 xl:space-x-8"
+                      >
+                        {navLinks.map((link) => (
+                          <Link
+                            key={link.name}
+                            href={link.href}
+                            className={`text-[11px] uppercase tracking-[0.2em] font-medium transition-all hover:text-luxury-gold whitespace-nowrap ${
+                              pathname === link.href ? 'text-luxury-gold font-bold border-b border-luxury-gold pb-0.5' : 'text-luxury-black/80 hover:text-luxury-black'
+                            }`}
+                          >
+                            {link.name}
+                          </Link>
+                        ))}
+                      </motion.nav>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
             </div>
 
-            {/* 3. Right: Action Icons (Account, Wishlist, Bag with Badge) */}
-            <div className="flex items-center space-x-3 sm:space-x-5 z-10">
+            {/* Right Group: Action Icons (Account, Wishlist, Bag with Badge) */}
+            <div className="flex items-center space-x-3 sm:space-x-5">
               {/* Account / User */}
               {user ? (
                 <div className="relative group">
