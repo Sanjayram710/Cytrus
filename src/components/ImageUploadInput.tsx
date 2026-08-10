@@ -21,65 +21,52 @@ export default function ImageUploadInput({
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const processFile = async (file: File) => {
     setUploading(true);
     setError('');
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
+      // Convert file to Base64 Data URL for robust client-side payload
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64 = reader.result as string;
+        try {
+          const res = await fetch('/api/admin/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ base64, fileName: file.name }),
+          });
 
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (res.ok && data.url) {
-        onChange(data.url);
-      } else {
-        setError(data.error || 'Failed to upload image');
-      }
+          const data = await res.json();
+          if (res.ok && data.url) {
+            onChange(data.url);
+          } else {
+            setError(data.error || 'Failed to upload image');
+          }
+        } catch (err) {
+          setError('Upload failed. Please try again.');
+        } finally {
+          setUploading(false);
+        }
+      };
+      reader.readAsDataURL(file);
     } catch (err) {
-      setError('Upload failed. Please try again.');
-    } finally {
+      setError('Error reading file');
       setUploading(false);
     }
   };
 
-  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) processFile(file);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
     const file = e.dataTransfer.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    setError('');
-
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (res.ok && data.url) {
-        onChange(data.url);
-      } else {
-        setError(data.error || 'Failed to upload image');
-      }
-    } catch (err) {
-      setError('Upload failed');
-    } finally {
-      setUploading(false);
-    }
+    if (file) processFile(file);
   };
 
   return (
@@ -119,7 +106,7 @@ export default function ImageUploadInput({
         <div className="relative bg-luxury-cream border border-luxury-border p-2 flex items-center space-x-3 rounded-sm">
           <img src={value} alt="Preview" className="w-16 h-16 object-cover border border-luxury-border rounded-sm bg-white" />
           <div className="flex-1 min-w-0">
-            <span className="text-[10px] font-bold text-luxury-gold uppercase block">Image Loaded</span>
+            <span className="text-[10px] font-bold text-luxury-gold uppercase block">Image Uploaded</span>
             <p className="text-xs font-mono text-gray-700 truncate">{value}</p>
           </div>
           <button
@@ -150,15 +137,15 @@ export default function ImageUploadInput({
               {uploading ? (
                 <div className="flex flex-col items-center justify-center py-2 space-y-2">
                   <Loader2 className="w-6 h-6 animate-spin text-luxury-gold" />
-                  <span className="text-xs uppercase font-bold text-luxury-black tracking-wider">Uploading Image...</span>
+                  <span className="text-xs uppercase font-bold text-luxury-black tracking-wider">Uploading Image File...</span>
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center space-y-1">
                   <UploadCloud className="w-8 h-8 text-luxury-gold mb-1" />
                   <span className="text-xs font-bold uppercase tracking-wider text-luxury-black">
-                    Click to Choose Image File or Drag & Drop
+                    Click to Select Local Image File or Drag & Drop Here
                   </span>
-                  <span className="text-[10px] text-gray-400 uppercase font-mono">PNG, JPG, WEBP, GIF, SVG up to 10MB</span>
+                  <span className="text-[10px] text-gray-400 uppercase font-mono">PNG, JPG, WEBP, GIF, SVG</span>
                 </div>
               )}
             </div>
