@@ -27,17 +27,28 @@ async function main() {
   await prisma.user.deleteMany();
   await prisma.newsletterSubscriber.deleteMany();
 
-  console.log('--- Seeding Users & Admin ---');
+  console.log('--- Seeding Users & Admins ---');
   const adminPassword = await bcrypt.hash('Admin@123', 10);
   const userPassword = await bcrypt.hash('Customer@123', 10);
 
-  const admin = await prisma.user.create({
+  const admin1 = await prisma.user.create({
+    data: {
+      name: 'CYTRUS Admin',
+      email: 'admin@luxewear.com',
+      password: adminPassword,
+      role: 'ADMIN',
+      phone: '+91 98765 43210',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
+    },
+  });
+
+  const admin2 = await prisma.user.create({
     data: {
       name: 'CYTRUS Admin',
       email: 'admin@cytrus.com',
       password: adminPassword,
       role: 'ADMIN',
-      phone: '+91 98765 43210',
+      phone: '+91 98765 43211',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
     },
   });
@@ -559,74 +570,7 @@ async function main() {
     });
   }
 
-  console.log('--- Seeding Sample Orders ---');
-  const sampleOrderStatuses = ['DELIVERED', 'SHIPPED', 'PROCESSING', 'CONFIRMED'];
-  for (let i = 0; i < 8; i++) {
-    const cust = createdCustomers[i];
-    const prod = createdProducts[i % createdProducts.length];
-    const orderNum = `CYT-2026-${1000 + i}`;
-    const status = sampleOrderStatuses[i % sampleOrderStatuses.length];
-
-    const order = await prisma.order.create({
-      data: {
-        orderNumber: orderNum,
-        userId: cust.id,
-        customerName: cust.name,
-        customerEmail: cust.email,
-        customerPhone: cust.phone || '+91 9876543210',
-        shippingAddressJson: JSON.stringify({
-          fullName: cust.name,
-          phone: cust.phone || '+91 9876543210',
-          street: '12 Luxury Boulevard, Flat 402',
-          city: 'Mumbai',
-          state: 'Maharashtra',
-          postalCode: '400001',
-          country: 'India',
-        }),
-        subtotal: prod.price,
-        discount: 0,
-        shippingFee: 0,
-        tax: prod.price * 0.12,
-        total: prod.price * 1.12,
-        paymentMethod: i % 2 === 0 ? 'RAZORPAY' : 'COD',
-        paymentStatus: i % 2 === 0 || status === 'DELIVERED' ? 'PAID' : 'PENDING',
-        orderStatus: status,
-        courierName: status === 'SHIPPED' || status === 'DELIVERED' ? 'BlueDart Express' : null,
-        trackingNumber: status === 'SHIPPED' || status === 'DELIVERED' ? `BD${88273619 + i}` : null,
-        items: {
-          create: [
-            {
-              productId: prod.id,
-              productName: prod.name,
-              productImage: prod.slug,
-              size: 'M',
-              color: 'Emerald Green',
-              quantity: 1,
-              price: prod.price,
-              total: prod.price,
-            },
-          ],
-        },
-        statusHistory: {
-          create: [
-            { status: 'CONFIRMED', notes: 'Order placed successfully' },
-            ...(status !== 'CONFIRMED' ? [{ status, notes: `Order updated to ${status}` }] : []),
-          ],
-        },
-      },
-    });
-  }
-
-  console.log('--- Seeding Newsletter Subscribers ---');
-  await prisma.newsletterSubscriber.createMany({
-    data: [
-      { email: 'vip.fashionista@example.com' },
-      { email: 'couture.collector@example.com' },
-      { email: 'style.curator@example.com' },
-    ],
-  });
-
-  console.log('✅ CYTRUS Database Seeded Successfully!');
+  console.log('✅ LUXEWEAR T-Shirt Database Seeded Successfully!');
 }
 
 main()
