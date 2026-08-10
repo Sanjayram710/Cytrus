@@ -14,6 +14,7 @@ import {
   LogOut,
   ShieldCheck,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 
@@ -33,6 +34,8 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<UserSession | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [inlineSearchOpen, setInlineSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { openCart, getCartItemCount } = useCartStore();
   const { items: wishlistItems } = useWishlistStore();
@@ -73,6 +76,13 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
     { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
   ];
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      window.location.href = `/shop?q=${encodeURIComponent(searchQuery.trim())}`;
+    }
+  };
+
   return (
     <>
       {/* Main Header / Sticky Nav */}
@@ -83,25 +93,72 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between min-h-[64px] sm:min-h-[72px]">
-            {/* 1. Left: Mobile Menu & Category Links */}
-            <div className="flex items-center space-x-4 lg:space-x-8">
+            {/* 1. Left Wing: Search Icon + (Expandable Search Bar) + Category Links (Smaller font) */}
+            <div className="flex items-center space-x-3 sm:space-x-5 lg:space-x-8 z-10">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors lg:hidden"
                 aria-label="Open menu"
               >
-                <Menu className="w-6 h-6" />
+                <Menu className="w-5 h-5" />
               </button>
 
-              {/* Desktop Nav Links (Only Oversized Tees, Graphic Tees, Vintage Wash) */}
-              <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+              {/* Left Search Icon & Expandable Bar */}
+              <div className="flex items-center mr-3 sm:mr-6 lg:mr-8">
+                <button
+                  onClick={() => {
+                    setInlineSearchOpen(!inlineSearchOpen);
+                  }}
+                  className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors flex items-center"
+                  title="Search"
+                  aria-label="Search"
+                >
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5 text-luxury-black hover:text-luxury-gold transition-colors" />
+                </button>
+
+                {/* Animated Inline Search Input */}
+                <AnimatePresence>
+                  {inlineSearchOpen && (
+                    <motion.form
+                      initial={{ width: 0, opacity: 0 }}
+                      animate={{ width: 190, opacity: 1 }}
+                      exit={{ width: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                      onSubmit={handleSearchSubmit}
+                      className="overflow-hidden flex items-center border-b border-luxury-black ml-2 py-0.5"
+                    >
+                      <input
+                        type="text"
+                        placeholder="Search tees..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        autoFocus
+                        className="bg-transparent text-xs text-luxury-black placeholder:text-gray-400 focus:outline-none w-full tracking-wider"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setInlineSearchOpen(false);
+                          setSearchQuery('');
+                        }}
+                        className="text-gray-400 hover:text-luxury-black p-0.5"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </motion.form>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Desktop Nav Links: Smaller, Refined, Elegant */}
+              <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`text-xs sm:text-[13px] uppercase tracking-[0.18em] font-semibold transition-all hover:text-luxury-gold whitespace-nowrap ${
-                      pathname === link.href ? 'text-luxury-gold font-bold border-b-2 border-luxury-gold pb-0.5' : 'text-luxury-black'
+                    className={`text-[11px] uppercase tracking-[0.2em] font-medium transition-all hover:text-luxury-gold whitespace-nowrap ${
+                      pathname === link.href ? 'text-luxury-gold font-bold border-b border-luxury-gold pb-0.5' : 'text-luxury-black/80 hover:text-luxury-black'
                     }`}
                   >
                     {link.name}
@@ -110,32 +167,22 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               </nav>
             </div>
 
-            {/* 2. Center: Logo Emblem on Top + CYTRUS Text Underneath (Bigger) */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-auto">
+            {/* 2. Center: Logo Emblem on Top + CYTRUS Text Underneath (Exact Dead Center) */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center pointer-events-auto z-10">
               <Link href="/" className="flex flex-col items-center group py-0.5">
                 <img
                   src="/logo.png"
                   alt="CYTRUS"
                   className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"
                 />
-                <span className="font-sans text-xs sm:text-sm md:text-[14px] font-extrabold tracking-[0.28em] uppercase text-luxury-black group-hover:text-luxury-gold transition-colors mt-1">
+                <span className="font-sans text-xs sm:text-sm md:text-[14px] font-extrabold tracking-[0.28em] uppercase text-luxury-black group-hover:text-luxury-gold transition-colors mt-0.5 text-center">
                   CYTRUS
                 </span>
               </Link>
             </div>
 
-            {/* 3. Right: Action Icons (Search, User, Wishlist, Bag with Badge) */}
-            <div className="flex items-center space-x-3 sm:space-x-5">
-              {/* Search Button */}
-              <button
-                onClick={onOpenSearch}
-                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
-                title="Search Products"
-                aria-label="Search"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-
+            {/* 3. Right: Action Icons (Account, Wishlist, Bag with Badge) */}
+            <div className="flex items-center space-x-3 sm:space-x-5 z-10">
               {/* Account / User */}
               {user ? (
                 <div className="relative group">
