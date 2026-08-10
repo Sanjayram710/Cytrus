@@ -7,6 +7,7 @@ import CartDrawer from '@/components/CartDrawer';
 import SearchModal from '@/components/SearchModal';
 import QuickViewModal from '@/components/QuickViewModal';
 import SizeGuideModal from '@/components/SizeGuideModal';
+import SplashScreen from '@/components/SplashScreen';
 import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen flex flex-col justify-between bg-luxury-cream text-luxury-black font-sans antialiased">
+        {/* Entrance 2-Second Logo Splash Screen */}
+        <SplashScreen />
+
         <div>
           <Navbar onOpenSearch={() => setSearchOpen(true)} />
           <main>{children}</main>
