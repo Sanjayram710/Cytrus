@@ -78,11 +78,6 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
 
   return (
     <>
-      {/* Top Announcement Bar */}
-      <div className="bg-luxury-black text-luxury-cream text-[11px] font-medium uppercase tracking-[0.2em] py-2 text-center relative z-50">
-        Complimentary Express Shipping on Orders Over ₹2,000 | Code: <span className="text-luxury-gold font-bold">LUXE10</span>
-      </div>
-
       {/* Main Header / Sticky Glass Nav */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
