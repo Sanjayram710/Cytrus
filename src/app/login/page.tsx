@@ -98,18 +98,13 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-luxury-border text-xs uppercase tracking-wider space-y-2">
+        <div className="mt-8 pt-6 border-t border-luxury-border text-xs uppercase tracking-wider text-center">
           <p className="text-gray-500">
             Don't have an account yet?{' '}
             <Link href="/register" className="text-luxury-gold font-bold hover:underline">
               Create Client Account
             </Link>
           </p>
-          <div className="p-3 bg-luxury-cream border border-luxury-border text-[11px] text-gray-700 text-left font-mono">
-            <p className="font-bold text-luxury-black">Demo Credentials:</p>
-            <p>Admin: admin@cytrus.com / Admin@123</p>
-            <p>Customer: aarya.sharma@example.com / Customer@123</p>
-          </div>
         </div>
       </div>
     </div>
