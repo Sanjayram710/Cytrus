@@ -563,8 +563,8 @@ async function main() {
   const sampleOrderStatuses = ['DELIVERED', 'SHIPPED', 'PROCESSING', 'CONFIRMED'];
   for (let i = 0; i < 8; i++) {
     const cust = createdCustomers[i];
-    const prod = createdProducts[i * 2];
-    const orderNum = `LXW-2026-${1000 + i}`;
+    const prod = createdProducts[i % createdProducts.length];
+    const orderNum = `CYT-2026-${1000 + i}`;
     const status = sampleOrderStatuses[i % sampleOrderStatuses.length];
 
     const order = await prisma.order.create({
