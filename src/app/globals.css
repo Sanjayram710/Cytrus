@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,53 +6,73 @@
 
 @layer base {
   :root {
-    --font-playfair: 'Playfair Display', Georgia, serif;
+    --font-fraunces: 'Fraunces', Georgia, serif;
     --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
   }
 
   body {
-    background-color: #FAF8F5;
-    color: #121212;
+    background-color: #FAF7F2;
+    color: #2E2822;
     font-family: var(--font-jakarta);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, .font-serif {
-    font-family: var(--font-playfair);
+    font-family: var(--font-fraunces);
+  }
+
+  /* Accessible focus ring in accent color */
+  :focus-visible {
+    outline: 2px solid #6B5B45;
+    outline-offset: 2px;
   }
 }
 
-/* Luxury Glassmorphism & Custom Effects */
-.glass-nav {
-  background: rgba(250, 248, 245, 0.85);
+/* Monochromatic Clean Surface & Nav Blur */
+.mono-nav {
+  background: rgba(250, 247, 242, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(234, 229, 220, 0.6);
+/* Signature Swing-Tag Die-Cut Tab */
+.swing-tag {
+  position: relative;
+  background-color: #FAF7F2;
+  border: 1px solid #D9CFC0;
+  clip-path: polygon(10px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 10px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
 
-/* Custom Luxury Scrollbar */
+.swing-tag::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 4px;
+  height: 4px;
+  background-color: #2E2822;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* Minimal Monochromatic Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #FAF8F5;
+  background: #FAF7F2;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C5A880;
-  border-radius: 3px;
+  background: #D9CFC0;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #121212;
+  background: #6B5B45;
 }
 
-/* Hide scrollbar for clean horizontal image sliders */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -60,3 +80,4 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+

@@ -39,59 +39,59 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16">
-      <div className="bg-white border border-luxury-border p-8 shadow-luxury text-center">
-        <span className="text-xs uppercase font-semibold tracking-[0.35em] text-luxury-gold">
+    <div className="max-w-md mx-auto px-4 py-16 bg-canvas">
+      <div className="bg-surface border border-border p-8 text-center">
+        <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
           CREATE ACCOUNT
         </span>
-        <h1 className="font-serif text-3xl font-bold text-luxury-black mt-1 mb-2">
+        <h1 className="font-serif text-3xl font-normal text-ink mt-1 mb-2">
           Register Client Profile
         </h1>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 text-xs p-3 font-semibold mb-6">
+          <div className="bg-surface border border-border text-accent font-mono text-xs p-3 font-medium mb-6">
             {error}
           </div>
         )}
 
         <form onSubmit={handleRegister} className="space-y-4 text-left">
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">Full Name</label>
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Full Name</label>
             <input
               type="text"
               required
               placeholder="e.g. Ananya Roy"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">Email Address</label>
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Email Address</label>
             <input
               type="email"
               required
               placeholder="ananya@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">Phone Number</label>
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Phone Number</label>
             <input
               type="tel"
               placeholder="+91 98765 43210"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">Password</label>
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Password</label>
             <input
               type="password"
               required
@@ -99,23 +99,23 @@ export default function RegisterPage() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-luxury-black text-luxury-cream py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-luxury-gold hover:text-black transition-all shadow-subtle"
+            className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
           >
             {loading ? 'Creating Profile...' : 'Register Account'}
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-luxury-border text-xs uppercase tracking-wider">
-          <p className="text-gray-500">
+        <div className="mt-8 pt-6 border-t border-border font-mono text-xs uppercase tracking-wider text-center">
+          <p className="text-muted">
             Already have an account?{' '}
-            <Link href="/login" className="text-luxury-gold font-bold hover:underline">
+            <Link href="/login" className="text-accent font-semibold hover:underline">
               Sign In
             </Link>
           </p>

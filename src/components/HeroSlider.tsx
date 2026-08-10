@@ -82,7 +82,7 @@ export default function HeroSlider({ initialSlides = [] }: HeroSliderProps) {
 
   return (
     <section
-      className="relative w-full h-[85vh] sm:h-[90vh] bg-luxury-black overflow-hidden select-none"
+      className="relative w-full h-[85vh] sm:h-[90vh] bg-ink overflow-hidden select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -91,9 +91,9 @@ export default function HeroSlider({ initialSlides = [] }: HeroSliderProps) {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide.id}
-          initial={{ opacity: 0.4, scale: 1.05 }}
+          initial={{ opacity: 0.6, scale: 1.03 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0.4 }}
+          exit={{ opacity: 0.6 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="absolute inset-0 w-full h-full"
         >
@@ -103,55 +103,55 @@ export default function HeroSlider({ initialSlides = [] }: HeroSliderProps) {
             <img
               src={currentSlide.image}
               alt={currentSlide.title}
-              className="w-full h-full object-cover object-center filter brightness-[0.70]"
+              className="w-full h-full object-cover object-center filter brightness-[0.75] contrast-[1.05]"
             />
           </picture>
 
-          {/* Luxury Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/90 via-luxury-black/30 to-transparent" />
+          {/* Monochromatic Espresso Gradient Tint */}
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
 
           {/* Animated Slide Content Overlay */}
           <div className="absolute inset-0 flex items-end sm:items-center justify-start max-w-7xl mx-auto px-6 sm:px-12 pb-20 sm:pb-0 z-20">
-            <div className="max-w-2xl text-left text-luxury-cream">
+            <div className="max-w-2xl text-left text-canvas">
               {currentSlide.subtitle && (
                 <motion.p
-                  initial={{ y: 20, opacity: 0 }}
+                  initial={{ y: 15, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                  className="text-luxury-gold text-xs sm:text-sm font-semibold tracking-[0.35em] uppercase mb-3"
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="font-mono text-xs sm:text-xs font-semibold tracking-[0.25em] uppercase text-border mb-3"
                 >
                   {currentSlide.subtitle}
                 </motion.p>
               )}
 
               <motion.h1
-                initial={{ y: 30, opacity: 0 }}
+                initial={{ y: 25, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.7 }}
-                className="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight uppercase mb-4"
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight leading-tight uppercase mb-4"
               >
                 {currentSlide.title}
               </motion.h1>
 
               {currentSlide.description && (
                 <motion.p
-                  initial={{ y: 30, opacity: 0 }}
+                  initial={{ y: 25, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.7 }}
-                  className="text-luxury-cream/80 text-sm sm:text-base font-light leading-relaxed mb-8 max-w-lg hidden sm:block"
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="text-canvas/80 text-sm sm:text-base font-normal leading-relaxed mb-8 max-w-lg hidden sm:block"
                 >
                   {currentSlide.description}
                 </motion.p>
               )}
 
               <motion.div
-                initial={{ y: 30, opacity: 0 }}
+                initial={{ y: 25, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.7 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
               >
                 <Link
                   href={currentSlide.buttonUrl}
-                  className="inline-block bg-luxury-cream text-luxury-black hover:bg-luxury-gold hover:text-luxury-black transition-all duration-300 px-8 py-4 text-xs uppercase font-bold tracking-[0.2em] shadow-luxury"
+                  className="inline-block bg-canvas text-ink hover:bg-accent hover:text-canvas transition-colors duration-200 px-8 py-4 text-xs uppercase font-medium tracking-[0.2em] border border-canvas"
                 >
                   {currentSlide.buttonText}
                 </Link>
@@ -164,30 +164,30 @@ export default function HeroSlider({ initialSlides = [] }: HeroSliderProps) {
       {/* Prev / Next Arrows Controls */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-3 bg-black/30 hover:bg-luxury-gold text-white hover:text-black transition-colors rounded-full backdrop-blur-sm hidden sm:flex items-center justify-center"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-3 bg-ink/40 hover:bg-ink text-canvas transition-colors hidden sm:flex items-center justify-center border border-border/30"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft className="w-5 h-5" />
       </button>
 
       <button
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-3 bg-black/30 hover:bg-luxury-gold text-white hover:text-black transition-colors rounded-full backdrop-blur-sm hidden sm:flex items-center justify-center"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-3 bg-ink/40 hover:bg-ink text-canvas transition-colors hidden sm:flex items-center justify-center border border-border/30"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight className="w-5 h-5" />
       </button>
 
       {/* Bottom Indicators & Pause/Play Control */}
       <div className="absolute bottom-8 right-6 sm:right-12 z-30 flex items-center space-x-4">
-        {/* Slide Numbers & Dots */}
+        {/* Slide Numbers & Lines */}
         <div className="flex items-center space-x-2">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`h-1.5 transition-all duration-500 rounded-full ${
-                idx === currentIndex ? 'w-8 bg-luxury-gold' : 'w-2 bg-white/40 hover:bg-white/80'
+              className={`h-[2px] transition-all duration-300 ${
+                idx === currentIndex ? 'w-8 bg-canvas' : 'w-3 bg-canvas/30 hover:bg-canvas/60'
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
@@ -197,7 +197,7 @@ export default function HeroSlider({ initialSlides = [] }: HeroSliderProps) {
         {/* Pause / Play Toggle */}
         <button
           onClick={() => setIsPaused(!isPaused)}
-          className="text-white/60 hover:text-luxury-gold transition-colors p-1"
+          className="text-canvas/60 hover:text-canvas transition-colors p-1"
           aria-label={isPaused ? 'Play slider' : 'Pause slider'}
         >
           {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}

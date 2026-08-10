@@ -54,11 +54,11 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-md mx-auto my-20 text-center p-8 bg-white border border-luxury-border">
-        <h2 className="font-serif text-2xl font-bold text-luxury-black mb-2">Your Shopping Bag is Empty</h2>
-        <p className="text-xs text-gray-500 mb-6 uppercase tracking-wider">Please add items to your cart before proceeding to checkout.</p>
-        <Link href="/shop" className="bg-luxury-black text-luxury-cream px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-luxury-gold hover:text-black">
-          Browse Couture Collections
+      <div className="max-w-md mx-auto my-20 text-center p-8 bg-surface border border-border">
+        <h2 className="font-serif text-2xl font-normal text-ink mb-2">Your Bag is Empty</h2>
+        <p className="font-mono text-xs text-muted mb-6 uppercase tracking-wider">Please add items to your bag before proceeding to checkout.</p>
+        <Link href="/shop" className="bg-accent text-canvas px-6 py-3 font-mono text-xs font-semibold uppercase tracking-widest hover:bg-ink transition-colors border border-accent">
+          Browse Drops
         </Link>
       </div>
     );
@@ -160,7 +160,7 @@ export default function CheckoutPage() {
             contact: formData.phone,
           },
           theme: {
-            color: '#121212',
+            color: '#6B5B45',
           },
         };
 
@@ -193,53 +193,53 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-canvas">
       {/* Checkout Step Tracker Bar */}
-      <div className="border-b border-luxury-border pb-8 mb-10 text-center">
-        <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
+      <div className="border-b border-border pb-8 mb-10 text-center">
+        <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
           SECURE CHECKOUT
         </span>
-        <h1 className="font-serif text-3xl font-bold tracking-tight text-luxury-black mt-1">
-          Haute Couture Order Placement
+        <h1 className="font-serif text-3xl font-normal tracking-tight text-ink mt-1">
+          CYTRUS Order Placement
         </h1>
 
         <div className="flex justify-center items-center space-x-6 mt-6">
-          <div className={`flex items-center space-x-2 text-xs uppercase tracking-widest font-bold ${step >= 1 ? 'text-luxury-black' : 'text-gray-400'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 1 ? 'bg-luxury-black text-luxury-cream' : 'bg-gray-200'}`}>1</span>
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 1 ? 'text-ink' : 'text-muted'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 1 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>1</span>
             <span>Customer Info</span>
           </div>
-          <span className="text-gray-300">—</span>
-          <div className={`flex items-center space-x-2 text-xs uppercase tracking-widest font-bold ${step >= 2 ? 'text-luxury-black' : 'text-gray-400'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 2 ? 'bg-luxury-black text-luxury-cream' : 'bg-gray-200'}`}>2</span>
+          <span className="text-border">—</span>
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 2 ? 'text-ink' : 'text-muted'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 2 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>2</span>
             <span>Shipping Address</span>
           </div>
-          <span className="text-gray-300">—</span>
-          <div className={`flex items-center space-x-2 text-xs uppercase tracking-widest font-bold ${step >= 3 ? 'text-luxury-black' : 'text-gray-400'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 3 ? 'bg-luxury-black text-luxury-cream' : 'bg-gray-200'}`}>3</span>
+          <span className="text-border">—</span>
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 3 ? 'text-ink' : 'text-muted'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 3 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>3</span>
             <span>Payment</span>
           </div>
         </div>
       </div>
 
       {errorMsg && (
-        <div className="bg-red-50 border border-red-200 p-4 mb-8 text-xs font-bold text-red-700 flex items-center">
-          <AlertTriangle className="w-5 h-5 mr-2 flex-shrink-0" />
+        <div className="bg-surface border border-border p-4 mb-8 font-mono text-xs text-accent flex items-center">
+          <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Step Forms (7 cols) */}
-        <div className="lg:col-span-7 bg-white border border-luxury-border p-6 sm:p-8 space-y-8">
+        <div className="lg:col-span-7 bg-surface border border-border p-6 sm:p-8 space-y-8">
           {/* STEP 1: Customer Contact */}
           {step === 1 && (
             <div className="space-y-6">
-              <h2 className="font-serif text-xl font-bold uppercase tracking-wider text-luxury-black border-b border-luxury-border pb-3">
+              <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-ink border-b border-border pb-3">
                 1. Customer Details
               </h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs uppercase font-bold tracking-wider mb-1">Full Name</label>
+                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Full Name</label>
                   <input
                     type="text"
                     name="customerName"
@@ -247,11 +247,11 @@ export default function CheckoutPage() {
                     value={formData.customerName}
                     onChange={handleInputChange}
                     placeholder="e.g. Aarya Sharma"
-                    className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase font-bold tracking-wider mb-1">Email Address</label>
+                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Email Address</label>
                   <input
                     type="email"
                     name="customerEmail"
@@ -259,11 +259,11 @@ export default function CheckoutPage() {
                     value={formData.customerEmail}
                     onChange={handleInputChange}
                     placeholder="e.g. aarya@example.com"
-                    className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase font-bold tracking-wider mb-1">Phone Number</label>
+                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Phone Number</label>
                   <input
                     type="tel"
                     name="customerPhone"
@@ -271,7 +271,7 @@ export default function CheckoutPage() {
                     value={formData.customerPhone}
                     onChange={handleInputChange}
                     placeholder="+91 98765 43210"
-                    className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                   />
                 </div>
               </div>
@@ -286,7 +286,7 @@ export default function CheckoutPage() {
                   setErrorMsg('');
                   setStep(2);
                 }}
-                className="w-full bg-luxury-black text-luxury-cream py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-luxury-gold hover:text-black transition-all"
+                className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
               >
                 Continue to Shipping Address →
               </button>
@@ -296,18 +296,18 @@ export default function CheckoutPage() {
           {/* STEP 2: Shipping Address */}
           {step === 2 && (
             <div className="space-y-6">
-              <div className="flex justify-between items-center border-b border-luxury-border pb-3">
-                <h2 className="font-serif text-xl font-bold uppercase tracking-wider text-luxury-black">
+              <div className="flex justify-between items-center border-b border-border pb-3">
+                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-ink">
                   2. Shipping Address
                 </h2>
-                <button onClick={() => setStep(1)} className="text-xs font-bold uppercase text-luxury-gold hover:underline">
+                <button onClick={() => setStep(1)} className="font-mono text-xs uppercase text-accent hover:underline">
                   Edit Contact
                 </button>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs uppercase font-bold tracking-wider mb-1">Recipient Name</label>
+                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Recipient Name</label>
                   <input
                     type="text"
                     name="fullName"
@@ -315,68 +315,68 @@ export default function CheckoutPage() {
                     value={formData.fullName}
                     onChange={handleInputChange}
                     placeholder="e.g. Aarya Sharma"
-                    className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase font-bold tracking-wider mb-1">Street Address</label>
+                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Street Address</label>
                   <input
                     type="text"
                     name="street"
                     required
                     value={formData.street}
                     onChange={handleInputChange}
-                    placeholder="45 Marine Drive, Penthouse 8B"
-                    className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+                    placeholder="45 Indiranagar, 12th Main Road"
+                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase font-bold tracking-wider mb-1">City</label>
+                    <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">City</label>
                     <input
                       type="text"
                       name="city"
                       required
                       value={formData.city}
                       onChange={handleInputChange}
-                      placeholder="Mumbai"
-                      className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+                      placeholder="Bengaluru"
+                      className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase font-bold tracking-wider mb-1">State</label>
+                    <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">State</label>
                     <input
                       type="text"
                       name="state"
                       required
                       value={formData.state}
                       onChange={handleInputChange}
-                      placeholder="Maharashtra"
-                      className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+                      placeholder="Karnataka"
+                      className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase font-bold tracking-wider mb-1">Pincode</label>
+                    <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Pincode</label>
                     <input
                       type="text"
                       name="postalCode"
                       required
                       value={formData.postalCode}
                       onChange={handleInputChange}
-                      placeholder="400020"
-                      className="w-full border border-luxury-border p-3 text-xs focus:outline-none focus:border-luxury-gold"
+                      placeholder="560038"
+                      className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase font-bold tracking-wider mb-1">Country</label>
+                    <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Country</label>
                     <input
                       type="text"
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                      className="w-full border border-luxury-border p-3 text-xs focus:outline-none bg-gray-50"
+                      className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none text-ink"
                     />
                   </div>
                 </div>
@@ -392,7 +392,7 @@ export default function CheckoutPage() {
                   setErrorMsg('');
                   setStep(3);
                 }}
-                className="w-full bg-luxury-black text-luxury-cream py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-luxury-gold hover:text-black transition-all"
+                className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
               >
                 Continue to Payment →
               </button>
@@ -402,18 +402,18 @@ export default function CheckoutPage() {
           {/* STEP 3: Payment Choice */}
           {step === 3 && (
             <div className="space-y-6">
-              <div className="flex justify-between items-center border-b border-luxury-border pb-3">
-                <h2 className="font-serif text-xl font-bold uppercase tracking-wider text-luxury-black">
+              <div className="flex justify-between items-center border-b border-border pb-3">
+                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-ink">
                   3. Select Payment Method
                 </h2>
-                <button onClick={() => setStep(2)} className="text-xs font-bold uppercase text-luxury-gold hover:underline">
+                <button onClick={() => setStep(2)} className="font-mono text-xs uppercase text-accent hover:underline">
                   Edit Address
                 </button>
               </div>
 
               <div className="space-y-4">
                 {/* Razorpay Option */}
-                <label className={`block border p-4 cursor-pointer transition-all ${formData.paymentMethod === 'RAZORPAY' ? 'border-luxury-black bg-luxury-cream/40 shadow-subtle' : 'border-luxury-border bg-white'}`}>
+                <label className={`block border p-4 cursor-pointer transition-all ${formData.paymentMethod === 'RAZORPAY' ? 'border-accent bg-canvas' : 'border-border bg-surface'}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <input
@@ -422,19 +422,19 @@ export default function CheckoutPage() {
                         value="RAZORPAY"
                         checked={formData.paymentMethod === 'RAZORPAY'}
                         onChange={handleInputChange}
-                        className="text-luxury-black focus:ring-luxury-gold"
+                        className="text-accent focus:ring-accent"
                       />
-                      <CreditCard className="w-5 h-5 text-luxury-gold" />
+                      <CreditCard className="w-5 h-5 text-accent" />
                       <div>
-                        <p className="font-bold text-xs uppercase tracking-wider text-luxury-black">Razorpay Online Payment</p>
-                        <p className="text-[11px] text-gray-500">Credit / Debit Cards, UPI, NetBanking, Wallets</p>
+                        <p className="font-mono font-semibold text-xs uppercase tracking-wider text-ink">Razorpay Online Payment</p>
+                        <p className="font-mono text-[10px] text-muted">Credit / Debit Cards, UPI, NetBanking, Wallets</p>
                       </div>
                     </div>
                   </div>
                 </label>
 
                 {/* Cash on Delivery Option */}
-                <label className={`block border p-4 cursor-pointer transition-all ${formData.paymentMethod === 'COD' ? 'border-luxury-black bg-luxury-cream/40 shadow-subtle' : 'border-luxury-border bg-white'}`}>
+                <label className={`block border p-4 cursor-pointer transition-all ${formData.paymentMethod === 'COD' ? 'border-accent bg-canvas' : 'border-border bg-surface'}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <input
@@ -443,12 +443,12 @@ export default function CheckoutPage() {
                         value="COD"
                         checked={formData.paymentMethod === 'COD'}
                         onChange={handleInputChange}
-                        className="text-luxury-black focus:ring-luxury-gold"
+                        className="text-accent focus:ring-accent"
                       />
-                      <Truck className="w-5 h-5 text-luxury-gold" />
+                      <Truck className="w-5 h-5 text-accent" />
                       <div>
-                        <p className="font-bold text-xs uppercase tracking-wider text-luxury-black">Cash on Delivery (COD)</p>
-                        <p className="text-[11px] text-gray-500">Pay upon doorstep courier delivery</p>
+                        <p className="font-mono font-semibold text-xs uppercase tracking-wider text-ink">Cash on Delivery (COD)</p>
+                        <p className="font-mono text-[10px] text-muted">Pay upon doorstep delivery</p>
                       </div>
                     </div>
                   </div>
@@ -459,40 +459,40 @@ export default function CheckoutPage() {
                 type="button"
                 onClick={handlePlaceOrder}
                 disabled={loading}
-                className="w-full bg-luxury-black text-luxury-cream py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-luxury-gold hover:text-black transition-all shadow-luxury"
+                className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
               >
-                {loading ? 'Processing Order...' : `COMPLETE ORDER (${formatPrice(total)})`}
+                {loading ? 'Processing Drop Order...' : `COMPLETE ORDER (${formatPrice(total)})`}
               </button>
             </div>
           )}
         </div>
 
         {/* Order Summary Sidebar (5 cols) */}
-        <div className="lg:col-span-5 bg-white border border-luxury-border p-6 space-y-6 h-fit shadow-subtle">
-          <h3 className="font-serif text-base font-bold uppercase tracking-wider border-b border-luxury-border pb-3">
+        <div className="lg:col-span-5 bg-surface border border-border p-6 space-y-6 h-fit">
+          <h3 className="font-serif text-base font-normal uppercase tracking-wider border-b border-border pb-3 text-ink">
             Bag Items ({items.length})
           </h3>
 
           <div className="space-y-4 max-h-80 overflow-y-auto pr-2">
             {items.map((item) => (
               <div key={`${item.productId}-${item.size}-${item.color}`} className="flex space-x-4 items-center">
-                <img src={item.productImage} alt={item.productName} className="w-14 h-20 object-cover bg-luxury-cream" />
+                <img src={item.productImage} alt={item.productName} className="w-14 h-18 object-cover bg-canvas border border-border" />
                 <div className="flex-1 text-xs">
-                  <h4 className="font-serif font-bold text-luxury-black line-clamp-1">{item.productName}</h4>
-                  <p className="text-gray-500 text-[11px] uppercase">Qty: {item.quantity} | {item.size} / {item.color}</p>
-                  <p className="font-bold text-luxury-black mt-1">{formatPrice(item.price * item.quantity)}</p>
+                  <h4 className="font-serif font-normal text-ink line-clamp-1">{item.productName}</h4>
+                  <p className="font-mono text-muted text-[10px] uppercase">Qty: {item.quantity} | {item.size} / {item.color}</p>
+                  <p className="font-mono font-semibold text-accent mt-1">{formatPrice(item.price * item.quantity)}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="space-y-2 text-xs text-gray-600 pt-4 border-t border-luxury-border">
+          <div className="space-y-2 font-mono text-xs text-muted pt-4 border-t border-border">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span className="font-semibold text-luxury-black">{formatPrice(subtotal)}</span>
+              <span className="font-semibold text-ink">{formatPrice(subtotal)}</span>
             </div>
             {couponDiscount > 0 && (
-              <div className="flex justify-between text-luxury-gold font-bold">
+              <div className="flex justify-between text-accent font-semibold">
                 <span>Coupon Savings ({couponCode})</span>
                 <span>-{formatPrice(couponDiscount)}</span>
               </div>
@@ -503,11 +503,11 @@ export default function CheckoutPage() {
             </div>
             <div className="flex justify-between">
               <span>Express Shipping</span>
-              <span>{shipping === 0 ? <span className="text-green-700 font-bold">FREE</span> : formatPrice(shipping)}</span>
+              <span>{shipping === 0 ? <span className="text-ink font-semibold">FREE</span> : formatPrice(shipping)}</span>
             </div>
-            <div className="flex justify-between font-serif text-lg font-bold text-luxury-black pt-3 border-t border-luxury-border">
+            <div className="flex justify-between font-serif text-lg font-normal text-ink pt-3 border-t border-border">
               <span>Total Payable</span>
-              <span>{formatPrice(total)}</span>
+              <span className="font-mono font-semibold text-accent">{formatPrice(total)}</span>
             </div>
           </div>
         </div>

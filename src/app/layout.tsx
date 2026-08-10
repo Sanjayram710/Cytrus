@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           content="Discover CYTRUS luxury fashion dresses, handcrafted mulberry silk evening gowns, Banarasi sarees, and bespoke couture collections."
         />
       </head>
-      <body className="min-h-screen flex flex-col justify-between bg-luxury-cream text-luxury-black font-sans antialiased">
+      <body className="min-h-screen flex flex-col justify-between bg-canvas text-ink font-sans antialiased selection:bg-surface selection:text-ink">
         {/* Entrance 2-Second Logo Splash Screen */}
         <SplashScreen />
 
