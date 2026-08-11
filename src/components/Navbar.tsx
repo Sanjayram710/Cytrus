@@ -81,28 +81,29 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
             : 'bg-canvas/95 backdrop-blur-md py-4 border-b border-border'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between min-h-[56px]">
-            {/* Left Group: Mobile Menu + Main Nav Links */}
-            <div className="flex items-center space-x-6 lg:space-x-8">
+        <div className="w-full max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="flex items-center justify-between min-h-[52px]">
+            
+            {/* 1. LEFT COLUMN: Mobile Button + Nav Links (Takes exactly 1/3 or flex-1) */}
+            <div className="flex-1 flex items-center justify-start">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden"
+                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden mr-2"
                 aria-label="Open navigation menu"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
               {/* Desktop Nav Links */}
-              <nav className="hidden lg:flex items-center space-x-8">
+              <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`text-[11px] uppercase tracking-[0.24em] font-medium transition-colors duration-200 ${
+                      className={`text-[11px] uppercase tracking-[0.18em] font-medium transition-colors duration-200 whitespace-nowrap ${
                         isActive
                           ? 'text-ink font-bold'
                           : 'text-muted hover:text-ink'
@@ -115,10 +116,10 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               </nav>
             </div>
 
-            {/* Center Brand Wordmark: C E L E B R I T E E .IN */}
-            <div className="text-center flex-1 lg:flex-initial flex items-center justify-center">
+            {/* 2. CENTER COLUMN: Perfectly Centered CELEBRITEE .IN with Equal Space on Both Sides */}
+            <div className="flex-shrink-0 flex items-center justify-center px-4 sm:px-8">
               <Link href="/" className="inline-flex items-baseline space-x-1 group">
-                <span className="font-serif text-2xl sm:text-3xl tracking-[0.34em] font-normal uppercase text-ink group-hover:text-accent transition-colors pl-1">
+                <span className="font-serif text-2xl sm:text-3xl md:text-[28px] tracking-[0.32em] font-normal uppercase text-ink group-hover:text-accent transition-colors pl-1">
                   CELEBRITEE
                 </span>
                 <span className="font-mono text-[9px] text-muted tracking-widest uppercase opacity-80">
@@ -127,8 +128,8 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               </Link>
             </div>
 
-            {/* Right Group: Action Suite (Search, Account, Wishlist, Bag) */}
-            <div className="flex items-center space-x-4 sm:space-x-6">
+            {/* 3. RIGHT COLUMN: Search, Account, Wishlist, Bag (Takes flex-1 justify-end) */}
+            <div className="flex-1 flex items-center justify-end space-x-4 sm:space-x-6">
               {/* Search Trigger */}
               <button
                 onClick={onOpenSearch}
@@ -202,7 +203,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               {/* Bag Button: [ 🛍️ BAG 1 ] */}
               <button
                 onClick={openCart}
-                className="border border-border bg-canvas hover:border-ink hover:bg-surface px-3 sm:px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-all flex items-center space-x-2"
+                className="border border-border bg-canvas hover:border-ink hover:bg-surface px-3 sm:px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-all flex items-center space-x-2 flex-shrink-0"
                 aria-label="Shopping Bag"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
@@ -210,6 +211,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 <span className="font-bold">{itemCount}</span>
               </button>
             </div>
+
           </div>
         </div>
       </header>
