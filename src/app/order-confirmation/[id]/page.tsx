@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, Package, Truck, Calendar, MapPin, ArrowRight } from 'lucide-react';
+import { CheckCircle2, Package, MapPin, Download, MessageSquare } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 
 export default function OrderConfirmationPage({ params }: { params: { id: string } }) {
@@ -34,6 +34,12 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
   }
 
   const shippingAddr = JSON.parse(order.shippingAddressJson || '{}');
+  const cleanPhone = (order.customerPhone || '').replace(/\D/g, '').slice(-10);
+  const whatsappMsg = encodeURIComponent(
+    `Hello ${order.customerName}, your CYTRUS Order #${order.orderNumber} for ${formatPrice(order.total)} is confirmed! Track live: ${window.location.origin}/orders/${order.id}`
+  );
+  const whatsappUrl = `https://wa.me/91${cleanPhone}?text=${whatsappMsg}`;
+  const pdfInvoiceUrl = `/api/orders/${order.id}/invoice`;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-canvas">
@@ -50,18 +56,40 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
         </p>
 
         <p className="text-xs text-muted leading-relaxed max-w-lg mx-auto mb-6">
-          We have received your CYTRUS order. An official receipt and notification with dispatch tracking will be sent to your contact details.
+          We have received your CYTRUS order. An official receipt and notification with dispatch tracking have been dispatched to your contact details.
         </p>
 
-        <div className="bg-canvas border border-border p-4 mb-8 max-w-lg mx-auto text-left space-y-2 font-mono">
+        <div className="bg-canvas border border-border p-4 mb-8 max-w-lg mx-auto text-left space-y-3 font-mono">
           <div className="flex items-center space-x-2 text-xs text-ink">
             <span className="text-base">📧</span>
-            <span>Official Receipt dispatched to <strong className="text-accent">{order.customerEmail}</strong></span>
+            <span>Official Email Receipt sent to <strong className="text-accent">{order.customerEmail}</strong></span>
           </div>
           <div className="flex items-center space-x-2 text-xs text-ink">
             <span className="text-base">📱</span>
-            <span>Notification sent to <strong className="text-accent">{order.customerPhone}</strong></span>
+            <span>SMS Notification dispatched to <strong className="text-accent">{order.customerPhone}</strong></span>
           </div>
+        </div>
+
+        {/* Action Bar: Download PDF & WhatsApp Updates */}
+        <div className="flex flex-col sm:flex-row justify-center gap-3 mb-10 max-w-xl mx-auto">
+          <a
+            href={pdfInvoiceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center space-x-2 bg-ink text-canvas px-6 py-3 font-mono text-xs uppercase tracking-wider font-semibold hover:bg-accent transition-colors border border-ink"
+          >
+            <Download className="w-4 h-4 text-canvas" />
+            <span>Download Tax Invoice (PDF)</span>
+          </a>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center space-x-2 bg-[#25D366] text-white px-6 py-3 font-mono text-xs uppercase tracking-wider font-semibold hover:opacity-90 transition-opacity border border-[#25D366]"
+          >
+            <MessageSquare className="w-4 h-4 text-white" />
+            <span>WhatsApp Order Notification</span>
+          </a>
         </div>
 
         {/* Details Grid */}
