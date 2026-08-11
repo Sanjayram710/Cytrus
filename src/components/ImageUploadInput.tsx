@@ -87,17 +87,17 @@ export default function ImageUploadInput({
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
-        <label className="block text-xs font-bold uppercase tracking-wider text-luxury-black">
+        <label className="block font-mono text-xs font-medium uppercase tracking-wider text-ink">
           {label}
         </label>
-        <div className="flex space-x-2 text-[10px] uppercase font-bold tracking-wider">
+        <div className="flex space-x-2 font-mono text-[10px] uppercase tracking-wider">
           <button
             type="button"
             onClick={() => setTab('upload')}
-            className={`px-2 py-0.5 border ${
+            className={`px-2.5 py-1 border transition-all ${
               tab === 'upload'
-                ? 'bg-luxury-black text-luxury-cream border-luxury-black'
-                : 'bg-white text-gray-600 border-luxury-border'
+                ? 'bg-ink text-canvas border-ink'
+                : 'bg-canvas text-muted border-border hover:border-accent'
             }`}
           >
             Upload File
@@ -105,10 +105,10 @@ export default function ImageUploadInput({
           <button
             type="button"
             onClick={() => setTab('url')}
-            className={`px-2 py-0.5 border ${
+            className={`px-2.5 py-1 border transition-all ${
               tab === 'url'
-                ? 'bg-luxury-black text-luxury-cream border-luxury-black'
-                : 'bg-white text-gray-600 border-luxury-border'
+                ? 'bg-ink text-canvas border-ink'
+                : 'bg-canvas text-muted border-border hover:border-accent'
             }`}
           >
             Image URL
@@ -118,19 +118,19 @@ export default function ImageUploadInput({
 
       {/* Live Preview Thumbnail if an image is selected */}
       {value ? (
-        <div className="relative bg-luxury-cream border border-luxury-border p-2 flex items-center space-x-3 rounded-sm">
-          <img src={value} alt="Preview" className="w-16 h-16 object-cover border border-luxury-border rounded-sm bg-white" />
+        <div className="relative bg-surface border border-border p-2 flex items-center space-x-3">
+          <img src={value} alt="Preview" className="w-16 h-16 object-cover border border-border bg-canvas" />
           <div className="flex-1 min-w-0">
-            <span className="text-[10px] font-bold text-luxury-gold uppercase block">Image Uploaded</span>
-            <p className="text-xs font-mono text-gray-700 truncate">{value}</p>
+            <span className="font-mono text-[10px] font-semibold text-accent uppercase block">Image Uploaded</span>
+            <p className="text-xs font-mono text-muted truncate">{value}</p>
           </div>
           <button
             type="button"
             onClick={() => onChange('')}
-            className="p-1 text-gray-400 hover:text-red-600"
+            className="p-1 text-muted hover:text-ink"
             title="Remove Image"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
       ) : (
@@ -140,7 +140,7 @@ export default function ImageUploadInput({
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-luxury-border hover:border-luxury-gold p-6 text-center bg-white cursor-pointer transition-colors"
+              className="border-2 border-dashed border-border hover:border-accent p-6 text-center bg-canvas cursor-pointer transition-colors"
             >
               <input
                 ref={fileInputRef}
@@ -151,16 +151,16 @@ export default function ImageUploadInput({
               />
               {uploading ? (
                 <div className="flex flex-col items-center justify-center py-2 space-y-2">
-                  <Loader2 className="w-6 h-6 animate-spin text-luxury-gold" />
-                  <span className="text-xs uppercase font-bold text-luxury-black tracking-wider">Uploading Image File...</span>
+                  <Loader2 className="w-5 h-5 animate-spin text-accent" />
+                  <span className="font-mono text-xs uppercase font-medium text-ink tracking-wider">Uploading Image File...</span>
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center space-y-1">
-                  <UploadCloud className="w-8 h-8 text-luxury-gold mb-1" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-luxury-black">
+                  <UploadCloud className="w-7 h-7 text-accent mb-1" />
+                  <span className="font-mono text-xs font-medium uppercase tracking-wider text-ink">
                     Click to Select Local Image File or Drag & Drop Here
                   </span>
-                  <span className="text-[10px] text-gray-400 uppercase font-mono">PNG, JPG, WEBP, GIF, SVG</span>
+                  <span className="text-[10px] text-muted uppercase font-mono">PNG, JPG, WEBP, GIF, SVG</span>
                 </div>
               )}
             </div>
@@ -171,14 +171,14 @@ export default function ImageUploadInput({
                 value={value}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
-                className="w-full border border-luxury-border p-2.5 text-xs font-mono focus:outline-none focus:border-luxury-gold bg-white"
+                className="w-full border border-border p-2.5 font-mono text-xs focus:outline-none focus:border-accent bg-canvas text-ink"
               />
             </div>
           )}
         </>
       )}
 
-      {error && <p className="text-[10px] text-red-600 font-bold uppercase">{error}</p>}
+      {error && <p className="font-mono text-[10px] text-accent uppercase">{error}</p>}
     </div>
   );
 }

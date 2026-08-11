@@ -136,16 +136,16 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-canvas">
       {/* Breadcrumb Navigation */}
-      <nav className="text-xs uppercase tracking-widest text-gray-500 mb-8 space-x-2">
-        <Link href="/" className="hover:text-luxury-gold">Home</Link>
+      <nav className="font-mono text-xs uppercase tracking-widest text-muted mb-8 space-x-2">
+        <Link href="/" className="hover:text-ink">Home</Link>
         <span>/</span>
-        <Link href="/shop" className="hover:text-luxury-gold">Shop</Link>
+        <Link href="/shop" className="hover:text-ink">Shop</Link>
         <span>/</span>
-        <Link href={`/category/${product.category?.slug}`} className="hover:text-luxury-gold">{product.category?.name}</Link>
+        <Link href={`/category/${product.category?.slug}`} className="hover:text-ink">{product.category?.name}</Link>
         <span>/</span>
-        <span className="text-luxury-black font-semibold">{product.name}</span>
+        <span className="text-ink font-semibold">{product.name}</span>
       </nav>
 
       {/* Main Product Showcase */}
@@ -158,8 +158,8 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               <button
                 key={img.id || idx}
                 onClick={() => setSelectedImageIndex(idx)}
-                className={`w-20 h-24 flex-shrink-0 border-2 overflow-hidden bg-white transition-all ${
-                  selectedImageIndex === idx ? 'border-luxury-gold shadow-md' : 'border-luxury-border opacity-70 hover:opacity-100'
+                className={`w-20 h-24 flex-shrink-0 border overflow-hidden bg-surface transition-all ${
+                  selectedImageIndex === idx ? 'border-accent' : 'border-border opacity-70 hover:opacity-100'
                 }`}
               >
                 <img src={img.url} alt={img.alt || product.name} className="w-full h-full object-cover object-center" />
@@ -168,7 +168,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
           </div>
 
           {/* Main Image Stage */}
-          <div className="relative flex-1 bg-white border border-luxury-border overflow-hidden group">
+          <div className="relative flex-1 bg-surface border border-border overflow-hidden group">
             <img
               src={currentImage}
               alt={product.name}
@@ -179,10 +179,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Expand Fullscreen Button */}
             <button
               onClick={() => setFullscreenImage(currentImage)}
-              className="absolute top-4 right-4 p-3 bg-white/80 backdrop-blur-sm text-luxury-black hover:bg-luxury-gold transition-colors rounded-full shadow-subtle"
+              className="absolute top-4 right-4 p-3 bg-canvas/80 backdrop-blur-sm text-ink hover:bg-ink hover:text-canvas border border-border transition-colors"
               title="Expand Fullscreen"
             >
-              <Maximize2 className="w-5 h-5" />
+              <Maximize2 className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -191,42 +191,42 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
-                {product.category?.name || 'COUTURE'}
+              <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
+                {product.category?.name || 'SILHOUETTE'}
               </span>
-              <span className="text-[11px] font-mono uppercase text-gray-400">SKU: {product.sku}</span>
+              <span className="font-mono text-[11px] uppercase text-muted">SKU: {product.sku}</span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-luxury-black mt-2 mb-3">
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-ink mt-2 mb-3">
               {product.name}
             </h1>
 
             {/* Rating Stars */}
             <div className="flex items-center space-x-2 mb-4">
-              <div className="flex text-luxury-gold">
+              <div className="flex text-accent">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-current' : 'text-gray-300'}`}
+                    className={`w-3.5 h-3.5 ${i < Math.floor(product.rating) ? 'fill-current' : 'text-border'}`}
                   />
                 ))}
               </div>
-              <span className="text-xs font-bold text-luxury-black">{product.rating}</span>
-              <span className="text-xs text-gray-400">({product.reviewCount} customer reviews)</span>
+              <span className="font-mono text-xs font-semibold text-ink">{product.rating}</span>
+              <span className="font-mono text-xs text-muted">({product.reviewCount} reviews)</span>
             </div>
 
             {/* Pricing Section */}
-            <div className="flex items-baseline space-x-4 mb-6 pb-6 border-b border-luxury-border">
-              <span className="text-3xl font-extrabold text-luxury-black">
+            <div className="flex items-baseline space-x-4 mb-6 pb-6 border-b border-border">
+              <span className="font-mono text-3xl font-semibold text-accent">
                 {formatPrice(product.price)}
               </span>
               {product.comparePrice && (
-                <span className="text-base line-through text-gray-400">
+                <span className="font-mono text-base line-through text-muted">
                   {formatPrice(product.comparePrice)}
                 </span>
               )}
               {product.discountPercentage > 0 && (
-                <span className="bg-luxury-black text-luxury-cream text-xs font-bold px-2.5 py-1 uppercase tracking-widest">
+                <span className="bg-surface border border-border text-ink font-mono text-xs font-semibold px-2.5 py-1 uppercase tracking-widest">
                   SAVE {product.discountPercentage}%
                 </span>
               )}
@@ -235,37 +235,37 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Stock Level Warning */}
             <div className="mb-6">
               {product.stock <= 5 && product.stock > 0 ? (
-                <p className="text-xs font-bold uppercase tracking-wider text-red-600 animate-pulse">
-                  ⚠️ ONLY {product.stock} PIECES REMAINING IN COUTURE VAULT
+                <p className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
+                  ⚠️ ONLY {product.stock} PIECES REMAINING IN DROP VAULT
                 </p>
               ) : product.stock > 0 ? (
-                <p className="text-xs font-semibold uppercase tracking-wider text-green-700 flex items-center">
-                  <Check className="w-4 h-4 mr-1 text-green-700" /> IN STOCK & READY TO SHIP
+                <p className="font-mono text-xs uppercase tracking-wider text-muted flex items-center">
+                  <Check className="w-3.5 h-3.5 mr-1 text-ink" /> IN STOCK & READY TO SHIP
                 </p>
               ) : (
-                <p className="text-xs font-bold uppercase tracking-wider text-red-600">OUT OF STOCK</p>
+                <p className="font-mono text-xs uppercase tracking-wider text-muted">OUT OF STOCK</p>
               )}
             </div>
 
             {/* Description */}
-            <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-6">
+            <p className="text-xs sm:text-sm text-muted leading-relaxed mb-6 font-normal">
               {product.description}
             </p>
 
             {/* Color Swatches */}
             <div className="mb-6">
-              <label className="block text-xs uppercase font-bold tracking-wider text-luxury-black mb-2">
-                Color: <span className="text-luxury-gold">{selectedColor}</span>
+              <label className="block font-mono text-xs uppercase font-medium tracking-wider text-ink mb-2">
+                Color: <span className="text-muted">{selectedColor}</span>
               </label>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2.5">
                 {colors.map((clr: any) => (
                   <button
                     key={clr}
                     onClick={() => setSelectedColor(clr)}
-                    className={`px-4 py-2 text-xs font-bold uppercase border transition-all ${
+                    className={`px-4 py-2 font-mono text-xs uppercase border transition-all ${
                       selectedColor === clr
-                        ? 'bg-luxury-black text-luxury-cream border-luxury-black shadow-md'
-                        : 'bg-white text-luxury-black border-luxury-border hover:border-luxury-gold'
+                        ? 'bg-ink text-canvas border-ink'
+                        : 'bg-surface text-ink border-border hover:border-accent'
                     }`}
                   >
                     {clr}
@@ -277,26 +277,26 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Size Selector + Size Guide Modal Trigger */}
             <div className="mb-6">
               <div className="flex justify-between items-center mb-2">
-                <label className="text-xs uppercase font-bold tracking-wider text-luxury-black">
-                  Select Size: <span className="text-luxury-gold">{selectedSize}</span>
+                <label className="font-mono text-xs uppercase font-medium tracking-wider text-ink">
+                  Select Size: <span className="text-muted">{selectedSize}</span>
                 </label>
                 <button
                   onClick={() => setSizeGuideOpen(true)}
-                  className="text-xs uppercase font-bold tracking-wider text-luxury-gold hover:underline flex items-center"
+                  className="font-mono text-xs uppercase tracking-wider text-accent hover:underline flex items-center"
                 >
-                  <Ruler className="w-4 h-4 mr-1" /> Size Guide
+                  <Ruler className="w-3.5 h-3.5 mr-1" /> Size Guide
                 </button>
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2.5">
                 {sizes.map((sz: any) => (
                   <button
                     key={sz}
                     onClick={() => setSelectedSize(sz)}
-                    className={`w-12 h-12 text-xs font-bold uppercase border flex items-center justify-center transition-all ${
+                    className={`w-12 h-12 font-mono text-xs uppercase border flex items-center justify-center transition-all ${
                       selectedSize === sz
-                        ? 'bg-luxury-black text-luxury-cream border-luxury-black shadow-md'
-                        : 'bg-white text-luxury-black border-luxury-border hover:border-luxury-gold'
+                        ? 'bg-ink text-canvas border-ink'
+                        : 'bg-surface text-ink border-border hover:border-accent'
                     }`}
                   >
                     {sz}
@@ -307,37 +307,37 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
             {/* Quantity Selector */}
             <div className="mb-8">
-              <label className="block text-xs uppercase font-bold tracking-wider text-luxury-black mb-2">
+              <label className="block font-mono text-xs uppercase font-medium tracking-wider text-ink mb-2">
                 Quantity
               </label>
-              <div className="inline-flex items-center border border-luxury-border bg-white">
+              <div className="inline-flex items-center border border-border bg-surface">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="p-3 text-luxury-black hover:bg-luxury-cream"
+                  className="p-3 text-ink hover:bg-canvas"
                 >
-                  <Minus className="w-4 h-4" />
+                  <Minus className="w-3.5 h-3.5" />
                 </button>
-                <span className="px-6 text-sm font-bold text-luxury-black">{quantity}</span>
+                <span className="px-6 font-mono text-sm font-semibold text-ink">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="p-3 text-luxury-black hover:bg-luxury-cream"
+                  className="p-3 text-ink hover:bg-canvas"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
           </div>
 
           {/* Action CTAs */}
-          <div className="space-y-3 pt-4 border-t border-luxury-border">
+          <div className="space-y-3 pt-4 border-t border-border">
             <div className="flex space-x-3">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 bg-luxury-black text-luxury-cream py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-luxury-gold hover:text-black transition-all flex items-center justify-center space-x-2 shadow-luxury"
+                className="flex-1 bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all flex items-center justify-center space-x-2 border border-accent"
               >
                 {added ? (
                   <>
-                    <Check className="w-4 h-4 text-green-400" />
+                    <Check className="w-4 h-4 text-canvas" />
                     <span>ADDED TO BAG</span>
                   </>
                 ) : (
@@ -359,33 +359,33 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                   })
                 }
                 className={`p-4 border transition-colors ${
-                  isWish ? 'bg-red-50 border-red-200 text-red-600' : 'border-luxury-border text-luxury-black hover:border-luxury-gold'
+                  isWish ? 'bg-ink text-canvas border-ink' : 'border-border text-ink bg-surface hover:border-accent'
                 }`}
                 title="Save to Wishlist"
               >
-                <Heart className={`w-5 h-5 ${isWish ? 'fill-current' : ''}`} />
+                <Heart className={`w-4 h-4 ${isWish ? 'fill-current' : ''}`} />
               </button>
             </div>
 
             <button
               onClick={handleBuyNow}
-              className="w-full bg-luxury-gold text-luxury-black py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-white hover:border-luxury-gold border border-transparent transition-all shadow-subtle"
+              className="w-full bg-ink text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-accent border border-ink transition-colors"
             >
-              BUY NOW WITH EXPRESS CHECKOUT
+              EXPRESS CHECKOUT
             </button>
 
             {/* Delivery & Assurance info */}
-            <div className="grid grid-cols-3 gap-2 pt-6 border-t border-luxury-border text-center text-[10px] text-gray-600 uppercase tracking-wider font-semibold">
+            <div className="grid grid-cols-3 gap-2 pt-6 border-t border-border text-center font-mono text-[9px] text-muted uppercase tracking-wider">
               <div className="flex flex-col items-center">
-                <Truck className="w-5 h-5 text-luxury-gold mb-1" />
+                <Truck className="w-4 h-4 text-accent mb-1" />
                 <span>Express Delivery</span>
               </div>
               <div className="flex flex-col items-center">
-                <ShieldCheck className="w-5 h-5 text-luxury-gold mb-1" />
-                <span>Authentic Mulberry Silk</span>
+                <ShieldCheck className="w-4 h-4 text-accent mb-1" />
+                <span>300 GSM Organic Cotton</span>
               </div>
               <div className="flex flex-col items-center">
-                <RotateCcw className="w-5 h-5 text-luxury-gold mb-1" />
+                <RotateCcw className="w-4 h-4 text-accent mb-1" />
                 <span>Complimentary Exchange</span>
               </div>
             </div>
@@ -394,21 +394,21 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       </div>
 
       {/* Customer Reviews Section */}
-      <section className="border-t border-luxury-border pt-16 mb-20">
+      <section className="border-t border-border pt-16 mb-20">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10">
           <div>
-            <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
+            <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
               CLIENT TESTIMONIALS
             </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-luxury-black mt-1">
+            <h2 className="font-serif text-2xl sm:text-3xl font-normal text-ink mt-1">
               Customer Reviews ({product.reviews?.length || 0})
             </h2>
           </div>
           <button
             onClick={() => setReviewModalOpen(true)}
-            className="mt-4 sm:mt-0 bg-luxury-black text-luxury-cream px-6 py-3 text-xs uppercase font-bold tracking-widest hover:bg-luxury-gold hover:text-black transition-colors inline-flex items-center space-x-2"
+            className="mt-4 sm:mt-0 bg-accent text-canvas px-6 py-3 font-mono text-xs uppercase tracking-widest hover:bg-ink transition-colors inline-flex items-center space-x-2 border border-accent"
           >
-            <MessageSquare className="w-4 h-4" />
+            <MessageSquare className="w-3.5 h-3.5" />
             <span>Write a Review</span>
           </button>
         </div>
@@ -416,41 +416,41 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         {product.reviews && product.reviews.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {product.reviews.map((rev: any) => (
-              <div key={rev.id} className="bg-white border border-luxury-border p-6 space-y-3">
+              <div key={rev.id} className="bg-surface border border-border p-6 space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex text-luxury-gold">
+                  <div className="flex text-accent">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`w-3.5 h-3.5 ${i < rev.rating ? 'fill-current' : 'text-gray-300'}`} />
+                      <Star key={i} className={`w-3 h-3 ${i < rev.rating ? 'fill-current' : 'text-border'}`} />
                     ))}
                   </div>
                   {rev.isVerified && (
-                    <span className="text-[10px] uppercase font-bold text-green-700 bg-green-50 px-2 py-0.5 border border-green-200">
+                    <span className="font-mono text-[9px] uppercase tracking-wider text-muted border border-border px-2 py-0.5">
                       Verified Buyer
                     </span>
                   )}
                 </div>
-                {rev.title && <h4 className="font-serif text-sm font-bold text-luxury-black">{rev.title}</h4>}
-                <p className="text-xs text-gray-700 leading-relaxed font-light">{rev.comment}</p>
-                <div className="text-[11px] text-gray-400 uppercase tracking-wider font-semibold">
+                {rev.title && <h4 className="font-serif text-sm font-normal text-ink">{rev.title}</h4>}
+                <p className="text-xs text-muted leading-relaxed font-normal">{rev.comment}</p>
+                <div className="font-mono text-[10px] text-muted uppercase tracking-wider">
                   {rev.userName} • {new Date(rev.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-xs text-gray-500 uppercase tracking-widest text-center py-8">Be the first to leave a review for this couture piece.</p>
+          <p className="font-mono text-xs text-muted uppercase tracking-widest text-center py-8">Be the first to leave a review for this drop.</p>
         )}
       </section>
 
       {/* Related Products Grid */}
       {relatedProducts && relatedProducts.length > 0 && (
-        <section className="border-t border-luxury-border pt-16">
+        <section className="border-t border-border pt-16">
           <div className="text-center mb-10">
-            <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
-              YOU MAY ALSO ADMIRE
+            <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
+              COMPLEMENTARY SILHOUETTES
             </span>
-            <h2 className="font-serif text-3xl font-bold text-luxury-black mt-1">
-              Related Couture
+            <h2 className="font-serif text-3xl font-normal text-ink mt-1">
+              Related Drops
             </h2>
           </div>
 
@@ -459,13 +459,24 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               <Link
                 key={rel.id}
                 href={`/product/${rel.slug}`}
-                className="group bg-white border border-luxury-border p-3 hover:border-luxury-gold transition-all"
+                className="group relative bg-surface border border-border p-3 hover:border-accent transition-all"
               >
-                <img src={rel.images[0]?.url} alt={rel.name} className="w-full h-64 object-cover object-center mb-3" />
-                <h3 className="font-serif text-xs font-bold text-luxury-black group-hover:text-luxury-gold line-clamp-1">
+                {/* Signature Swing-Tag Detail */}
+                <div className="absolute top-0 right-3 z-20 flex flex-col items-center pointer-events-none">
+                  <div className="w-[1px] h-3 bg-border group-hover:bg-accent transition-colors" />
+                  <div className="swing-tag px-2 py-0.5 text-center group-hover:-translate-y-0.5 group-hover:-rotate-2 transition-transform duration-300">
+                    <span className="font-mono text-[10px] font-semibold tracking-wider text-accent block">
+                      {formatPrice(rel.price)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="relative h-64 overflow-hidden bg-surface mb-3 border border-border">
+                  <img src={rel.images[0]?.url} alt={rel.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <h3 className="font-serif text-xs font-normal text-ink group-hover:text-accent line-clamp-1">
                   {rel.name}
                 </h3>
-                <p className="text-xs font-bold text-luxury-black mt-1">{formatPrice(rel.price)}</p>
               </Link>
             ))}
           </div>
@@ -474,30 +485,30 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
 
       {/* Fullscreen Image Lightbox Modal */}
       {fullscreenImage && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-ink/90 backdrop-blur-md flex items-center justify-center p-4">
           <button
             onClick={() => setFullscreenImage(null)}
-            className="absolute top-6 right-6 p-3 text-white hover:text-luxury-gold"
+            className="absolute top-6 right-6 p-3 text-canvas hover:text-border"
           >
-            <X className="w-8 h-8" />
+            <X className="w-7 h-7" />
           </button>
-          <img src={fullscreenImage} alt="Fullscreen View" className="max-h-[90vh] max-w-[90vw] object-contain" />
+          <img src={fullscreenImage} alt="Fullscreen View" className="max-h-[90vh] max-w-[90vw] object-contain border border-border" />
         </div>
       )}
 
       {/* Review Submission Modal */}
       {reviewModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4">
-          <div className="bg-luxury-cream border border-luxury-border max-w-md w-full p-6 relative shadow-2xl">
-            <button onClick={() => setReviewModalOpen(false)} className="absolute top-4 right-4 text-luxury-black">
+        <div className="fixed inset-0 z-50 bg-ink/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-surface border border-border max-w-md w-full p-6 relative">
+            <button onClick={() => setReviewModalOpen(false)} className="absolute top-4 right-4 text-ink hover:text-accent">
               <X className="w-5 h-5" />
             </button>
-            <h3 className="font-serif text-xl font-bold text-luxury-black mb-4">Write a Review</h3>
+            <h3 className="font-serif text-xl font-normal text-ink mb-4">Write a Review</h3>
 
             <form onSubmit={handleSubmitReview} className="space-y-4">
               <div>
-                <label className="block text-xs uppercase font-bold mb-1">Rating</label>
-                <div className="flex text-luxury-gold space-x-1">
+                <label className="block font-mono text-xs uppercase font-medium mb-1 text-ink">Rating</label>
+                <div className="flex text-accent space-x-1">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
@@ -505,39 +516,39 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                       onClick={() => setReviewRating(star)}
                       className="p-1"
                     >
-                      <Star className={`w-5 h-5 ${star <= reviewRating ? 'fill-current' : 'text-gray-300'}`} />
+                      <Star className={`w-4 h-4 ${star <= reviewRating ? 'fill-current' : 'text-border'}`} />
                     </button>
                   ))}
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs uppercase font-bold mb-1">Review Title</label>
+                <label className="block font-mono text-xs uppercase font-medium mb-1 text-ink">Review Title</label>
                 <input
                   type="text"
-                  placeholder="e.g. Breathtaking Silk Fabric"
+                  placeholder="e.g. Heavyweight drape and boxy cut"
                   value={reviewTitle}
                   onChange={(e) => setReviewTitle(e.target.value)}
-                  className="w-full bg-white border border-luxury-border p-2 text-xs focus:outline-none focus:border-luxury-gold"
+                  className="w-full bg-canvas border border-border p-2.5 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                 />
               </div>
 
               <div>
-                <label className="block text-xs uppercase font-bold mb-1">Your Feedback</label>
+                <label className="block font-mono text-xs uppercase font-medium mb-1 text-ink">Your Feedback</label>
                 <textarea
                   rows={4}
                   required
-                  placeholder="Describe the fit, drape, and quality..."
+                  placeholder="Describe the GSM weight, fit, ribbing, and wash..."
                   value={reviewComment}
                   onChange={(e) => setReviewComment(e.target.value)}
-                  className="w-full bg-white border border-luxury-border p-2 text-xs focus:outline-none focus:border-luxury-gold"
+                  className="w-full bg-canvas border border-border p-2.5 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={reviewSubmitting}
-                className="w-full bg-luxury-black text-luxury-cream py-3 text-xs uppercase font-bold tracking-widest hover:bg-luxury-gold hover:text-black"
+                className="w-full bg-accent text-canvas py-3 font-mono text-xs uppercase tracking-widest font-semibold hover:bg-ink border border-accent transition-colors"
               >
                 {reviewSubmitting ? 'Submitting...' : 'Submit Review'}
               </button>

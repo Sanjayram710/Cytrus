@@ -58,28 +58,28 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16">
-      <div className="bg-white border border-luxury-border p-8 sm:p-10 shadow-luxury text-center">
-        <span className="text-xs uppercase font-semibold tracking-[0.35em] text-luxury-gold">
+    <div className="max-w-md mx-auto px-4 py-16 bg-canvas">
+      <div className="bg-surface border border-border p-8 sm:p-10 text-center">
+        <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
           BECOME A CLIENT
         </span>
-        <h1 className="font-serif text-3xl font-bold text-luxury-black mt-1 mb-2">
+        <h1 className="font-serif text-3xl font-normal text-ink mt-1 mb-2">
           Create Client Profile
         </h1>
-        <p className="text-xs text-gray-500 uppercase tracking-widest mb-8">
-          Unlock exclusive drops, express checkout, order receipts, and bespoke fit profile.
+        <p className="font-mono text-xs text-muted uppercase tracking-widest mb-8">
+          Unlock exclusive drops, express checkout, order receipts, and fit profile.
         </p>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 text-xs p-3 font-semibold mb-6">
+          <div className="bg-surface border border-border text-accent font-mono text-xs p-3 font-medium mb-6">
             {error}
           </div>
         )}
 
         <form onSubmit={handleRegister} className="space-y-4 text-left">
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">
-              Full Name <span className="text-luxury-gold">*</span>
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">
+              Full Name <span className="text-accent">*</span>
             </label>
             <input
               type="text"
@@ -87,13 +87,13 @@ export default function RegisterPage() {
               placeholder="e.g. Sanjay Ram"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full border border-luxury-border p-3.5 text-xs focus:outline-none focus:border-luxury-gold transition-colors"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">
-              Email Address <span className="text-luxury-gold">*</span>
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">
+              Email Address <span className="text-accent">*</span>
             </label>
             <input
               type="email"
@@ -101,12 +101,12 @@ export default function RegisterPage() {
               placeholder="sanjay@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-luxury-border p-3.5 text-xs focus:outline-none focus:border-luxury-gold transition-colors"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">
               Mobile Phone Number
             </label>
             <input
@@ -114,13 +114,13 @@ export default function RegisterPage() {
               placeholder="+91 90432 86377"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full border border-luxury-border p-3.5 text-xs focus:outline-none focus:border-luxury-gold transition-colors"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">
-              Password <span className="text-luxury-gold">*</span>
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">
+              Password <span className="text-accent">*</span>
             </label>
             <input
               type="password"
@@ -129,13 +129,13 @@ export default function RegisterPage() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-luxury-border p-3.5 text-xs focus:outline-none focus:border-luxury-gold transition-colors"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <div>
-            <label className="block text-xs uppercase font-bold tracking-wider mb-1 text-luxury-black">
-              Confirm Password <span className="text-luxury-gold">*</span>
+            <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">
+              Confirm Password <span className="text-accent">*</span>
             </label>
             <input
               type="password"
@@ -144,42 +144,42 @@ export default function RegisterPage() {
               placeholder="••••••••"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full border border-luxury-border p-3.5 text-xs focus:outline-none focus:border-luxury-gold transition-colors"
+              className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-luxury-black text-luxury-cream py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-luxury-gold hover:text-black transition-all shadow-subtle flex items-center justify-center space-x-2"
+            className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent flex items-center justify-center space-x-2"
           >
             <span>{loading ? 'Creating Profile...' : 'Complete Client Registration'}</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </form>
 
         {/* Features Checklist */}
-        <div className="mt-6 p-4 bg-luxury-cream border border-luxury-border text-[11px] text-gray-700 text-left space-y-1.5">
+        <div className="mt-6 p-4 bg-canvas border border-border text-[11px] text-muted text-left space-y-1.5 font-mono">
           <div className="flex items-center space-x-2">
-            <CheckCircle2 className="w-4 h-4 text-luxury-gold" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-accent" />
             <span>Complimentary Express Shipping on Orders &gt; ₹2,000</span>
           </div>
           <div className="flex items-center space-x-2">
-            <CheckCircle2 className="w-4 h-4 text-luxury-gold" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-accent" />
             <span>Automated Email & SMS Order Receipt Dispatches</span>
           </div>
         </div>
 
         {/* Back to Sign In Link */}
-        <div className="mt-8 pt-6 border-t border-luxury-border text-center">
-          <p className="text-xs uppercase tracking-widest text-gray-500 font-medium mb-3">
+        <div className="mt-8 pt-6 border-t border-border text-center space-y-3 font-mono text-xs uppercase tracking-wider">
+          <p className="text-muted">
             Already have a CYTRUS account?
           </p>
           <Link
             href="/login"
-            className="w-full border-2 border-luxury-black text-luxury-black py-3 text-xs font-bold uppercase tracking-[0.2em] hover:bg-luxury-gold hover:border-luxury-gold hover:text-black transition-all flex items-center justify-center space-x-2"
+            className="w-full border border-border bg-canvas text-ink py-3 text-xs font-semibold uppercase tracking-[0.15em] hover:border-accent hover:text-accent transition-all flex items-center justify-center space-x-2"
           >
-            <LogIn className="w-4 h-4" />
+            <LogIn className="w-3.5 h-3.5" />
             <span>Sign In to Existing Account</span>
           </Link>
         </div>
