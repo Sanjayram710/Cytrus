@@ -251,10 +251,10 @@ export default function AdminProductsPage() {
               {editingProduct ? 'Edit Product' : 'Create New Product'}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <form onSubmit={handleSubmit} className="space-y-4 text-xs text-luxury-black">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block uppercase font-bold mb-1">Product Name</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Product Name</label>
                   <input
                     type="text"
                     required
@@ -270,25 +270,25 @@ export default function AdminProductsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">Slug</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Slug</label>
                   <input
                     type="text"
                     required
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-mono"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-mono"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block uppercase font-bold mb-1">Description</label>
+                <label className="block uppercase font-bold mb-1 text-luxury-black">Description</label>
                 <textarea
                   rows={3}
                   required
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                  className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
                 />
               </div>
 
@@ -308,53 +308,53 @@ export default function AdminProductsPage() {
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block uppercase font-bold mb-1">Price (INR)</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Price (INR)</label>
                   <input
                     type="number"
                     required
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-bold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">Original Price (INR)</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Original Price (INR)</label>
                   <input
                     type="number"
                     value={formData.comparePrice}
                     onChange={(e) => setFormData({ ...formData, comparePrice: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
                   />
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">SKU</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">SKU</label>
                   <input
                     type="text"
                     required
                     value={formData.sku}
                     onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-mono"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-mono"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block uppercase font-bold mb-1">Stock Units</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Stock Units</label>
                   <input
                     type="number"
                     required
                     value={formData.stock}
                     onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-bold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">Category</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Category</label>
                   <select
                     value={formData.categoryId}
                     onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
                   >
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
@@ -362,11 +362,11 @@ export default function AdminProductsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">Collection</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Collection</label>
                   <select
                     value={formData.collectionId}
                     onChange={(e) => setFormData({ ...formData, collectionId: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
                   >
                     <option value="">None</option>
                     {collections.map((col) => (
@@ -377,13 +377,13 @@ export default function AdminProductsPage() {
               </div>
 
               <div>
-                <label className="block uppercase font-bold mb-1">Primary Image URL</label>
+                <label className="block uppercase font-bold mb-1 text-luxury-black">Primary Image URL</label>
                 <input
                   type="text"
                   required
                   value={formData.imageUrl}
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-mono"
+                  className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-mono"
                 />
               </div>
 

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { UploadCloud, X, Loader2 } from 'lucide-react';
+import { normalizeImageUrl } from '@/lib/utils';
 
 interface ImageUploadInputProps {
   value: string;
@@ -170,7 +171,7 @@ export default function ImageUploadInput({
                 type="text"
                 value={value}
                 placeholder={placeholder}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChange(normalizeImageUrl(e.target.value))}
                 className="w-full border border-border p-2.5 font-mono text-xs focus:outline-none focus:border-accent bg-canvas text-ink"
               />
             </div>
