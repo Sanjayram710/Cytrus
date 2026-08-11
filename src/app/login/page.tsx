@@ -116,6 +116,17 @@ export default function LoginPage() {
             <UserPlus className="w-3.5 h-3.5" />
             <span>Create New Client Account</span>
           </Link>
+
+          {/* Skip for now option */}
+          <div className="pt-2">
+            <Link
+              href="/"
+              className="inline-flex items-center space-x-1.5 text-[11px] text-muted hover:text-ink transition-colors underline underline-offset-4 tracking-widest font-mono"
+            >
+              <span>Skip for now &amp; explore website</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
