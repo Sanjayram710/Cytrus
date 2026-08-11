@@ -269,11 +269,17 @@ function ShopContent() {
                           src={primaryImg}
                           alt={product.name}
                           className="w-full h-full object-cover object-center transition-opacity duration-500 group-hover:opacity-0"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000';
+                          }}
                         />
                         <img
                           src={secondaryImg}
                           alt={product.name}
                           className="w-full h-full object-cover object-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=1000';
+                          }}
                         />
                       </Link>
 

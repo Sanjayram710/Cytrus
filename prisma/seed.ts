@@ -128,7 +128,7 @@ async function main() {
       name: 'Polo & Henley Tees',
       slug: 'polo-henley-tees',
       description: 'Textured waffle-knit and ribbed collar luxury henleys and tailored polos.',
-      image: 'https://images.unsplash.com/photo-1625910513413-3fc215c76e0b?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&q=80&w=800',
       isFeatured: true,
     },
     {
@@ -414,7 +414,7 @@ async function main() {
       isBestSeller: false,
       sku: 'TEE-HN-009',
       images: [
-        'https://images.unsplash.com/photo-1625910513413-3fc215c76e0b?auto=format&fit=crop&q=80&w=1000',
+        'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=1000',
       ],
       colors: [{ name: 'Oatmeal Beige', hex: '#E6D7C3' }, { name: 'Obsidian Black', hex: '#121212' }],
       sizes: ['S', 'M', 'L', 'XL'],
@@ -432,7 +432,7 @@ async function main() {
       isBestSeller: true,
       sku: 'TEE-PL-010',
       images: [
-        'https://images.unsplash.com/photo-1625910513413-3fc215c76e0b?auto=format&fit=crop&q=80&w=1000',
+        'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&q=80&w=1000',
       ],
       colors: [{ name: 'French Blue', hex: '#4682B4' }, { name: 'Optic White', hex: '#FFFFFF' }],
       sizes: ['S', 'M', 'L', 'XL'],

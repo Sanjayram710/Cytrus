@@ -4,20 +4,20 @@ import { requireAdmin } from '@/lib/auth';
 import { z } from 'zod';
 
 const productSchema = z.object({
-  name: z.string().min(2),
-  slug: z.string().min(2),
-  description: z.string().min(10),
-  price: z.number().positive(),
+  name: z.string().min(1, 'Product name is required'),
+  slug: z.string().min(1, 'Product slug is required'),
+  description: z.string().min(1).optional().default('High quality combed cotton luxury t-shirt.'),
+  price: z.number().positive('Price must be a positive number'),
   comparePrice: z.number().optional().nullable(),
-  categoryId: z.string().min(1),
+  categoryId: z.string().min(1, 'Category is required'),
   collectionId: z.string().optional().nullable(),
-  sku: z.string().min(2),
-  stock: z.number().min(0),
+  sku: z.string().optional().default(''),
+  stock: z.number().min(0).default(10),
   isFeatured: z.boolean().default(false),
   isNewArrival: z.boolean().default(false),
   isBestSeller: z.boolean().default(false),
   status: z.enum(['ACTIVE', 'DRAFT', 'ARCHIVED']).default('ACTIVE'),
-  images: z.array(z.string().url()).min(1, 'At least one product image URL is required'),
+  images: z.array(z.string().min(1)).min(1, 'At least one product image URL is required'),
   sizes: z.array(z.string()).default(['S', 'M', 'L']),
   colors: z.array(z.object({ name: z.string(), hex: z.string() })).default([{ name: 'Black', hex: '#000000' }]),
 });
