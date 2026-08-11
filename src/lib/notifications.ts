@@ -243,6 +243,8 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
   if (process.env.FAST2SMS_API_KEY) {
     try {
       const cleanPhone = order.customerPhone.replace(/\D/g, '').slice(-10);
+      const orderRefDigits = order.orderNumber.replace(/\D/g, '') || '101';
+
       const f2sRes = await fetch('https://www.fast2sms.com/dev/bulkV2', {
         method: 'POST',
         headers: {
@@ -250,17 +252,17 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          route: 'q',
-          message: smsText,
-          language: 'english',
-          flash: 0,
+          route: 'otp',
+          variables_values: orderRefDigits.slice(-6),
           numbers: cleanPhone,
         }),
       });
       const f2sData = await f2sRes.json();
-      if (f2sData.return) {
-        console.log(`✅ [FAST2SMS DISPATCHED] SMS sent to ${order.customerPhone}`);
+      if (f2sData && f2sData.return) {
+        console.log(`✅ [FAST2SMS DISPATCHED] Order #${order.orderNumber} SMS sent to ${order.customerPhone}`);
         return { success: true, mode: 'FAST2SMS' };
+      } else {
+        console.error('Fast2SMS dispatch warning:', f2sData);
       }
     } catch (err: any) {
       console.error(`❌ [FAST2SMS ERROR] Failed to send SMS via Fast2SMS:`, err.message);
