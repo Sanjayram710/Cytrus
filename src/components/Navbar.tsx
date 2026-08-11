@@ -81,15 +81,15 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
             : 'bg-canvas/95 backdrop-blur-md py-4 border-b border-border'
         }`}
       >
-        <div className="w-full max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="flex items-center justify-between min-h-[52px]">
             
-            {/* 1. LEFT COLUMN: Mobile Button + Nav Links (Takes exactly 1/3 or flex-1) */}
-            <div className="flex-1 flex items-center justify-start">
+            {/* 1. LEFT HAND SIDE: Category Links + CELEBRITEE .IN at the End */}
+            <div className="flex items-center space-x-6 sm:space-x-8 xl:space-x-10">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden mr-2"
+                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden mr-1"
                 aria-label="Open navigation menu"
               >
                 <Menu className="w-5 h-5" />
@@ -114,26 +114,26 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   );
                 })}
               </nav>
+
+              {/* CELEBRITEE.IN Brand Logo: Positioned at the end of the left side */}
+              <div className="flex items-center pl-2 sm:pl-4 xl:pl-6">
+                <Link href="/" className="inline-flex items-baseline space-x-1 group">
+                  <span className="font-serif text-2xl sm:text-3xl md:text-[28px] tracking-[0.32em] font-normal uppercase text-ink group-hover:text-accent transition-colors pl-1">
+                    CELEBRITEE
+                  </span>
+                  <span className="font-mono text-[9px] text-muted tracking-widest uppercase opacity-80">
+                    .IN
+                  </span>
+                </Link>
+              </div>
             </div>
 
-            {/* 2. CENTER COLUMN: Perfectly Centered CELEBRITEE .IN with Equal Space on Both Sides */}
-            <div className="flex-shrink-0 flex items-center justify-center px-4 sm:px-8">
-              <Link href="/" className="inline-flex items-baseline space-x-1 group">
-                <span className="font-serif text-2xl sm:text-3xl md:text-[28px] tracking-[0.32em] font-normal uppercase text-ink group-hover:text-accent transition-colors pl-1">
-                  CELEBRITEE
-                </span>
-                <span className="font-mono text-[9px] text-muted tracking-widest uppercase opacity-80">
-                  .IN
-                </span>
-              </Link>
-            </div>
-
-            {/* 3. RIGHT COLUMN: Search, Account, Wishlist, Bag (Takes flex-1 justify-end) */}
-            <div className="flex-1 flex items-center justify-end space-x-4 sm:space-x-6">
-              {/* Search Trigger */}
+            {/* 2. RIGHT HAND SIDE: Search Icon (First after CELEBRITEE) + User + Wishlist + Bag */}
+            <div className="flex items-center space-x-5 sm:space-x-7">
+              {/* Search Trigger (First element on right side after CELEBRITEE) */}
               <button
                 onClick={onOpenSearch}
-                className="flex items-center space-x-1.5 text-muted hover:text-ink transition-colors p-1"
+                className="flex items-center space-x-2 text-muted hover:text-ink transition-colors p-1"
                 title="Search"
                 aria-label="Search"
               >
