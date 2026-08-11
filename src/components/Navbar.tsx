@@ -81,22 +81,35 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
             : 'bg-canvas/95 backdrop-blur-md py-4 border-b border-border'
         }`}
       >
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between min-h-[52px]">
             
-            {/* 1. LEFT HAND SIDE: Category Links + CELEBRITEE .IN at the End */}
-            <div className="flex items-center space-x-6 sm:space-x-8 xl:space-x-10">
+            {/* 1. FAR LEFT CORNER: Mobile Menu + CELEBRITEE .IN Brand Logo */}
+            <div className="flex items-center space-x-3">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden mr-1"
+                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden"
                 aria-label="Open navigation menu"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
-              {/* Desktop Nav Links */}
-              <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+              {/* CELEBRITEE Brand Logo at Far Left */}
+              <Link href="/" className="inline-flex items-baseline space-x-1 group">
+                <span className="font-serif text-2xl sm:text-3xl tracking-[0.32em] font-normal uppercase text-ink group-hover:text-accent transition-colors">
+                  CELEBRITEE
+                </span>
+                <span className="font-mono text-[9px] text-muted tracking-widest uppercase opacity-80">
+                  .IN
+                </span>
+              </Link>
+            </div>
+
+            {/* 2. RIGHT HAND SIDE: Category Links + Actions (Search, Account, Wishlist, Bag) */}
+            <div className="flex items-center space-x-5 lg:space-x-7">
+              {/* Category Nav Links */}
+              <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
@@ -115,101 +128,92 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 })}
               </nav>
 
-              {/* CELEBRITEE.IN Brand Logo: Positioned at the end of the left side */}
-              <div className="flex items-center pl-2 sm:pl-4 xl:pl-6">
-                <Link href="/" className="inline-flex items-baseline space-x-1 group">
-                  <span className="font-serif text-2xl sm:text-3xl md:text-[28px] tracking-[0.32em] font-normal uppercase text-ink group-hover:text-accent transition-colors pl-1">
-                    CELEBRITEE
-                  </span>
-                  <span className="font-mono text-[9px] text-muted tracking-widest uppercase opacity-80">
-                    .IN
-                  </span>
-                </Link>
-              </div>
-            </div>
+              {/* Subtle Divider between Categories and Action Suite */}
+              <div className="hidden lg:block h-3.5 w-[1px] bg-border" />
 
-            {/* 2. RIGHT HAND SIDE: Search Icon (First after CELEBRITEE) + User + Wishlist + Bag */}
-            <div className="flex items-center space-x-5 sm:space-x-7">
-              {/* Search Trigger (First element on right side after CELEBRITEE) */}
-              <button
-                onClick={onOpenSearch}
-                className="flex items-center space-x-2 text-muted hover:text-ink transition-colors p-1"
-                title="Search"
-                aria-label="Search"
-              >
-                <Search className="w-4 h-4" />
-                <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-wider">
-                  Search
-                </span>
-              </button>
+              {/* Action Suite: Search, User, Wishlist, Bag */}
+              <div className="flex items-center space-x-4 sm:space-x-5">
+                {/* Search Trigger */}
+                <button
+                  onClick={onOpenSearch}
+                  className="flex items-center space-x-1.5 text-muted hover:text-ink transition-colors p-1"
+                  title="Search"
+                  aria-label="Search"
+                >
+                  <Search className="w-4 h-4" />
+                  <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-wider">
+                    Search
+                  </span>
+                </button>
 
-              {/* Account Dropdown / Link */}
-              {user ? (
-                <div className="relative group">
+                {/* Account Dropdown / Link */}
+                {user ? (
+                  <div className="relative group">
+                    <Link
+                      href={user.role === 'ADMIN' ? '/admin' : '/account'}
+                      className="flex items-center p-1 text-ink hover:text-accent transition-colors"
+                    >
+                      <User className="w-4 h-4" />
+                    </Link>
+
+                    <div className="absolute right-0 mt-2 w-48 bg-surface border border-border shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto py-2 z-50">
+                      {user.role === 'ADMIN' && (
+                        <Link
+                          href="/admin"
+                          className="flex items-center px-4 py-2 text-xs uppercase tracking-wider text-accent font-bold hover:bg-canvas"
+                        >
+                          <ShieldCheck className="w-4 h-4 mr-2" /> Admin Dashboard
+                        </Link>
+                      )}
+                      <Link
+                        href="/account"
+                        className="block px-4 py-2 text-xs uppercase tracking-wider text-ink hover:bg-canvas"
+                      >
+                        My Profile &amp; Orders
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left flex items-center px-4 py-2 text-xs uppercase tracking-wider text-muted hover:text-ink hover:bg-canvas"
+                      >
+                        <LogOut className="w-4 h-4 mr-2" /> Logout
+                      </button>
+                    </div>
+                  </div>
+                ) : (
                   <Link
-                    href={user.role === 'ADMIN' ? '/admin' : '/account'}
-                    className="flex items-center p-1 text-ink hover:text-accent transition-colors"
+                    href="/login"
+                    className="p-1 text-ink hover:text-accent transition-colors"
+                    title="Sign In"
                   >
                     <User className="w-4 h-4" />
                   </Link>
-
-                  <div className="absolute right-0 mt-2 w-48 bg-surface border border-border shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto py-2 z-50">
-                    {user.role === 'ADMIN' && (
-                      <Link
-                        href="/admin"
-                        className="flex items-center px-4 py-2 text-xs uppercase tracking-wider text-accent font-bold hover:bg-canvas"
-                      >
-                        <ShieldCheck className="w-4 h-4 mr-2" /> Admin Dashboard
-                      </Link>
-                    )}
-                    <Link
-                      href="/account"
-                      className="block px-4 py-2 text-xs uppercase tracking-wider text-ink hover:bg-canvas"
-                    >
-                      My Profile &amp; Orders
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left flex items-center px-4 py-2 text-xs uppercase tracking-wider text-muted hover:text-ink hover:bg-canvas"
-                    >
-                      <LogOut className="w-4 h-4 mr-2" /> Logout
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  href="/login"
-                  className="p-1 text-ink hover:text-accent transition-colors"
-                  title="Sign In"
-                >
-                  <User className="w-4 h-4" />
-                </Link>
-              )}
-
-              {/* Wishlist Link with Superscript Count Badge */}
-              <Link
-                href="/wishlist"
-                className="relative p-1 text-ink hover:text-accent transition-colors"
-                title="Wishlist"
-              >
-                <Heart className="w-4 h-4" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1.5 -right-2 text-[10px] font-mono font-bold text-ink leading-none">
-                    {wishlistCount}
-                  </span>
                 )}
-              </Link>
 
-              {/* Bag Button: [ 🛍️ BAG 1 ] */}
-              <button
-                onClick={openCart}
-                className="border border-border bg-canvas hover:border-ink hover:bg-surface px-3 sm:px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-all flex items-center space-x-2 flex-shrink-0"
-                aria-label="Shopping Bag"
-              >
-                <ShoppingBag className="w-3.5 h-3.5" />
-                <span className="font-semibold">Bag</span>
-                <span className="font-bold">{itemCount}</span>
-              </button>
+                {/* Wishlist Link with Superscript Count Badge */}
+                <Link
+                  href="/wishlist"
+                  className="relative p-1 text-ink hover:text-accent transition-colors"
+                  title="Wishlist"
+                >
+                  <Heart className="w-4 h-4" />
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1.5 -right-2 text-[10px] font-mono font-bold text-ink leading-none">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
+
+                {/* Bag Button: [ 🛍️ BAG 1 ] */}
+                <button
+                  onClick={openCart}
+                  className="border border-border bg-canvas hover:border-ink hover:bg-surface px-3 sm:px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-all flex items-center space-x-2 flex-shrink-0"
+                  aria-label="Shopping Bag"
+                >
+                  <ShoppingBag className="w-3.5 h-3.5" />
+                  <span className="font-semibold">Bag</span>
+                  <span className="font-bold">{itemCount}</span>
+                </button>
+              </div>
             </div>
 
           </div>
