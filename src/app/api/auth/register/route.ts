@@ -52,9 +52,24 @@ export async function POST(req: Request) {
       user: userSession,
     });
   } catch (error: any) {
+    // 1. Handle Zod validation errors
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.errors[0].message }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message || 'Registration failed' }, { status: 500 });
+
+    // 2. Handle Prisma Unique Constraint Violations (code P2002)
+    if (error?.code === 'P2002') {
+      return NextResponse.json(
+        { error: 'An account with this email address already exists.' },
+        { status: 400 }
+      );
+    }
+
+    // 3. Log internal error server-side and return generic, safe client response
+    console.error('[Register API Error]:', error);
+    return NextResponse.json(
+      { error: 'Could not create account, please try again.' },
+      { status: 500 }
+    );
   }
 }

@@ -111,6 +111,49 @@ async function runTests() {
   assert(calculateSizeSurcharge('L') === 0, 'Standard sizes carry ₹0 size surcharge');
   assert(calculateSizeSurcharge('XXL') === 150, 'XXL size carries configured +₹150 surcharge');
 
+  // 6. Registration Database Write & Duplicate Handling
+  console.log('\n--- 6. Testing Registration DB Write & Error Handling ---');
+  const { prisma } = await import('../src/lib/prisma');
+  const testRegEmail = `testuser_${Date.now()}@cytrus.com`;
+  const rawPlainPass = 'SecurePass@2026';
+  const hashedPass = await hashPassword(rawPlainPass);
+
+  // Write new user row
+  const createdUser = await prisma.user.create({
+    data: {
+      name: 'Test Client Profile',
+      email: testRegEmail,
+      password: hashedPass,
+      phone: '+919876543210',
+      role: 'USER',
+    },
+  });
+
+  assert(Boolean(createdUser.id), 'User row successfully created in database');
+  assert(createdUser.password !== rawPlainPass, 'Stored password is NOT plaintext');
+  assert(createdUser.password.startsWith('$2'), 'Stored password is valid bcrypt hash');
+
+  // Duplicate email check
+  let duplicateCaught = false;
+  try {
+    await prisma.user.create({
+      data: {
+        name: 'Duplicate Profile',
+        email: testRegEmail,
+        password: hashedPass,
+        role: 'USER',
+      },
+    });
+  } catch (err: any) {
+    if (err?.code === 'P2002') {
+      duplicateCaught = true;
+    }
+  }
+  assert(duplicateCaught, 'Prisma unique constraint P2002 properly detected on duplicate email');
+
+  // Clean up test user
+  await prisma.user.delete({ where: { id: createdUser.id } });
+
   console.log('\n==============================================');
   console.log(`   TEST RESULTS: ${passed} PASSED | ${failed} FAILED`);
   console.log('==============================================\n');
