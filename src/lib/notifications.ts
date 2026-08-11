@@ -239,7 +239,35 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
 
   const smsText = `[CYTRUS] Hello ${order.customerName}, your order #${order.orderNumber} for ${formatPrice(order.total)} has been confirmed! Track your shipment live: ${trackingUrl}`;
 
-  // If Twilio env variables exist, send real SMS
+  // 1. Fast2SMS Integration (Instant Indian SMS Gateway)
+  if (process.env.FAST2SMS_API_KEY) {
+    try {
+      const cleanPhone = order.customerPhone.replace(/\D/g, '').slice(-10);
+      const f2sRes = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+        method: 'POST',
+        headers: {
+          authorization: process.env.FAST2SMS_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          route: 'q',
+          message: smsText,
+          language: 'english',
+          flash: 0,
+          numbers: cleanPhone,
+        }),
+      });
+      const f2sData = await f2sRes.json();
+      if (f2sData.return) {
+        console.log(`✅ [FAST2SMS DISPATCHED] SMS sent to ${order.customerPhone}`);
+        return { success: true, mode: 'FAST2SMS' };
+      }
+    } catch (err: any) {
+      console.error(`❌ [FAST2SMS ERROR] Failed to send SMS via Fast2SMS:`, err.message);
+    }
+  }
+
+  // 2. Twilio Integration (Global SMS Gateway)
   if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
     try {
       let twilioModule: any = null;
