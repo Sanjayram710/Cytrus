@@ -7,7 +7,6 @@ import CartDrawer from '@/components/CartDrawer';
 import SearchModal from '@/components/SearchModal';
 import QuickViewModal from '@/components/QuickViewModal';
 import SizeGuideModal from '@/components/SizeGuideModal';
-import SplashScreen from '@/components/SplashScreen';
 import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -18,16 +17,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>CYTRUS | Luxury Fashion & Bespoke Couture</title>
+        <title>CELEBRITEE | Luxury Celebrity-Commerce &amp; Iconic Drops</title>
         <meta
           name="description"
-          content="Discover CYTRUS luxury fashion dresses, handcrafted mulberry silk evening gowns, Banarasi sarees, and bespoke couture collections."
+          content="CELEBRITEE.in — Limited edition couture and streetwear collections created in exclusive collaboration with the icons who define culture."
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="min-h-screen flex flex-col justify-between bg-canvas text-ink font-sans antialiased selection:bg-surface selection:text-ink">
-        {/* Entrance 2-Second Logo Splash Screen */}
-        <SplashScreen />
-
+      <body className="min-h-screen flex flex-col justify-between bg-ivory text-charcoal font-sans antialiased selection:bg-royal selection:text-ivory">
         <div>
           <Navbar onOpenSearch={() => setSearchOpen(true)} />
           <main>{children}</main>

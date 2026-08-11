@@ -81,17 +81,17 @@ function ShopContent() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-canvas">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-ivory">
       {/* Header Banner */}
       <div className="border-b border-border pb-8 mb-8 text-center sm:text-left">
-        <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
-          CYTRUS CATALOG
+        <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-royal">
+          CELEBRITEE VAULT
         </span>
-        <h1 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-ink mt-1">
-          {currentCategory ? `${currentCategory.replace('-', ' ')} Collection` : 'All Streetwear & Silhouette Drops'}
+        <h1 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-charcoal mt-1">
+          {currentCategory ? `${currentCategory.replace('-', ' ')} Editions` : 'All Iconic Drops & Collaborations'}
         </h1>
         {currentQuery && (
-          <p className="font-mono text-xs uppercase tracking-widest text-ink mt-2">
+          <p className="font-mono text-xs uppercase tracking-widest text-charcoal mt-2">
             Showing search results for "{currentQuery}"
           </p>
         )}

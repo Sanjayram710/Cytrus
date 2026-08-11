@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Instagram, Facebook, Twitter, Lock, Truck, RefreshCw, Award } from 'lucide-react';
+import { Mail, Instagram, ShieldCheck, Truck, Sparkles, Lock, ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ export default function Footer() {
       const data = await res.json();
       if (res.ok) {
         setSubscribed(true);
-        setMsg(data.message || 'Subscribed successfully!');
+        setMsg(data.message || 'You have been granted priority drop access.');
         setEmail('');
       } else {
         setMsg(data.error || 'Subscription failed');
@@ -33,125 +33,177 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-ink text-canvas border-t border-border pt-16 pb-12">
-      {/* Brand Value Pillars Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-canvas/10 pb-12 mb-12">
+    <footer className="bg-charcoal text-ivory border-t border-charcoal pt-16 pb-12">
+      {/* 1. Value Pillars Banner */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-ivory/10 pb-12 mb-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div className="flex flex-col items-center">
-            <Award className="w-6 h-6 text-border mb-3" />
-            <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
-              300 GSM French Terry
+            <ShieldCheck className="w-5 h-5 text-gold mb-2.5" />
+            <h4 className="font-mono text-xs uppercase tracking-widest text-ivory mb-1 font-semibold">
+              Numbered Authenticity
             </h4>
-            <p className="font-mono text-[11px] text-canvas/60">100% Organic Heavyweight Combed Cotton</p>
+            <p className="font-mono text-[11px] text-ivory/60">Certificate of Collaboration Included</p>
           </div>
 
           <div className="flex flex-col items-center">
-            <Truck className="w-6 h-6 text-border mb-3" />
-            <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
-              Express Delivery
+            <Sparkles className="w-5 h-5 text-gold mb-2.5" />
+            <h4 className="font-mono text-xs uppercase tracking-widest text-ivory mb-1 font-semibold">
+              320+ GSM Heavyweight
             </h4>
-            <p className="font-mono text-[11px] text-canvas/60">Complimentary Shipping Over ₹2,000</p>
+            <p className="font-mono text-[11px] text-ivory/60">Master Tailored Streetwear Cotton</p>
           </div>
 
           <div className="flex flex-col items-center">
-            <RefreshCw className="w-6 h-6 text-border mb-3" />
-            <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
-              Non-Stretch Collar
+            <Truck className="w-5 h-5 text-gold mb-2.5" />
+            <h4 className="font-mono text-xs uppercase tracking-widest text-ivory mb-1 font-semibold">
+              White-Glove Delivery
             </h4>
-            <p className="font-mono text-[11px] text-canvas/60">1.2-Inch Reinforced Heavy Ribbed Collar</p>
+            <p className="font-mono text-[11px] text-ivory/60">Tamper-Proof Boxed Courier Across India</p>
           </div>
 
           <div className="flex flex-col items-center">
-            <Lock className="w-6 h-6 text-border mb-3" />
-            <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
-              Secure Checkout
+            <Lock className="w-5 h-5 text-gold mb-2.5" />
+            <h4 className="font-mono text-xs uppercase tracking-widest text-ivory mb-1 font-semibold">
+              Exclusive Drop Vault
             </h4>
-            <p className="font-mono text-[11px] text-canvas/60">Razorpay Encrypted & Cash on Delivery</p>
+            <p className="font-mono text-[11px] text-ivory/60">Strictly Limited Quantity Batches</p>
           </div>
         </div>
       </div>
 
+      {/* 2. Main Footer Links & Newsletter */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           {/* Brand Gazette Newsletter Column */}
           <div className="md:col-span-2 space-y-4">
-            <h3 className="font-serif text-2xl font-normal tracking-[0.2em] text-canvas">
-              CYTRUS
-            </h3>
-            <p className="text-xs text-canvas/70 leading-relaxed max-w-sm font-normal">
-              Subscribe for exclusive drop alerts, limited edition mineral washes, and private streetwear capsule releases.
+            <div className="flex items-baseline space-x-1">
+              <span className="font-serif text-2xl font-semibold tracking-[0.24em] text-ivory uppercase">
+                CELEBRITEE
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-pink inline-block mb-0.5" />
+              <span className="font-mono text-[10px] text-ivory/50 uppercase tracking-widest ml-1">
+                .IN
+              </span>
+            </div>
+            <p className="text-xs text-ivory/70 leading-relaxed max-w-sm font-normal">
+              Limited collections created in exclusive collaboration with the icons who define culture. Private drop invites only.
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2 max-w-md pt-2">
               <div className="flex">
                 <input
                   type="email"
-                  placeholder="ENTER YOUR EMAIL ADDRESS"
+                  placeholder="ENTER YOUR VIP EMAIL"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-ink border border-canvas/20 px-4 py-3 font-mono text-xs uppercase tracking-wider text-canvas focus:outline-none focus:border-border placeholder:text-canvas/40"
+                  className="flex-1 bg-charcoal-dark border border-ivory/20 px-4 py-3 font-mono text-xs uppercase tracking-wider text-ivory focus:outline-none focus:border-royal placeholder:text-ivory/40"
                 />
                 <button
                   type="submit"
-                  className="bg-accent text-canvas font-mono font-semibold text-xs uppercase tracking-[0.2em] px-6 py-3 hover:bg-canvas hover:text-ink transition-colors border border-accent"
+                  className="bg-royal text-ivory font-mono font-semibold text-xs uppercase tracking-[0.2em] px-6 py-3 hover:bg-pink transition-colors border border-royal"
                 >
                   Join
                 </button>
               </div>
-              {msg && <p className="font-mono text-[11px] text-border font-medium">{msg}</p>}
+              {msg && <p className="font-mono text-[11px] text-gold tracking-wide mt-1">{msg}</p>}
             </form>
           </div>
 
-          {/* Customer Care Links */}
+          {/* Quick Column 1: Iconic Drops */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-border">
-              CUSTOMER CARE
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-ivory">
+              Iconic Drops
             </h4>
-            <ul className="space-y-2 font-mono text-xs uppercase tracking-widest text-canvas/70">
-              <li><Link href="/orders" className="hover:text-canvas transition-colors">Track Order</Link></li>
-              <li><Link href="/shop" className="hover:text-canvas transition-colors">Tee Size Guide</Link></li>
-              <li><Link href="/checkout" className="hover:text-canvas transition-colors">Shipping & Returns</Link></li>
-              <li><Link href="/account" className="hover:text-canvas transition-colors">FAQ & Support</Link></li>
+            <ul className="space-y-2 font-mono text-xs text-ivory/70 uppercase tracking-wider">
+              <li>
+                <Link href="/shop" className="hover:text-pink transition-colors">
+                  All Icon Drops
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop?category=oversized-tees" className="hover:text-pink transition-colors">
+                  Heavyweight Oversized
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop?category=graphic-tees" className="hover:text-pink transition-colors">
+                  Gallery Art Graphic
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop?category=vintage-wash-tees" className="hover:text-pink transition-colors">
+                  Acid Wash Editions
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* T-Shirt Categories Links */}
+          {/* Quick Column 2: Client Services */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-border">
-              TEE DROPS
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-ivory">
+              Client Concierge
             </h4>
-            <ul className="space-y-2 font-mono text-xs uppercase tracking-widest text-canvas/70">
-              <li><Link href="/category/oversized-tees" className="hover:text-canvas transition-colors">Oversized Tees</Link></li>
-              <li><Link href="/category/graphic-tees" className="hover:text-canvas transition-colors">Graphic Tees</Link></li>
-              <li><Link href="/category/vintage-wash-tees" className="hover:text-canvas transition-colors">Vintage Wash</Link></li>
-              <li><Link href="/category/pima-cotton-essentials" className="hover:text-canvas transition-colors">Pima Essentials</Link></li>
+            <ul className="space-y-2 font-mono text-xs text-ivory/70 uppercase tracking-wider">
+              <li>
+                <Link href="/account" className="hover:text-pink transition-colors">
+                  Client Profile
+                </Link>
+              </li>
+              <li>
+                <Link href="/orders" className="hover:text-pink transition-colors">
+                  Track Collaboration Order
+                </Link>
+              </li>
+              <li>
+                <Link href="/cart" className="hover:text-pink transition-colors">
+                  Shopping Bag
+                </Link>
+              </li>
+              <li>
+                <a href="mailto:concierge@celebritee.in" className="hover:text-pink transition-colors">
+                  VIP Concierge Support
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Social & Legal */}
-          <div className="space-y-4">
-            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-border">
-              CONNECT
+          {/* Quick Column 3: The Maison */}
+          <div className="space-y-3">
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-ivory">
+              The Maison
             </h4>
-            <div className="flex space-x-4 text-canvas/80">
-              <a href="#" className="hover:text-border transition-colors"><Instagram className="w-4 h-4" /></a>
-              <a href="#" className="hover:text-border transition-colors"><Facebook className="w-4 h-4" /></a>
-              <a href="#" className="hover:text-border transition-colors"><Twitter className="w-4 h-4" /></a>
-            </div>
-            <p className="font-mono text-[11px] text-canvas/50 pt-2">
-              Atelier & Flagship Studio:<br />
-              Indiranagar, Bengaluru 560038
-            </p>
+            <ul className="space-y-2 font-mono text-xs text-ivory/70 uppercase tracking-wider">
+              <li>
+                <Link href="/#standards" className="hover:text-pink transition-colors">
+                  The CELEBRITEE Standard
+                </Link>
+              </li>
+              <li>
+                <Link href="/#journal" className="hover:text-pink transition-colors">
+                  The Editorial Journal
+                </Link>
+              </li>
+              <li>
+                <Link href="/#icons" className="hover:text-pink transition-colors">
+                  Collaborator Icons
+                </Link>
+              </li>
+              <li>
+                <span className="text-gold text-[10px] block pt-1">
+                  MUMBAI · DELHI · LONDON
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Footer Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-canvas/10 flex flex-col sm:flex-row items-center justify-between font-mono text-[10px] text-canvas/40 uppercase tracking-widest">
-          <p>© 2026 CYTRUS. ALL RIGHTS RESERVED.</p>
+        {/* 3. Bottom Bar */}
+        <div className="mt-14 pt-8 border-t border-ivory/10 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-ivory/50 uppercase tracking-widest">
+          <p>© 2026 CELEBRITEE.IN. ALL RIGHTS RESERVED. THE ART OF BEING ICONIC.</p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
-            <a href="#" className="hover:text-canvas">PRIVACY POLICY</a>
-            <a href="#" className="hover:text-canvas">TERMS OF SERVICE</a>
-            <a href="#" className="hover:text-canvas">ACCESSIBILITY</a>
+            <Link href="/" className="hover:text-ivory transition-colors">Privacy</Link>
+            <Link href="/" className="hover:text-ivory transition-colors">Terms of Atelier</Link>
+            <Link href="/" className="hover:text-ivory transition-colors">Authenticity</Link>
           </div>
         </div>
       </div>

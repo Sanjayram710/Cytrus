@@ -11,8 +11,8 @@ import {
   Menu,
   X,
   ChevronRight,
-  LogOut,
-  ShieldCheck,
+  Sparkles,
+  ArrowUpRight,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/useCartStore';
@@ -34,8 +34,6 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<UserSession | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [inlineSearchOpen, setInlineSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   const { openCart, getCartItemCount } = useCartStore();
   const { items: wishlistItems } = useWishlistStore();
@@ -45,11 +43,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -64,292 +58,201 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
       .catch(() => {});
   }, [pathname]);
 
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    setUser(null);
-    window.location.href = '/';
-  };
-
   const navLinks = [
-    { name: 'Oversized Tees', href: '/category/oversized-tees' },
-    { name: 'Graphic Tees', href: '/category/graphic-tees' },
-    { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
+    { name: 'Shop', href: '/shop' },
+    { name: 'Icons', href: '/#icons' },
+    { name: 'Collections', href: '/shop?category=oversized-tees' },
+    { name: 'Journal', href: '/#journal' },
   ];
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      window.location.href = `/shop?q=${encodeURIComponent(searchQuery.trim())}`;
-    }
-  };
 
   return (
     <>
-      {/* Main Header / Sticky Nav */}
+      {/* 1. Top Announcement Bar */}
+      <div className="bg-charcoal text-ivory text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase py-2 px-4 text-center border-b border-charcoal/40 flex items-center justify-center space-x-2">
+        <span className="inline-block w-1.5 h-1.5 rounded-full bg-pink animate-pulse" />
+        <span>LIMITED DROPS IN COLLABORATION WITH CULTURE DEFINERS</span>
+        <span className="hidden md:inline text-gold">· COMPLIMENTARY EXPRESS DELIVERY OVER ₹2,500</span>
+      </div>
+
+      {/* 2. Main Minimalist Sticky Header */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled ? 'mono-nav border-b border-border py-2.5' : 'bg-canvas/95 backdrop-blur-md py-4 border-b border-border'
+          scrolled
+            ? 'luxury-nav border-b border-border shadow-subtle py-3.5'
+            : 'bg-ivory/95 backdrop-blur-md py-5 border-b border-border/80'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between min-h-[64px] sm:min-h-[72px]">
-            {/* Left Group: Logo on Far Left + Generous Space + Search & Category Links */}
-            <div className="flex items-center">
-              {/* Mobile Menu Button */}
+          <div className="flex items-center justify-between">
+            {/* Left: Mobile Menu Trigger + Main Nav Links */}
+            <div className="flex items-center space-x-8">
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden mr-3"
-                aria-label="Open menu"
+                className="lg:hidden p-1.5 text-charcoal hover:text-royal transition-colors"
+                aria-label="Open Navigation Menu"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
-              {/* Brand Logo on Left Corner: Circular Logo Image on top + "CYTRUS" underneath */}
-              <Link href="/" className="flex flex-col items-center group py-0.5 flex-shrink-0">
-                <img
-                  src="/logo.png"
-                  alt="CYTRUS"
-                  className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"
-                />
-                <span className="font-sans text-xs sm:text-sm md:text-[14px] font-extrabold tracking-[0.28em] uppercase text-ink group-hover:text-accent transition-colors mt-0.5 text-center">
-                  CYTRUS
-                </span>
-              </Link>
-
-              {/* Space between Logo and Search Icon + Categories */}
-              <div className="flex items-center ml-8 sm:ml-12 lg:ml-16">
-                {/* Search Icon */}
-                <button
-                  onClick={() => {
-                    setInlineSearchOpen(!inlineSearchOpen);
-                  }}
-                  className="p-1.5 text-ink hover:text-accent transition-colors flex items-center flex-shrink-0"
-                  title="Search"
-                  aria-label="Search"
-                >
-                  <Search className="w-4 h-4 sm:w-5 sm:h-5 text-ink hover:text-accent transition-colors" />
-                </button>
-
-                {/* Desktop Dynamic Area: Search Input (when active) OR Category Links */}
-                <div className="hidden lg:flex items-center pl-4 xl:pl-6">
-                  <AnimatePresence mode="wait">
-                    {inlineSearchOpen ? (
-                      <motion.form
-                        key="search-input-active"
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -8 }}
-                        transition={{ duration: 0.2 }}
-                        onSubmit={handleSearchSubmit}
-                        className="flex items-center border-b border-ink pb-0.5 w-[220px] xl:w-[260px]"
-                      >
-                        <input
-                          type="text"
-                          placeholder="Search CYTRUS tees..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          autoFocus
-                          className="bg-transparent text-xs text-ink placeholder:text-muted focus:outline-none w-full tracking-wider font-sans"
+              <nav className="hidden lg:flex items-center space-x-7">
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className={`text-[11px] uppercase tracking-[0.22em] font-medium transition-all duration-200 relative py-1 ${
+                        isActive
+                          ? 'text-royal font-semibold'
+                          : 'text-muted hover:text-charcoal'
+                      }`}
+                    >
+                      {link.name}
+                      {isActive && (
+                        <motion.span
+                          layoutId="navIndicator"
+                          className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-royal"
                         />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setInlineSearchOpen(false);
-                            setSearchQuery('');
-                          }}
-                          className="text-muted hover:text-ink p-0.5 ml-1"
-                          title="Close Search"
-                        >
-                          <X className="w-3.5 h-3.5" />
-                        </button>
-                      </motion.form>
-                    ) : (
-                      <motion.nav
-                        key="nav-links-default"
-                        initial={{ opacity: 0, x: 8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 8 }}
-                        transition={{ duration: 0.2 }}
-                        className="flex items-center space-x-6 xl:space-x-8"
-                      >
-                        {navLinks.map((link) => (
-                          <Link
-                            key={link.name}
-                            href={link.href}
-                            className={`text-[11px] uppercase tracking-[0.2em] font-medium transition-all hover:text-ink whitespace-nowrap ${
-                              pathname === link.href ? 'text-ink font-bold border-b border-ink pb-0.5' : 'text-muted'
-                            }`}
-                          >
-                            {link.name}
-                          </Link>
-                        ))}
-                      </motion.nav>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
+                      )}
+                    </Link>
+                  );
+                })}
+              </nav>
             </div>
 
-            {/* Right Group: Action Icons (Account, Wishlist, Bag with Badge) */}
-            <div className="flex items-center space-x-3 sm:space-x-5">
-              {/* Account / User */}
-              {user ? (
-                <div className="relative group">
-                  <Link
-                    href={user.role === 'ADMIN' ? '/admin' : '/account'}
-                    className="flex items-center space-x-1.5 p-1.5 text-ink hover:text-accent transition-colors"
-                  >
-                    <User className="w-5 h-5" />
-                    <span className="hidden xl:inline text-xs tracking-wider uppercase font-medium">
-                      {user.name.split(' ')[0]}
-                    </span>
-                  </Link>
+            {/* Center: CELEBRITEE Brand Wordmark */}
+            <div className="text-center">
+              <Link href="/" className="inline-flex items-baseline space-x-0.5 group">
+                <span className="font-serif text-2xl sm:text-3xl tracking-[0.28em] font-semibold text-charcoal group-hover:text-royal transition-colors uppercase">
+                  CELEBRITEE
+                </span>
+                <span className="w-1.5 h-1.5 rounded-full bg-pink inline-block mb-0.5" />
+                <span className="font-mono text-[9px] text-muted tracking-widest uppercase ml-0.5 opacity-80">
+                  .IN
+                </span>
+              </Link>
+            </div>
 
-                  <div className="absolute right-0 mt-2 w-48 bg-surface border border-border rounded-none opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto py-2 z-50">
-                    {user.role === 'ADMIN' && (
-                      <Link
-                        href="/admin"
-                        className="flex items-center px-4 py-2 text-xs uppercase tracking-wider text-accent font-bold hover:bg-canvas"
-                      >
-                        <ShieldCheck className="w-4 h-4 mr-2" /> Admin Dashboard
-                      </Link>
-                    )}
-                    <Link
-                      href="/account"
-                      className="block px-4 py-2 text-xs uppercase tracking-wider text-ink hover:bg-canvas"
-                    >
-                      My Profile & Orders
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left flex items-center px-4 py-2 text-xs uppercase tracking-wider text-muted hover:text-ink hover:bg-canvas"
-                    >
-                      <LogOut className="w-4 h-4 mr-2" /> Logout
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  href="/login"
-                  className="p-1.5 text-ink hover:text-accent transition-colors"
-                  title="Sign In"
-                >
-                  <User className="w-5 h-5" />
-                </Link>
-              )}
+            {/* Right: Actions (Search, Wishlist, Account, Bag) */}
+            <div className="flex items-center space-x-4 sm:space-x-6">
+              {/* Search Modal Trigger */}
+              <button
+                onClick={onOpenSearch}
+                className="p-1 text-charcoal hover:text-royal transition-colors flex items-center space-x-1.5 text-xs font-mono tracking-wider"
+                title="Search Products"
+              >
+                <Search className="w-4 h-4" />
+                <span className="hidden xl:inline text-[11px] uppercase text-muted hover:text-charcoal">
+                  Search
+                </span>
+              </button>
 
-              {/* Wishlist Link */}
+              {/* Account */}
+              <Link
+                href={user ? '/account' : '/login'}
+                className="p-1 text-charcoal hover:text-royal transition-colors"
+                title={user ? `Signed in as ${user.name}` : 'Sign In'}
+              >
+                <User className="w-4 h-4" />
+              </Link>
+
+              {/* Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative p-1.5 text-ink hover:text-accent transition-colors"
-                title="Saved Wishlist"
+                className="relative p-1 text-charcoal hover:text-royal transition-colors hidden sm:block"
+                title="Wishlist"
               >
-                <Heart className="w-5 h-5" />
+                <Heart className="w-4 h-4" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-accent text-canvas text-[10px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-royal text-ivory text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-mono">
                     {wishlistCount}
                   </span>
                 )}
               </Link>
 
-              {/* Cart Drawer Trigger with Badge */}
+              {/* Bag Trigger */}
               <button
                 onClick={openCart}
-                className="relative p-1.5 text-ink hover:text-accent transition-colors flex items-center"
-                aria-label="View Cart"
+                className="relative bg-charcoal hover:bg-royal text-ivory px-3 sm:px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase transition-all duration-200 flex items-center space-x-2 shadow-subtle"
+                aria-label="Shopping Bag"
               >
-                <ShoppingBag className="w-5 h-5" />
-                {itemCount > 0 ? (
-                  <span className="absolute -top-0.5 -right-0.5 bg-accent text-canvas text-[10px] font-mono font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center">
-                    {itemCount}
-                  </span>
-                ) : (
-                  <span className="absolute -top-0.5 -right-0.5 bg-border text-ink text-[10px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    0
-                  </span>
-                )}
+                <ShoppingBag className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Bag</span>
+                <span className="bg-pink text-ivory text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold">
+                  {itemCount}
+                </span>
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div
-            className="fixed inset-0 bg-ink/40 backdrop-blur-sm transition-opacity"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-surface border-r border-border p-6 flex flex-col justify-between z-50">
-            <div>
-              <div className="flex items-center justify-between border-b border-border pb-4">
-                <div className="flex items-center space-x-2">
-                  <img src="/logo.png" alt="CYTRUS" className="h-7 w-7 object-contain" />
-                  <span className="font-sans text-base font-bold tracking-[0.2em] text-ink">
-                    CYTRUS
-                  </span>
-                </div>
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="p-1 text-ink hover:text-accent"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-
-              <div className="mt-8 space-y-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between text-xs uppercase tracking-widest font-medium text-ink hover:text-accent py-2 border-b border-border/40"
-                  >
-                    <span>{link.name}</span>
-                    <ChevronRight className="w-4 h-4 text-muted" />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="border-t border-border pt-6 space-y-3">
-              {user ? (
-                <>
-                  <p className="text-xs uppercase tracking-wider text-ink font-semibold">
-                    Signed in as {user.name}
-                  </p>
-                  {user.role === 'ADMIN' && (
-                    <Link
-                      href="/admin"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block text-xs uppercase tracking-widest text-accent font-bold"
-                    >
-                      Admin Dashboard
-                    </Link>
-                  )}
+      {/* 3. Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-50 lg:hidden"
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'tween', duration: 0.3 }}
+              className="fixed top-0 left-0 bottom-0 w-[82%] max-w-[360px] bg-ivory border-r border-border z-50 p-6 flex flex-col justify-between overflow-y-auto lg:hidden"
+            >
+              <div>
+                <div className="flex items-center justify-between pb-6 border-b border-border">
+                  <div className="flex items-baseline space-x-0.5">
+                    <span className="font-serif text-xl tracking-[0.24em] font-semibold text-charcoal uppercase">
+                      CELEBRITEE
+                    </span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-pink inline-block mb-0.5" />
+                  </div>
                   <button
-                    onClick={handleLogout}
-                    className="text-xs uppercase tracking-widest text-muted hover:text-ink font-semibold"
-                  >
-                    Sign Out
-                  </button>
-                </>
-              ) : (
-                <div className="flex flex-col space-y-2">
-                  <Link
-                    href="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full text-center bg-accent text-canvas py-3 text-xs uppercase tracking-widest font-semibold hover:bg-ink transition-colors"
+                    className="p-1 text-muted hover:text-charcoal"
+                    aria-label="Close menu"
                   >
-                    Sign In / Register
-                  </Link>
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+
+                <div className="mt-8 space-y-5">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-sm uppercase tracking-[0.2em] font-medium text-charcoal hover:text-royal transition-colors py-1.5 flex items-center justify-between border-b border-border/50"
+                    >
+                      <span>{link.name}</span>
+                      <ChevronRight className="w-4 h-4 text-muted" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-border space-y-4 font-mono text-xs text-muted">
+                <p className="uppercase tracking-widest text-[10px]">
+                  CELEBRITEE.IN · LIMITED DROP ATELIER
+                </p>
+                <Link
+                  href={user ? '/account' : '/login'}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block bg-charcoal text-ivory py-3 text-center uppercase tracking-widest text-[11px] font-semibold hover:bg-royal transition-colors"
+                >
+                  {user ? 'My Client Profile' : 'Client Sign In'}
+                </Link>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
