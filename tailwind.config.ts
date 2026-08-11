@@ -8,28 +8,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        luxury: {
-          black: "#121212",
-          charcoal: "#1c1b1f",
-          dark: "#262529",
-          cream: "#FAF8F5",
-          beige: "#F2EDE4",
-          tan: "#E8DFC8",
-          gold: "#D4AF37",
-          goldMuted: "#C5A880",
-          offwhite: "#FDFBF7",
-          border: "#EAE5DC",
-          silver: "#E5E7EB",
+        canvas: "#FAF7F2",
+        surface: "#F0EAE0",
+        border: "#D9CFC0",
+        muted: "#786B58",
+        ink: "#2E2822",
+        accent: "#6B5B45",
+        // Keep alias for backward compatibility
+        mono: {
+          canvas: "#FAF7F2",
+          surface: "#F0EAE0",
+          border: "#D9CFC0",
+          muted: "#786B58",
+          ink: "#2E2822",
+          accent: "#6B5B45",
         },
       },
       fontFamily: {
-        serif: ["var(--font-playfair)", "Playfair Display", "Georgia", "serif"],
-        sans: ["var(--font-jakarta)", "Plus Jakarta Sans", "system-ui", "sans-serif"],
+        serif: ["var(--font-fraunces)", "Fraunces", "Playfair Display", "Georgia", "serif"],
+        sans: ["var(--font-jakarta)", "Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "IBM Plex Mono", "Menlo", "monospace"],
       },
       boxShadow: {
-        subtle: "0 4px 20px -2px rgba(0, 0, 0, 0.05)",
-        luxury: "0 20px 40px -15px rgba(18, 18, 18, 0.08)",
-        modal: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+        none: "none",
+        subtle: "0 1px 3px rgba(46, 40, 34, 0.04)",
       },
     },
   },

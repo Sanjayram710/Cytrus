@@ -33,40 +33,40 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-luxury-black text-luxury-cream border-t border-luxury-border/20 pt-16 pb-12">
+    <footer className="bg-ink text-canvas border-t border-border pt-16 pb-12">
       {/* Brand Value Pillars Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-luxury-cream/10 pb-12 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-canvas/10 pb-12 mb-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div className="flex flex-col items-center">
-            <Award className="w-7 h-7 text-luxury-gold mb-3" />
-            <h4 className="font-serif text-sm font-bold uppercase tracking-widest text-luxury-cream mb-1">
-              280 GSM French Terry
+            <Award className="w-6 h-6 text-border mb-3" />
+            <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
+              300 GSM French Terry
             </h4>
-            <p className="text-[11px] text-luxury-cream/60">100% Organic Heavyweight Combed Cotton</p>
+            <p className="font-mono text-[11px] text-canvas/60">100% Organic Heavyweight Combed Cotton</p>
           </div>
 
           <div className="flex flex-col items-center">
-            <Truck className="w-7 h-7 text-luxury-gold mb-3" />
-            <h4 className="font-serif text-sm font-bold uppercase tracking-widest text-luxury-cream mb-1">
+            <Truck className="w-6 h-6 text-border mb-3" />
+            <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
               Express Delivery
             </h4>
-            <p className="text-[11px] text-luxury-cream/60">Complimentary Shipping Over ₹2,000</p>
+            <p className="font-mono text-[11px] text-canvas/60">Complimentary Shipping Over ₹2,000</p>
           </div>
 
           <div className="flex flex-col items-center">
-            <RefreshCw className="w-7 h-7 text-luxury-gold mb-3" />
-            <h4 className="font-serif text-sm font-bold uppercase tracking-widest text-luxury-cream mb-1">
-              Non-Stretch Collar Guarantee
+            <RefreshCw className="w-6 h-6 text-border mb-3" />
+            <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
+              Non-Stretch Collar
             </h4>
-            <p className="text-[11px] text-luxury-cream/60">1.2-Inch Reinforced Heavy Ribbed Collar</p>
+            <p className="font-mono text-[11px] text-canvas/60">1.2-Inch Reinforced Heavy Ribbed Collar</p>
           </div>
 
           <div className="flex flex-col items-center">
-            <Lock className="w-7 h-7 text-luxury-gold mb-3" />
-            <h4 className="font-serif text-sm font-bold uppercase tracking-widest text-luxury-cream mb-1">
+            <Lock className="w-6 h-6 text-border mb-3" />
+            <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
               Secure Checkout
             </h4>
-            <p className="text-[11px] text-luxury-cream/60">Razorpay Encrypted & Cash on Delivery</p>
+            <p className="font-mono text-[11px] text-canvas/60">Razorpay Encrypted & Cash on Delivery</p>
           </div>
         </div>
       </div>
@@ -75,11 +75,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           {/* Brand Gazette Newsletter Column */}
           <div className="md:col-span-2 space-y-4">
-            <h3 className="font-serif text-2xl font-bold tracking-[0.2em] text-luxury-cream">
+            <h3 className="font-serif text-2xl font-normal tracking-[0.2em] text-canvas">
               CYTRUS
             </h3>
-            <p className="text-xs text-luxury-cream/70 leading-relaxed max-w-sm">
-              Subscribe to the CYTRUS Gazette for exclusive invitation-only runway previews, private trunk shows, and editorial lookbooks.
+            <p className="text-xs text-canvas/70 leading-relaxed max-w-sm font-normal">
+              Subscribe for exclusive drop alerts, limited edition mineral washes, and private streetwear capsule releases.
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2 max-w-md pt-2">
@@ -89,69 +89,69 @@ export default function Footer() {
                   placeholder="ENTER YOUR EMAIL ADDRESS"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-luxury-charcoal border border-luxury-cream/20 px-4 py-3 text-xs uppercase tracking-wider text-luxury-cream focus:outline-none focus:border-luxury-gold"
+                  className="flex-1 bg-ink border border-canvas/20 px-4 py-3 font-mono text-xs uppercase tracking-wider text-canvas focus:outline-none focus:border-border placeholder:text-canvas/40"
                 />
                 <button
                   type="submit"
-                  className="bg-luxury-gold text-luxury-black font-bold text-xs uppercase tracking-[0.2em] px-6 py-3 hover:bg-white transition-colors"
+                  className="bg-accent text-canvas font-mono font-semibold text-xs uppercase tracking-[0.2em] px-6 py-3 hover:bg-canvas hover:text-ink transition-colors border border-accent"
                 >
                   Join
                 </button>
               </div>
-              {msg && <p className="text-[11px] text-luxury-gold font-medium">{msg}</p>}
+              {msg && <p className="font-mono text-[11px] text-border font-medium">{msg}</p>}
             </form>
           </div>
 
           {/* Customer Care Links */}
           <div className="space-y-3">
-            <h4 className="font-serif text-xs font-bold uppercase tracking-[0.25em] text-luxury-gold">
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-border">
               CUSTOMER CARE
             </h4>
-            <ul className="space-y-2 text-xs uppercase tracking-widest text-luxury-cream/70">
-              <li><Link href="/orders" className="hover:text-luxury-gold transition-colors">Track Order</Link></li>
-              <li><Link href="/shop" className="hover:text-luxury-gold transition-colors">Tee Size Guide</Link></li>
-              <li><Link href="/checkout" className="hover:text-luxury-gold transition-colors">Shipping & Returns</Link></li>
-              <li><Link href="/account" className="hover:text-luxury-gold transition-colors">FAQ & Support</Link></li>
+            <ul className="space-y-2 font-mono text-xs uppercase tracking-widest text-canvas/70">
+              <li><Link href="/orders" className="hover:text-canvas transition-colors">Track Order</Link></li>
+              <li><Link href="/shop" className="hover:text-canvas transition-colors">Tee Size Guide</Link></li>
+              <li><Link href="/checkout" className="hover:text-canvas transition-colors">Shipping & Returns</Link></li>
+              <li><Link href="/account" className="hover:text-canvas transition-colors">FAQ & Support</Link></li>
             </ul>
           </div>
 
           {/* T-Shirt Categories Links */}
           <div className="space-y-3">
-            <h4 className="font-serif text-xs font-bold uppercase tracking-[0.25em] text-luxury-gold">
-              TEE CATEGORIES
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-border">
+              TEE DROPS
             </h4>
-            <ul className="space-y-2 text-xs uppercase tracking-widest text-luxury-cream/70">
-              <li><Link href="/category/oversized-tees" className="hover:text-luxury-gold transition-colors">Oversized Tees</Link></li>
-              <li><Link href="/category/graphic-tees" className="hover:text-luxury-gold transition-colors">Graphic Tees</Link></li>
-              <li><Link href="/category/vintage-wash-tees" className="hover:text-luxury-gold transition-colors">Vintage Wash</Link></li>
-              <li><Link href="/category/pima-cotton-essentials" className="hover:text-luxury-gold transition-colors">Pima Essentials</Link></li>
+            <ul className="space-y-2 font-mono text-xs uppercase tracking-widest text-canvas/70">
+              <li><Link href="/category/oversized-tees" className="hover:text-canvas transition-colors">Oversized Tees</Link></li>
+              <li><Link href="/category/graphic-tees" className="hover:text-canvas transition-colors">Graphic Tees</Link></li>
+              <li><Link href="/category/vintage-wash-tees" className="hover:text-canvas transition-colors">Vintage Wash</Link></li>
+              <li><Link href="/category/pima-cotton-essentials" className="hover:text-canvas transition-colors">Pima Essentials</Link></li>
             </ul>
           </div>
 
           {/* Social & Legal */}
           <div className="space-y-4">
-            <h4 className="font-serif text-xs font-bold uppercase tracking-[0.25em] text-luxury-gold">
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-border">
               CONNECT
             </h4>
-            <div className="flex space-x-4 text-luxury-cream/80">
-              <a href="#" className="hover:text-luxury-gold transition-colors"><Instagram className="w-5 h-5" /></a>
-              <a href="#" className="hover:text-luxury-gold transition-colors"><Facebook className="w-5 h-5" /></a>
-              <a href="#" className="hover:text-luxury-gold transition-colors"><Twitter className="w-5 h-5" /></a>
+            <div className="flex space-x-4 text-canvas/80">
+              <a href="#" className="hover:text-border transition-colors"><Instagram className="w-4 h-4" /></a>
+              <a href="#" className="hover:text-border transition-colors"><Facebook className="w-4 h-4" /></a>
+              <a href="#" className="hover:text-border transition-colors"><Twitter className="w-4 h-4" /></a>
             </div>
-            <p className="text-[11px] text-luxury-cream/50 pt-2">
+            <p className="font-mono text-[11px] text-canvas/50 pt-2">
               Atelier & Flagship Studio:<br />
-              45 Marine Drive, Mumbai 400020
+              Indiranagar, Bengaluru 560038
             </p>
           </div>
         </div>
 
         {/* Footer Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-luxury-cream/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-luxury-cream/40 uppercase tracking-widest">
+        <div className="mt-16 pt-8 border-t border-canvas/10 flex flex-col sm:flex-row items-center justify-between font-mono text-[10px] text-canvas/40 uppercase tracking-widest">
           <p>© 2026 CYTRUS. ALL RIGHTS RESERVED.</p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
-            <a href="#" className="hover:text-luxury-cream">PRIVACY POLICY</a>
-            <a href="#" className="hover:text-luxury-cream">TERMS OF SERVICE</a>
-            <a href="#" className="hover:text-luxury-cream">ACCESSIBILITY</a>
+            <a href="#" className="hover:text-canvas">PRIVACY POLICY</a>
+            <a href="#" className="hover:text-canvas">TERMS OF SERVICE</a>
+            <a href="#" className="hover:text-canvas">ACCESSIBILITY</a>
           </div>
         </div>
       </div>
