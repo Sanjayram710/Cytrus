@@ -13,12 +13,13 @@ import {
   Palette,
   Layers,
   Scissors,
-  ArrowRight,
+  ArrowLeft,
   ShieldCheck,
   Eye,
 } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { formatPrice } from '@/lib/utils';
+import RealisticTShirt from '@/components/RealisticTShirt';
 import {
   CUT_OPTIONS,
   COLOR_OPTIONS,
@@ -143,37 +144,50 @@ export default function CustomizePage() {
 
   return (
     <div className="bg-canvas min-h-screen">
-      {/* Studio Header Bar */}
-      <section className="border-b border-border py-6 bg-surface/50">
+      {/* Studio Header Bar: Back Arrow, Centered "Personalise this", Live Price & Reset */}
+      <section className="border-b border-border py-6 bg-canvas">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center space-x-2 font-mono text-[11px] uppercase tracking-[0.25em] text-muted mb-1">
-                <Sparkles className="w-3.5 h-3.5 text-accent" />
-                <span>CYTRUS ATELIER · LIVE PRODUCT DESIGNER</span>
-              </div>
-              <h1 className="font-serif text-3xl sm:text-4xl text-ink font-normal">
-                Bespoke Garment Customizer
+          <div className="relative flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            {/* Left: Back Navigation Arrow */}
+            <div className="flex items-center self-start md:self-center">
+              <Link
+                href="/shop"
+                className="flex items-center space-x-2 text-ink hover:text-accent font-mono text-xs uppercase tracking-wider transition-colors p-1"
+                title="Back to Catalog"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span className="hidden sm:inline">Back</span>
+              </Link>
+            </div>
+
+            {/* Center: "Personalise this Freestyle Tee" Header */}
+            <div className="text-center">
+              <span className="font-sans text-xs uppercase tracking-[0.25em] text-muted block mb-1">
+                Personalise this
+              </span>
+              <h1 className="font-serif text-2xl sm:text-3xl text-ink font-medium tracking-tight">
+                {selectedCut.name}
               </h1>
-              <p className="font-mono text-xs text-muted mt-1">
-                Configure your cut, mineral wash, live typography, and placement in real-time.
+              <p className="font-mono text-[11px] sm:text-xs text-muted mt-1 max-w-lg mx-auto">
+                Make this T-Shirt truly yours by getting something printed on it.
               </p>
             </div>
 
-            <div className="flex items-center space-x-4">
+            {/* Right: Reset & Live Price Readout */}
+            <div className="flex items-center space-x-3 self-end md:self-center">
               <button
                 type="button"
                 onClick={handleResetDesign}
-                className="flex items-center space-x-1.5 font-mono text-xs text-muted hover:text-ink px-4 py-2 border border-border bg-canvas transition-colors uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-accent"
+                className="flex items-center space-x-1.5 font-mono text-[11px] text-muted hover:text-ink px-3 py-1.5 border border-border bg-surface transition-colors uppercase tracking-wider focus:outline-none focus:ring-1 focus:ring-accent"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset Design</span>
+                <RotateCcw className="w-3 h-3" />
+                <span>Reset</span>
               </button>
 
-              {/* Persistent Live Price Readout */}
-              <div className="font-mono text-right bg-canvas px-4 py-2 border border-border">
-                <span className="text-[10px] text-muted uppercase block tracking-wider">Live Total</span>
-                <span className="text-lg font-semibold text-accent">{formatPrice(livePrice)}</span>
+              <div className="font-mono text-right bg-surface px-3 py-1.5 border border-border">
+                <span className="text-[9px] text-muted uppercase block tracking-wider leading-none mb-0.5">Total</span>
+                <span className="text-sm sm:text-base font-semibold text-accent leading-none">{formatPrice(livePrice)}</span>
               </div>
             </div>
           </div>
@@ -184,9 +198,10 @@ export default function CustomizePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           
-          {/* LEFT 7 COLS: Live Preview Mockup Panel (Sticky on Desktop) */}
+          {/* LEFT 7 COLS: Live Realistic T-Shirt Preview Mockup Panel */}
           <div className="lg:col-span-7 flex flex-col items-center lg:sticky lg:top-24">
-            {/* View Switcher & Garment Badges */}
+            
+            {/* View Switcher Controls */}
             <div className="w-full flex items-center justify-between mb-4">
               <div className="flex space-x-2 font-mono text-xs uppercase tracking-wider">
                 <button
@@ -214,92 +229,26 @@ export default function CustomizePage() {
               </div>
 
               <span className="font-mono text-[11px] text-muted uppercase tracking-widest hidden sm:inline">
-                {selectedCut.name.split(' ')[0]} {selectedCut.name.split(' ')[1]} Organic Cotton
+                {selectedColor.name} · Heavyweight French Terry
               </span>
             </div>
 
-            {/* Garment Mockup Container on Subtle Dotted-Grid Background */}
-            <div
-              className="relative w-full aspect-[4/5] max-w-[520px] border border-border flex items-center justify-center p-6 shadow-sm overflow-hidden transition-colors duration-500 rounded-none"
-              style={{ backgroundColor: selectedColor.hex }}
-            >
-              {/* Subtle Dotted-Grid Background Tone */}
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+            {/* Realistic T-Shirt Mockup on Subtle Dotted-Grid Background */}
+            <div className="relative w-full aspect-[4/5] max-w-[500px] border border-border bg-[#F5F2EB] flex items-center justify-center p-6 shadow-sm overflow-hidden rounded-none">
+              {/* Subtle Dotted-Grid Canvas Background */}
+              <div className="absolute inset-0 opacity-25 bg-[radial-gradient(#2E2822_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
-              {/* Garment Vector Construction Simulation */}
-              <div className="relative w-full h-full flex flex-col items-center justify-center select-none pointer-events-none">
-                
-                {/* Collar Neck Ribbing Simulation */}
-                {viewSide === 'front' ? (
-                  <div
-                    className="w-32 h-10 border-b-4 border-l-2 border-r-2 rounded-b-full mb-auto mt-4 transition-colors duration-300"
-                    style={{ borderColor: selectedColor.borderHex }}
-                  />
-                ) : (
-                  <div
-                    className="w-32 h-4 border-b-2 rounded-b-lg mb-auto mt-3 transition-colors duration-300"
-                    style={{ borderColor: selectedColor.borderHex }}
-                  />
-                )}
-
-                {/* Simulated Live Print Zone (Visible when placement matches current view side) */}
-                {selectedPlacement.viewSide === viewSide && (
-                  <div className={`absolute ${selectedPlacement.posClass} text-center transition-all duration-300 p-2 z-10 w-full`}>
-                    
-                    {/* Live Graphic Artwork Render */}
-                    {selectedGraphic.previewUrl && (
-                      <motion.div
-                        key={selectedGraphic.previewUrl}
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                        className="mx-auto mb-2 max-w-[130px] max-h-[130px] overflow-hidden rounded-none border border-black/10 shadow-sm"
-                      >
-                        <img
-                          src={selectedGraphic.previewUrl}
-                          alt="Graphic Artwork"
-                          className="w-full h-full object-cover filter contrast-125"
-                        />
-                      </motion.div>
-                    )}
-
-                    {/* Live Headline Typography */}
-                    {headlineText && (
-                      <p
-                        className={`${selectedFont.fontClass} uppercase transition-all duration-200 ${
-                          textScale === 'sm'
-                            ? 'text-sm'
-                            : textScale === 'md'
-                            ? 'text-lg sm:text-xl'
-                            : 'text-2xl sm:text-3xl'
-                        }`}
-                        style={{ color: selectedColor.textColor }}
-                      >
-                        {headlineText}
-                      </p>
-                    )}
-
-                    {/* Live Tagline Typography */}
-                    {taglineText && (
-                      <p
-                        className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.25em] mt-1 opacity-80"
-                        style={{ color: selectedColor.textColor }}
-                      >
-                        {taglineText}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Atelier Signature Woven Swing-Tag Badge on Hem */}
-                <div className="mt-auto mb-3 flex items-center space-x-2 bg-canvas/85 backdrop-blur-sm border border-border px-3 py-1 text-[9px] font-mono text-ink">
-                  <span className="font-bold uppercase tracking-widest">CYTRUS ATELIER</span>
-                  <span className="text-muted">|</span>
-                  <span className="text-accent">{selectedColor.name}</span>
-                  <span className="text-muted">|</span>
-                  <span>{selectedSize}</span>
-                </div>
-              </div>
+              {/* Realistic T-Shirt Garment with Real Drapery & Live Print Render */}
+              <RealisticTShirt
+                viewSide={viewSide}
+                color={selectedColor}
+                placement={selectedPlacement}
+                headlineText={headlineText}
+                taglineText={taglineText}
+                font={selectedFont}
+                textScale={textScale}
+                graphic={selectedGraphic}
+              />
             </div>
 
             {/* Garment Highlights Pillars Under Mockup */}
