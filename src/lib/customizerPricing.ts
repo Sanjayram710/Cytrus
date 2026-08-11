@@ -56,19 +56,19 @@ export interface CustomizerSelections {
 export const CUT_OPTIONS: CustomizerCutOption[] = [
   {
     id: 'oversized-heavy',
-    name: '300 GSM Oversized Drop-Shoulder',
+    name: '240 GSM Oversized Drop-Shoulder',
     desc: 'Heavyweight organic French Terry with exaggerated drop shoulders & boxy drape.',
     basePrice: 2499,
   },
   {
     id: 'vintage-boxy',
-    name: '280 GSM Vintage Boxy Cut',
+    name: '240 GSM Vintage Boxy Cut',
     desc: 'Slightly cropped waist with wide chest and relaxed reinforced collar.',
     basePrice: 2299,
   },
   {
     id: 'raw-minimalist',
-    name: '320 GSM Raw Edge Atelier Cut',
+    name: '240 GSM Raw Edge Atelier Cut',
     desc: 'Ultra-dense combed cotton with distressed raw hems & heavy ribbing.',
     basePrice: 2699,
   },

@@ -85,7 +85,7 @@ export default function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps)
           <div className="mt-6 p-4 bg-canvas border border-border text-[11px] text-muted leading-relaxed font-sans">
             <p className="font-mono text-xs uppercase font-medium tracking-wider text-ink mb-1">Fit & Care Recommendation:</p>
             <p>• Our <strong>Oversized Tees</strong> feature dropped shoulders and a wide boxy body width. Stick to your true size for the intended streetwear drape, or size down for a standard fit.</p>
-            <p className="mt-1">• Pre-shrunk 280-300 GSM French Terry organic cotton. Machine wash cold with similar colors; lay flat to dry.</p>
+            <p className="mt-1">• Pre-shrunk 240 GSM French Terry organic cotton. Machine wash cold with similar colors; lay flat to dry.</p>
           </div>
         </div>
       </div>

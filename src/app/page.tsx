@@ -215,7 +215,7 @@ export default function HomePage() {
               Featured Collections
             </h2>
             <p className="text-xs sm:text-sm font-normal text-canvas/70 leading-relaxed">
-              Explore mineral-washed vintage fades, 300 GSM graphic back prints, and raw Peruvian Pima cotton essentials.
+              Explore mineral-washed vintage fades, 240 GSM graphic back prints, and raw Peruvian Pima cotton essentials.
             </p>
           </div>
 
@@ -330,7 +330,7 @@ export default function HomePage() {
                 className="w-full h-full object-cover"
               />
               <div className="absolute -bottom-4 -right-4 bg-ink text-canvas p-5 hidden sm:block border border-border">
-                <p className="font-mono text-xl font-bold text-canvas">280 GSM</p>
+                <p className="font-mono text-xl font-bold text-canvas">240 GSM</p>
                 <p className="font-mono text-[9px] uppercase tracking-widest text-muted">FRENCH TERRY COTTON</p>
               </div>
             </div>
@@ -343,7 +343,7 @@ export default function HomePage() {
                 Architectural Oversized Fits & Non-Deforming Heavy Ribbed Collars
               </h2>
               <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                Most t-shirts lose their structure after three washes. At CYTRUS, every garment is constructed with high-density 280-300 GSM French Terry organic cotton and double-needle reinforced necklines.
+                Most t-shirts lose their structure after three washes. At CYTRUS, every garment is constructed with high-density 240 GSM French Terry organic cotton and double-needle reinforced necklines.
               </p>
               <p className="text-xs sm:text-sm text-muted leading-relaxed">
                 From hand-dyed mineral acid washes to high-density puff prints, our t-shirts are crafted for the modern luxury streetwear aesthetic.
