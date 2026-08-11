@@ -46,6 +46,7 @@ function getSmtpTransporter() {
 export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const trackingUrl = `${baseUrl}/orders/${order.id}`;
+  const invoicePdfUrl = `${baseUrl}/api/orders/${order.id}/invoice`;
 
   let parsedAddress: any = {};
   try {
@@ -160,9 +161,12 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
                     Contact Phone: <strong>${order.customerPhone}</strong>
                   </div>
 
-                  <!-- Live Tracking CTA -->
+                  <!-- Live Tracking & PDF Download CTAs -->
                   <div style="text-align: center; margin-top: 30px;">
-                    <a href="${trackingUrl}" style="background-color: #121212; color: #FAF8F5; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.2em; padding: 14px 30px; display: inline-block; border-radius: 2px;">
+                    <a href="${invoicePdfUrl}" style="background-color: #6B5B45; color: #FFFFFF; text-decoration: none; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; padding: 13px 22px; display: inline-block; border-radius: 2px; margin-right: 8px; margin-bottom: 10px;">
+                      📄 DOWNLOAD TAX INVOICE (PDF)
+                    </a>
+                    <a href="${trackingUrl}" style="background-color: #121212; color: #FAF8F5; text-decoration: none; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; padding: 13px 22px; display: inline-block; border-radius: 2px; margin-bottom: 10px;">
                       TRACK YOUR ORDER LIVE →
                     </a>
                   </div>
