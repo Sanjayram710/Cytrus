@@ -101,32 +101,40 @@ export default function AdminProductsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const generatedSku = formData.sku.trim() || `TEE-${(formData.name || 'ITEM').replace(/[^a-zA-Z0-9]/g, '').substring(0, 3).toUpperCase() || 'ITEM'}-${Math.floor(100 + Math.random() * 900)}`;
     const payload = {
       ...formData,
+      sku: generatedSku,
       price: parseFloat(formData.price),
       comparePrice: formData.comparePrice ? parseFloat(formData.comparePrice) : null,
       stock: parseInt(formData.stock, 10),
-      images: [formData.imageUrl],
+      images: formData.imageUrl2 ? [formData.imageUrl, formData.imageUrl2] : [formData.imageUrl],
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
       colors: [{ name: 'Emerald Green', hex: '#004B49' }, { name: 'Obsidian Black', hex: '#121212' }],
     };
 
+    let res: Response;
     if (editingProduct) {
-      await fetch(`/api/admin/products/${editingProduct.id}`, {
+      res = await fetch(`/api/admin/products/${editingProduct.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
     } else {
-      await fetch('/api/admin/products', {
+      res = await fetch('/api/admin/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
     }
 
-    setModalOpen(false);
-    fetchProducts();
+    const data = await res.json();
+    if (res.ok && data.success) {
+      setModalOpen(false);
+      fetchProducts();
+    } else {
+      alert(data.error || 'Failed to save product. Please check form fields.');
+    }
   };
 
   const filteredProducts = products.filter(
@@ -371,7 +379,7 @@ export default function AdminProductsPage() {
               <div>
                 <label className="block uppercase font-bold mb-1">Primary Image URL</label>
                 <input
-                  type="url"
+                  type="text"
                   required
                   value={formData.imageUrl}
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
