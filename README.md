@@ -73,14 +73,6 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 
-## 🔐 Credentials & Roles
-
-| Role | Email | Password |
-|---|---|---|
-| **Admin** | `admin@cytrus.com` | `Admin@123` |
-| **Customer** | `aarya.sharma@example.com` | `Customer@123` |
-
----
 
 ## 🧪 Running Automated Verification Tests
 
