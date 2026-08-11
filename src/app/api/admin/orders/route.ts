@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
+import { sendOrderStatusEmail } from '@/lib/notifications';
 
 export async function GET() {
   try {
@@ -49,6 +50,13 @@ export async function PUT(req: Request) {
           createdBy: 'ADMIN',
         },
       });
+
+      // Send status update email notification to customer
+      try {
+        await sendOrderStatusEmail(updatedOrder, orderStatus, trackingNumber || updatedOrder.trackingNumber || undefined, courierName || updatedOrder.courierName || undefined);
+      } catch (err) {
+        console.error('Status update email error:', err);
+      }
 
       // Restock inventory if order is cancelled
       if (orderStatus === 'CANCELLED') {

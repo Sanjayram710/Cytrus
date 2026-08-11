@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
+import { normalizeImageUrl } from '@/lib/utils';
 import { z } from 'zod';
 
 const productSchema = z.object({
@@ -21,6 +22,33 @@ const productSchema = z.object({
   sizes: z.array(z.string()).default(['S', 'M', 'L']),
   colors: z.array(z.object({ name: z.string(), hex: z.string() })).default([{ name: 'Black', hex: '#000000' }]),
 });
+
+import { writeFile, mkdir } from 'fs/promises';
+import path from 'path';
+
+async function processAndSaveImageUrl(url: string): Promise<string> {
+  if (!url) return '';
+  const normalized = normalizeImageUrl(url);
+  if (normalized.includes('lh3.googleusercontent.com/d/')) {
+    try {
+      const res = await fetch(normalized);
+      if (res.ok) {
+        const bytes = await res.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const match = normalized.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        const fileId = match ? match[1] : Date.now().toString();
+        const fileName = `upload_${Date.now()}_drive_${fileId}.jpg`;
+        const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+        await mkdir(uploadsDir, { recursive: true });
+        await writeFile(path.join(uploadsDir, fileName), buffer);
+        return `/uploads/${fileName}`;
+      }
+    } catch (e) {
+      console.error('Failed to download drive image locally:', e);
+    }
+  }
+  return normalized;
+}
 
 export async function GET() {
   try {
@@ -46,6 +74,10 @@ export async function POST(req: Request) {
     const body = await req.json();
     const validated = productSchema.parse(body);
 
+    const processedImages = await Promise.all(
+      validated.images.map((url) => processAndSaveImageUrl(url))
+    );
+
     const product = await prisma.product.create({
       data: {
         name: validated.name,
@@ -62,7 +94,7 @@ export async function POST(req: Request) {
         categoryId: validated.categoryId,
         collectionId: validated.collectionId,
         images: {
-          create: validated.images.map((url, idx) => ({
+          create: processedImages.map((url, idx) => ({
             url,
             alt: `${validated.name} image ${idx + 1}`,
             isPrimary: idx === 0,
@@ -76,7 +108,7 @@ export async function POST(req: Request) {
               color: color.name,
               colorHex: color.hex,
               sku: `${validated.sku}-${size}-${color.name.slice(0, 3).toUpperCase()}`,
-              stock: Math.max(1, Math.floor(validated.stock / (validated.sizes.length || 1))),
+              stock: Math.max(15, validated.stock),
               price: validated.price,
             }))
           ),
