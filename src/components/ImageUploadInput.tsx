@@ -167,7 +167,7 @@ export default function ImageUploadInput({
           ) : (
             <div className="relative">
               <input
-                type="url"
+                type="text"
                 value={value}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}

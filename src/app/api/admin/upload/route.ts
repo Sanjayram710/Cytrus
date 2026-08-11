@@ -1,10 +1,10 @@
-import { NextResponse } from 'next';
+import { NextResponse, NextRequest } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get('content-type') || '';
     let buffer: Buffer;
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       buffer = Buffer.from(bytes);
     } else {
       const body = await req.json();
-      if (!body.base64) {
+      if (!body || !body.base64) {
         return NextResponse.json({ error: 'No image data provided' }, { status: 400 });
       }
       originalName = body.fileName || 'image.png';

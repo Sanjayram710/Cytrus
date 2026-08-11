@@ -18,15 +18,22 @@ export default function CollectionPage({ params }: { params: { slug: string } })
   const { toggleWishlist, isInWishlist } = useWishlistStore();
 
   useEffect(() => {
-    fetch(`/api/products?collection=${params.slug}`)
+    fetch(`/api/collections/${params.slug}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.products) {
-          setProducts(data.products);
-          if (data.products[0]?.collection) {
-            setCollection(data.products[0].collection);
-          }
-        }
+        if (data.collection) setCollection(data.collection);
+        if (data.products) setProducts(data.products);
+      })
+      .catch(() => {
+        // Fallback to products API if single endpoint fails
+        fetch(`/api/products?collection=${params.slug}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.products) {
+              setProducts(data.products);
+              if (data.products[0]?.collection) setCollection(data.products[0].collection);
+            }
+          });
       })
       .finally(() => setLoading(false));
   }, [params.slug]);
@@ -86,6 +93,9 @@ export default function CollectionPage({ params }: { params: { slug: string } })
                       src={primaryImg}
                       alt={product.name}
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000';
+                      }}
                     />
                   </Link>
 

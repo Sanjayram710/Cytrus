@@ -26,6 +26,7 @@ export default function AdminProductsPage() {
     categoryId: '',
     collectionId: '',
     imageUrl: '',
+    imageUrl2: '',
     isFeatured: false,
     isNewArrival: false,
     isBestSeller: false,
@@ -61,6 +62,7 @@ export default function AdminProductsPage() {
       categoryId: categories[0]?.id || '',
       collectionId: collections[0]?.id || '',
       imageUrl: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1000',
+      imageUrl2: '',
       isFeatured: true,
       isNewArrival: true,
       isBestSeller: false,
@@ -82,6 +84,7 @@ export default function AdminProductsPage() {
       categoryId: prod.categoryId,
       collectionId: prod.collectionId || '',
       imageUrl: prod.images?.[0]?.url || '',
+      imageUrl2: prod.images?.[1]?.url || '',
       isFeatured: prod.isFeatured,
       isNewArrival: prod.isNewArrival,
       isBestSeller: prod.isBestSeller,
@@ -98,32 +101,40 @@ export default function AdminProductsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const generatedSku = formData.sku.trim() || `TEE-${(formData.name || 'ITEM').replace(/[^a-zA-Z0-9]/g, '').substring(0, 3).toUpperCase() || 'ITEM'}-${Math.floor(100 + Math.random() * 900)}`;
     const payload = {
       ...formData,
+      sku: generatedSku,
       price: parseFloat(formData.price),
       comparePrice: formData.comparePrice ? parseFloat(formData.comparePrice) : null,
       stock: parseInt(formData.stock, 10),
-      images: [formData.imageUrl],
+      images: formData.imageUrl2 ? [formData.imageUrl, formData.imageUrl2] : [formData.imageUrl],
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
       colors: [{ name: 'Emerald Green', hex: '#004B49' }, { name: 'Obsidian Black', hex: '#121212' }],
     };
 
+    let res: Response;
     if (editingProduct) {
-      await fetch(`/api/admin/products/${editingProduct.id}`, {
+      res = await fetch(`/api/admin/products/${editingProduct.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
     } else {
-      await fetch('/api/admin/products', {
+      res = await fetch('/api/admin/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
     }
 
-    setModalOpen(false);
-    fetchProducts();
+    const data = await res.json();
+    if (res.ok && data.success) {
+      setModalOpen(false);
+      fetchProducts();
+    } else {
+      alert(data.error || 'Failed to save product. Please check form fields.');
+    }
   };
 
   const filteredProducts = products.filter(
@@ -368,7 +379,7 @@ export default function AdminProductsPage() {
               <div>
                 <label className="block uppercase font-bold mb-1">Primary Image URL</label>
                 <input
-                  type="url"
+                  type="text"
                   required
                   value={formData.imageUrl}
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}

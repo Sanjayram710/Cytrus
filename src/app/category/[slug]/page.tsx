@@ -86,6 +86,9 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                       src={primaryImg}
                       alt={product.name}
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000';
+                      }}
                     />
                   </Link>
 
