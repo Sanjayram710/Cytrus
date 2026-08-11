@@ -19,20 +19,20 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
       doc
         .fillColor('#FAF8F5')
         .fontSize(24)
-        .font('Helvetica-Bold')
+        .font('Helvetica')
         .text('CYTRUS', 60, 58, { characterSpacing: 4 });
 
       doc
         .fillColor('#D4AF37')
         .fontSize(8)
-        .font('Helvetica-Bold')
+        .font('Helvetica')
         .text('ATELIER HEAVYWEIGHT APPAREL & SILHOUETTES', 60, 88, { characterSpacing: 2 });
 
       // Invoice Title (Right aligned in Header)
       doc
         .fillColor('#FFFFFF')
         .fontSize(14)
-        .font('Helvetica-Bold')
+        .font('Helvetica')
         .text('TAX INVOICE', 380, 60, { align: 'right' });
 
       doc
@@ -48,7 +48,7 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
       doc
         .fillColor('#121212')
         .fontSize(10)
-        .font('Helvetica-Bold')
+        .font('Helvetica')
         .text('ORDER DETAILS', 40, y);
 
       doc
@@ -63,7 +63,7 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
       doc
         .fillColor('#121212')
         .fontSize(10)
-        .font('Helvetica-Bold')
+        .font('Helvetica')
         .text('SHIPPING DESTINATION', 300, y);
 
       let parsedAddr: any = {};
@@ -91,7 +91,7 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
       doc
         .fillColor('#121212')
         .fontSize(8)
-        .font('Helvetica-Bold')
+        .font('Helvetica')
         .text('ITEM DESCRIPTION', 50, y + 7)
         .text('SIZE', 260, y + 7)
         .text('COLOR', 320, y + 7)
@@ -105,7 +105,7 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
         doc
           .fillColor('#222222')
           .fontSize(9)
-          .font('Helvetica-Bold')
+          .font('Helvetica')
           .text(item.productName, 50, y, { width: 200, height: 16 });
 
         doc
@@ -161,7 +161,7 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
       doc
         .fillColor('#FAF8F5')
         .fontSize(10)
-        .font('Helvetica-Bold')
+        .font('Helvetica')
         .text('TOTAL AMOUNT:', 355, y + 2)
         .fillColor('#D4AF37')
         .text(formatPrice(order.total), 490, y + 2, { align: 'right' });
