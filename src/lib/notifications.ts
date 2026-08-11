@@ -238,18 +238,22 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
   // If Twilio env variables exist, send real SMS
   if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
     try {
-      const accountSid = process.env.TWILIO_ACCOUNT_SID;
-      const authToken = process.env.TWILIO_AUTH_TOKEN;
-      const client = require('twilio')(accountSid, authToken);
-
-      await client.messages.create({
-        body: smsText,
-        from: process.env.TWILIO_PHONE_NUMBER || '+1234567890',
-        to: order.customerPhone,
-      });
-
-      console.log(`✅ [SMS DISPATCHED] SMS receipt sent to ${order.customerPhone}`);
-      return { success: true, mode: 'TWILIO' };
+      let twilioModule: any = null;
+      try {
+        twilioModule = eval('require')('twilio');
+      } catch (e) {
+        twilioModule = null;
+      }
+      if (twilioModule) {
+        const client = twilioModule(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+        await client.messages.create({
+          body: smsText,
+          from: process.env.TWILIO_PHONE_NUMBER || '+1234567890',
+          to: order.customerPhone,
+        });
+        console.log(`✅ [SMS DISPATCHED] SMS receipt sent to ${order.customerPhone}`);
+        return { success: true, mode: 'TWILIO' };
+      }
     } catch (err: any) {
       console.error(`❌ [SMS ERROR] Failed to send SMS via Twilio:`, err.message);
     }
