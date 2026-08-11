@@ -1,4 +1,5 @@
-import PDFDocument from 'pdfkit';
+// Use standalone PDFKit bundle to embed font files for Next.js Webpack compatibility
+const PDFDocument = require('pdfkit/js/pdfkit.standalone');
 import { OrderNotificationPayload } from './notifications';
 import { formatPrice } from './utils';
 
@@ -8,9 +9,9 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
       const doc = new PDFDocument({ margin: 40, size: 'A4' });
       const buffers: Buffer[] = [];
 
-      doc.on('data', (chunk) => buffers.push(chunk));
+      doc.on('data', (chunk: any) => buffers.push(chunk));
       doc.on('end', () => resolve(Buffer.concat(buffers)));
-      doc.on('error', (err) => reject(err));
+      doc.on('error', (err: any) => reject(err));
 
       // Header Banner Background
       doc.rect(40, 40, 515, 80).fill('#121212');
