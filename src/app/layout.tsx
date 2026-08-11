@@ -14,20 +14,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [searchOpen, setSearchOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<any | null>(null);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
-  const [hasEntered, setHasEntered] = useState<boolean | null>(null);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    // Check if user already saw the entrance splash in this session
-    try {
-      const seen = sessionStorage.getItem('cytrus_entrance_seen');
-      if (seen) {
-        setHasEntered(true);
-      } else {
-        setHasEntered(false);
-      }
-    } catch (e) {
-      setHasEntered(true);
-    }
+    // Show splash screen for exactly 2 seconds when entering the website
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -40,13 +35,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen flex flex-col justify-between bg-canvas text-ink font-sans antialiased selection:bg-surface selection:text-ink">
-        {/* If user has not completed the 2-second entrance screen, render ONLY the entrance screen */}
-        {hasEntered === false && (
-          <SplashScreen onComplete={() => setHasEntered(true)} />
-        )}
-
-        {/* Website Content (Revealed after entering the website) */}
-        {hasEntered !== false && (
+        {showSplash ? (
+          <SplashScreen />
+        ) : (
           <>
             <div>
               <Navbar onOpenSearch={() => setSearchOpen(true)} />
