@@ -14,6 +14,12 @@ const config: Config = {
         muted: "#786B58",
         ink: "#2E2822",
         accent: "#6B5B45",
+        luxury: {
+          black: "#1A1918",
+          cream: "#FAF7F2",
+          border: "#D9CFC0",
+          gold: "#9B804E",
+        },
         // Keep alias for backward compatibility
         mono: {
           canvas: "#FAF7F2",
