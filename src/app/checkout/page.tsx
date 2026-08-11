@@ -65,7 +65,13 @@ export default function CheckoutPage() {
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+
+    // Restrict phone inputs to numeric digits and max 10 digits
+    if (name === 'customerPhone' || name === 'phone') {
+      value = value.replace(/\D/g, '').slice(0, 10);
+    }
+
     setFormData((prev) => {
       const updated = { ...prev, [name]: value };
       if (name === 'customerName' && (!prev.fullName || prev.fullName === prev.customerName)) {
@@ -80,20 +86,35 @@ export default function CheckoutPage() {
   };
 
   const validateCustomerStep = (): boolean => {
-    if (!formData.customerName || formData.customerName.trim().length < 2) {
-      setErrorMsg('Please enter your Full Name (at least 2 letters).');
+    if (!formData.customerName || formData.customerName.trim() === '') {
+      setErrorMsg('Full Name cannot be left blank. Please enter your full name.');
+      return false;
+    }
+
+    if (formData.customerName.trim().length < 2) {
+      setErrorMsg('Full Name must be at least 2 characters.');
+      return false;
+    }
+
+    if (!formData.customerEmail || formData.customerEmail.trim() === '') {
+      setErrorMsg('Email Address cannot be left blank. Please enter your email address.');
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.customerEmail || !emailRegex.test(formData.customerEmail.trim())) {
-      setErrorMsg('Please enter a valid Email Address (e.g. customer@example.com).');
+    if (!emailRegex.test(formData.customerEmail.trim())) {
+      setErrorMsg('Please enter a valid Email Address (e.g. name@example.com).');
       return false;
     }
 
     const phoneDigits = (formData.customerPhone || '').replace(/\D/g, '');
-    if (!formData.customerPhone || phoneDigits.length < 10) {
-      setErrorMsg('Please enter a valid 10-digit Phone Number (e.g. 9876543210).');
+    if (!formData.customerPhone || formData.customerPhone.trim() === '') {
+      setErrorMsg('Phone Number cannot be left blank. Please enter your 10-digit mobile number.');
+      return false;
+    }
+
+    if (phoneDigits.length !== 10) {
+      setErrorMsg('Phone Number must be exactly 10 digits (e.g. 9876543210).');
       return false;
     }
 
@@ -344,14 +365,15 @@ export default function CheckoutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Phone Number</label>
+                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Phone Number (10 Digits)</label>
                   <input
                     type="tel"
                     name="customerPhone"
                     required
+                    maxLength={10}
                     value={formData.customerPhone}
                     onChange={handleInputChange}
-                    placeholder="+91 98765 43210"
+                    placeholder="10-digit mobile number (e.g. 9876543210)"
                     className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                   />
                 </div>
