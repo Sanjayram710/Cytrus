@@ -13,6 +13,7 @@ import {
   ChevronRight,
   LogOut,
   ShieldCheck,
+  Sparkles,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/useCartStore';
@@ -71,9 +72,10 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   };
 
   const navLinks = [
-    { name: 'Oversized Tees', href: '/category/oversized-tees' },
-    { name: 'Graphic Tees', href: '/category/graphic-tees' },
-    { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
+    { name: 'Oversized Tees', href: '/category/oversized-tees', isButton: false },
+    { name: 'Graphic Tees', href: '/category/graphic-tees', isButton: false },
+    { name: 'Vintage Wash', href: '/category/vintage-wash-tees', isButton: false },
+    { name: 'CUSTOM DESIGN', href: '/custom-design', isButton: true },
   ];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -170,15 +172,23 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 8 }}
                         transition={{ duration: 0.2 }}
-                        className="flex items-center space-x-6 xl:space-x-8"
+                        className="flex items-center space-x-5 xl:space-x-7"
                       >
                         {navLinks.map((link) => (
                           <Link
                             key={link.name}
                             href={link.href}
-                            className={`text-[11px] uppercase tracking-[0.2em] font-medium transition-all hover:text-ink whitespace-nowrap ${
-                              pathname === link.href ? 'text-ink font-bold border-b border-ink pb-0.5' : 'text-muted'
-                            }`}
+                            className={
+                              link.isButton
+                                ? `font-mono text-[10px] uppercase tracking-[0.2em] font-semibold px-3 py-1 border transition-all whitespace-nowrap ${
+                                    pathname === link.href
+                                      ? 'bg-accent text-canvas border-accent'
+                                      : 'border-accent text-accent hover:bg-accent hover:text-canvas'
+                                  }`
+                                : `text-[11px] uppercase tracking-[0.2em] font-medium transition-all hover:text-ink whitespace-nowrap ${
+                                    pathname === link.href ? 'text-ink font-bold border-b border-ink pb-0.5' : 'text-muted'
+                                  }`
+                            }
                           >
                             {link.name}
                           </Link>
@@ -304,9 +314,16 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between text-xs uppercase tracking-widest font-medium text-ink hover:text-accent py-2 border-b border-border/40"
+                    className={`flex items-center justify-between text-xs uppercase tracking-widest font-medium py-2 border-b border-border/40 transition-colors ${
+                      link.isButton
+                        ? 'text-accent font-semibold'
+                        : 'text-ink hover:text-accent'
+                    }`}
                   >
-                    <span>{link.name}</span>
+                    <div className="flex items-center space-x-2">
+                      {link.isButton && <Sparkles className="w-3.5 h-3.5 text-accent" />}
+                      <span>{link.name}</span>
+                    </div>
                     <ChevronRight className="w-4 h-4 text-muted" />
                   </Link>
                 ))}
