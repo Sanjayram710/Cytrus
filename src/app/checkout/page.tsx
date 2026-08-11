@@ -65,13 +65,115 @@ export default function CheckoutPage() {
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    let { name, value } = e.target;
+
+    // Restrict phone inputs to numeric digits and max 10 digits
+    if (name === 'customerPhone' || name === 'phone') {
+      value = value.replace(/\D/g, '').slice(0, 10);
+    }
+
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: value };
+      if (name === 'customerName' && (!prev.fullName || prev.fullName === prev.customerName)) {
+        updated.fullName = value;
+      }
+      if (name === 'customerPhone' && (!prev.phone || prev.phone === prev.customerPhone)) {
+        updated.phone = value;
+      }
+      return updated;
+    });
+    if (errorMsg) setErrorMsg('');
+  };
+
+  const validateCustomerStep = (): boolean => {
+    if (!formData.customerName || formData.customerName.trim() === '') {
+      setErrorMsg('Full Name cannot be left blank. Please enter your full name.');
+      return false;
+    }
+
+    if (formData.customerName.trim().length < 2) {
+      setErrorMsg('Full Name must be at least 2 characters.');
+      return false;
+    }
+
+    if (!formData.customerEmail || formData.customerEmail.trim() === '') {
+      setErrorMsg('Email Address cannot be left blank. Please enter your email address.');
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.customerEmail.trim())) {
+      setErrorMsg('Please enter a valid Email Address (e.g. name@example.com).');
+      return false;
+    }
+
+    const phoneDigits = (formData.customerPhone || '').replace(/\D/g, '');
+    if (!formData.customerPhone || formData.customerPhone.trim() === '') {
+      setErrorMsg('Phone Number cannot be left blank. Please enter your 10-digit mobile number.');
+      return false;
+    }
+
+    if (phoneDigits.length !== 10) {
+      setErrorMsg('Phone Number must be exactly 10 digits (e.g. 9876543210).');
+      return false;
+    }
+
+    setErrorMsg('');
+    return true;
+  };
+
+  const validateShippingStep = (): boolean => {
+    if (!validateCustomerStep()) {
+      setStep(1);
+      return false;
+    }
+
+    const recipientName = formData.fullName || formData.customerName;
+    if (!recipientName || recipientName.trim().length < 2) {
+      setErrorMsg('Please enter Recipient Name.');
+      return false;
+    }
+
+    if (!formData.street || formData.street.trim().length < 5) {
+      setErrorMsg('Please enter a complete Street Address (at least 5 characters).');
+      return false;
+    }
+
+    if (!formData.city || formData.city.trim().length < 2) {
+      setErrorMsg('Please enter City.');
+      return false;
+    }
+
+    if (!formData.state || formData.state.trim().length < 2) {
+      setErrorMsg('Please enter State.');
+      return false;
+    }
+
+    const pincodeDigits = (formData.postalCode || '').replace(/\D/g, '');
+    if (!formData.postalCode || pincodeDigits.length < 6) {
+      setErrorMsg('Please enter a valid 6-digit Pincode / Postal Code.');
+      return false;
+    }
+
+    setErrorMsg('');
+    return true;
   };
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setErrorMsg('');
+
+    if (!validateCustomerStep()) {
+      setStep(1);
+      return;
+    }
+
+    if (!validateShippingStep()) {
+      setStep(2);
+      return;
+    }
+
+    setLoading(true);
 
     try {
       // 1. Create order on server (recalculating pricing & stock)
@@ -83,7 +185,7 @@ export default function CheckoutPage() {
           customerEmail: formData.customerEmail,
           customerPhone: formData.customerPhone || formData.phone,
           address: {
-            fullName: formData.fullName,
+            fullName: formData.fullName || formData.customerName,
             phone: formData.phone || formData.customerPhone,
             street: formData.street,
             city: formData.city,
@@ -204,20 +306,20 @@ export default function CheckoutPage() {
         </h1>
 
         <div className="flex justify-center items-center space-x-6 mt-6">
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 1 ? 'text-ink' : 'text-muted'}`}>
+          <button type="button" onClick={() => setStep(1)} className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold cursor-pointer ${step >= 1 ? 'text-ink' : 'text-muted'}`}>
             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 1 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>1</span>
             <span>Customer Info</span>
-          </div>
+          </button>
           <span className="text-border">—</span>
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 2 ? 'text-ink' : 'text-muted'}`}>
+          <button type="button" onClick={() => { if (validateCustomerStep()) setStep(2); }} className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold cursor-pointer ${step >= 2 ? 'text-ink' : 'text-muted'}`}>
             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 2 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>2</span>
             <span>Shipping Address</span>
-          </div>
+          </button>
           <span className="text-border">—</span>
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 3 ? 'text-ink' : 'text-muted'}`}>
+          <button type="button" onClick={() => { if (validateShippingStep()) setStep(3); }} className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold cursor-pointer ${step >= 3 ? 'text-ink' : 'text-muted'}`}>
             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 3 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>3</span>
             <span>Payment</span>
-          </div>
+          </button>
         </div>
       </div>
 
@@ -263,14 +365,15 @@ export default function CheckoutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Phone Number</label>
+                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Phone Number (10 Digits)</label>
                   <input
                     type="tel"
                     name="customerPhone"
                     required
+                    maxLength={10}
                     value={formData.customerPhone}
                     onChange={handleInputChange}
-                    placeholder="+91 98765 43210"
+                    placeholder="10-digit mobile number (e.g. 9876543210)"
                     className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
                   />
                 </div>
@@ -279,12 +382,9 @@ export default function CheckoutPage() {
               <button
                 type="button"
                 onClick={() => {
-                  if (!formData.customerName || !formData.customerEmail) {
-                    setErrorMsg('Please fill in your name and email address.');
-                    return;
+                  if (validateCustomerStep()) {
+                    setStep(2);
                   }
-                  setErrorMsg('');
-                  setStep(2);
                 }}
                 className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
               >
@@ -385,12 +485,9 @@ export default function CheckoutPage() {
               <button
                 type="button"
                 onClick={() => {
-                  if (!formData.fullName || !formData.street || !formData.city) {
-                    setErrorMsg('Please complete all required shipping fields.');
-                    return;
+                  if (validateShippingStep()) {
+                    setStep(3);
                   }
-                  setErrorMsg('');
-                  setStep(3);
                 }}
                 className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
               >

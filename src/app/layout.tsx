@@ -8,6 +8,7 @@ import SearchModal from '@/components/SearchModal';
 import QuickViewModal from '@/components/QuickViewModal';
 import SizeGuideModal from '@/components/SizeGuideModal';
 import SplashScreen from '@/components/SplashScreen';
+import WhatsAppWidget from '@/components/WhatsAppWidget';
 import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
             )}
             <SizeGuideModal isOpen={sizeGuideOpen} onClose={() => setSizeGuideOpen(false)} />
+            <WhatsAppWidget />
           </>
         )}
       </body>
