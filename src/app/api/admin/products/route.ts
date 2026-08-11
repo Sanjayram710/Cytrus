@@ -108,7 +108,7 @@ export async function POST(req: Request) {
               color: color.name,
               colorHex: color.hex,
               sku: `${validated.sku}-${size}-${color.name.slice(0, 3).toUpperCase()}`,
-              stock: Math.max(1, Math.floor(validated.stock / (validated.sizes.length || 1))),
+              stock: Math.max(15, validated.stock),
               price: validated.price,
             }))
           ),
