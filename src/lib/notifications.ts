@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { formatPrice } from '@/lib/utils';
+import { generateOrderPdfInvoice } from '@/lib/pdf-generator';
 
 export interface OrderNotificationPayload {
   id: string;
@@ -24,6 +25,22 @@ export interface OrderNotificationPayload {
     price: number;
     total: number;
   }>;
+}
+
+function getSmtpTransporter() {
+  const port = parseInt(process.env.SMTP_PORT || '587', 10);
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port,
+    secure: port === 465 || process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
 }
 
 export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
@@ -170,24 +187,30 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
   // Send email if SMTP config is present in environment
   if (process.env.SMTP_HOST && process.env.SMTP_USER) {
     try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT || '587', 10),
-        secure: process.env.SMTP_SECURE === 'true',
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      });
+      const transporter = getSmtpTransporter();
+
+      // Generate PDF Tax Invoice attachment
+      let attachments: any[] = [];
+      try {
+        const pdfBuffer = await generateOrderPdfInvoice(order);
+        attachments.push({
+          filename: `CYTRUS_Tax_Invoice_${order.orderNumber}.pdf`,
+          content: pdfBuffer,
+          contentType: 'application/pdf',
+        });
+      } catch (pdfErr) {
+        console.error('PDF invoice generation warning:', pdfErr);
+      }
 
       await transporter.sendMail({
         from: `"CYTRUS Atelier" <${process.env.SMTP_FROM || 'orders@cytrus.com'}>`,
         to: order.customerEmail,
-        subject: `CYTRUS Order Confirmation & Receipt #${order.orderNumber}`,
+        subject: `CYTRUS Order Confirmation & Tax Invoice #${order.orderNumber}`,
         html: htmlTemplate,
+        attachments,
       });
 
-      console.log(`✅ [EMAIL DISPATCHED] Order receipt sent to ${order.customerEmail}`);
+      console.log(`✅ [EMAIL DISPATCHED] Order receipt & PDF Tax Invoice sent to ${order.customerEmail}`);
       return { success: true, mode: 'SMTP' };
     } catch (err: any) {
       console.error(`❌ [EMAIL ERROR] Failed to send email via SMTP:`, err.message);
@@ -241,3 +264,73 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
 
   return { success: true, mode: 'SIMULATED' };
 }
+
+export async function sendOrderStatusEmail(order: any, newStatus: string, trackingNumber?: string, courierName?: string) {
+  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const trackingUrl = `${baseUrl}/orders/${order.id}`;
+
+  const htmlTemplate = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="margin:0; padding:0; background-color: #FAF8F5; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #FAF8F5; padding: 40px 10px;">
+        <tr>
+          <td align="center">
+            <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; border: 1px solid #EAE5DC; border-radius: 4px; overflow: hidden;">
+              <tr>
+                <td style="background-color: #121212; padding: 30px; text-align: center;">
+                  <h1 style="color: #FAF8F5; font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.2em; margin: 0;">CYTRUS</h1>
+                  <p style="color: #D4AF37; font-size: 10px; letter-spacing: 0.3em; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">ATELIER ORDER UPDATE</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 30px 40px;">
+                  <h2 style="font-family: Georgia, serif; color: #121212; font-size: 20px;">Order Status Update: ${newStatus}</h2>
+                  <p style="font-size: 13px; color: #4A4A4A;">Dear <strong>${order.customerName}</strong>,</p>
+                  <p style="font-size: 13px; color: #4A4A4A;">Your order <strong>#${order.orderNumber}</strong> status has been updated to: <strong style="color: #D4AF37;">${newStatus}</strong>.</p>
+                  ${
+                    trackingNumber
+                      ? `<div style="background-color: #FAF8F5; border: 1px solid #EAE5DC; padding: 15px; margin: 20px 0; font-size: 13px;">
+                          <strong>Courier:</strong> ${courierName || 'Express Courier'}<br/>
+                          <strong>Tracking Number:</strong> <span style="font-family: monospace; font-weight: bold;">${trackingNumber}</span>
+                        </div>`
+                      : ''
+                  }
+                  <div style="text-align: center; margin-top: 30px;">
+                    <a href="${trackingUrl}" style="background-color: #121212; color: #FAF8F5; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.2em; padding: 14px 30px; display: inline-block;">
+                      VIEW ORDER STATUS →
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+
+  if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+    try {
+      const transporter = getSmtpTransporter();
+
+      await transporter.sendMail({
+        from: `"CYTRUS Atelier" <${process.env.SMTP_FROM || 'orders@cytrus.com'}>`,
+        to: order.customerEmail,
+        subject: `CYTRUS Order #${order.orderNumber} Status Updated: ${newStatus}`,
+        html: htmlTemplate,
+      });
+
+      console.log(`✅ [EMAIL DISPATCHED] Order status update sent to ${order.customerEmail}`);
+      return { success: true, mode: 'SMTP' };
+    } catch (err: any) {
+      console.error(`❌ [EMAIL ERROR] Failed to send status email via SMTP:`, err.message);
+    }
+  }
+
+  console.log(`📧 [SIMULATED STATUS EMAIL] Order #${order.orderNumber} -> ${newStatus} to ${order.customerEmail}`);
+  return { success: true, mode: 'SIMULATED' };
+}
+
