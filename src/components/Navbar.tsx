@@ -13,6 +13,7 @@ import {
   ChevronRight,
   LogOut,
   ShieldCheck,
+  Sparkles,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/useCartStore';
@@ -74,6 +75,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
     { name: 'Oversized Tees', href: '/category/oversized-tees' },
     { name: 'Graphic Tees', href: '/category/graphic-tees' },
     { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
+    { name: 'Custom Design', href: '/custom-design' },
   ];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -88,7 +90,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
       {/* Main Header / Sticky Nav */}
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled ? 'glass-nav shadow-subtle py-2.5 bg-luxury-cream/95 backdrop-blur-md' : 'bg-luxury-cream/95 backdrop-blur-md py-4 border-b border-luxury-border'
+          scrolled ? 'mono-nav border-b border-border py-2.5' : 'bg-canvas/95 backdrop-blur-md py-4 border-b border-border'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -98,7 +100,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors lg:hidden mr-3"
+                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden mr-3"
                 aria-label="Open menu"
               >
                 <Menu className="w-5 h-5" />
@@ -111,7 +113,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   alt="CYTRUS"
                   className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-105"
                 />
-                <span className="font-sans text-xs sm:text-sm md:text-[14px] font-extrabold tracking-[0.28em] uppercase text-luxury-black group-hover:text-luxury-gold transition-colors mt-0.5 text-center">
+                <span className="font-sans text-xs sm:text-sm md:text-[14px] font-extrabold tracking-[0.28em] uppercase text-ink group-hover:text-accent transition-colors mt-0.5 text-center">
                   CYTRUS
                 </span>
               </Link>
@@ -123,11 +125,11 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   onClick={() => {
                     setInlineSearchOpen(!inlineSearchOpen);
                   }}
-                  className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors flex items-center flex-shrink-0"
+                  className="p-1.5 text-ink hover:text-accent transition-colors flex items-center flex-shrink-0"
                   title="Search"
                   aria-label="Search"
                 >
-                  <Search className="w-4 h-4 sm:w-5 sm:h-5 text-luxury-black hover:text-luxury-gold transition-colors" />
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5 text-ink hover:text-accent transition-colors" />
                 </button>
 
                 {/* Desktop Dynamic Area: Search Input (when active) OR Category Links */}
@@ -141,7 +143,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                         exit={{ opacity: 0, x: -8 }}
                         transition={{ duration: 0.2 }}
                         onSubmit={handleSearchSubmit}
-                        className="flex items-center border-b border-luxury-black pb-0.5 w-[220px] xl:w-[260px]"
+                        className="flex items-center border-b border-ink pb-0.5 w-[220px] xl:w-[260px]"
                       >
                         <input
                           type="text"
@@ -149,7 +151,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           autoFocus
-                          className="bg-transparent text-xs text-luxury-black placeholder:text-gray-400 focus:outline-none w-full tracking-wider"
+                          className="bg-transparent text-xs text-ink placeholder:text-muted focus:outline-none w-full tracking-wider font-sans"
                         />
                         <button
                           type="button"
@@ -157,7 +159,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                             setInlineSearchOpen(false);
                             setSearchQuery('');
                           }}
-                          className="text-gray-400 hover:text-luxury-black p-0.5 ml-1"
+                          className="text-muted hover:text-ink p-0.5 ml-1"
                           title="Close Search"
                         >
                           <X className="w-3.5 h-3.5" />
@@ -176,8 +178,8 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                           <Link
                             key={link.name}
                             href={link.href}
-                            className={`text-[11px] uppercase tracking-[0.2em] font-medium transition-all hover:text-luxury-gold whitespace-nowrap ${
-                              pathname === link.href ? 'text-luxury-gold font-bold border-b border-luxury-gold pb-0.5' : 'text-luxury-black/80 hover:text-luxury-black'
+                            className={`text-[11px] uppercase tracking-[0.2em] font-medium transition-all hover:text-ink whitespace-nowrap ${
+                              pathname === link.href ? 'text-ink font-bold border-b border-ink pb-0.5' : 'text-muted'
                             }`}
                           >
                             {link.name}
@@ -197,7 +199,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 <div className="relative group">
                   <Link
                     href={user.role === 'ADMIN' ? '/admin' : '/account'}
-                    className="flex items-center space-x-1.5 p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
+                    className="flex items-center space-x-1.5 p-1.5 text-ink hover:text-accent transition-colors"
                   >
                     <User className="w-5 h-5" />
                     <span className="hidden xl:inline text-xs tracking-wider uppercase font-medium">
@@ -205,24 +207,24 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                     </span>
                   </Link>
 
-                  <div className="absolute right-0 mt-2 w-48 bg-white border border-luxury-border shadow-luxury rounded-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto py-2 z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-surface border border-border rounded-none opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto py-2 z-50">
                     {user.role === 'ADMIN' && (
                       <Link
                         href="/admin"
-                        className="flex items-center px-4 py-2 text-xs uppercase tracking-wider text-luxury-gold font-bold hover:bg-luxury-cream"
+                        className="flex items-center px-4 py-2 text-xs uppercase tracking-wider text-accent font-bold hover:bg-canvas"
                       >
                         <ShieldCheck className="w-4 h-4 mr-2" /> Admin Dashboard
                       </Link>
                     )}
                     <Link
                       href="/account"
-                      className="block px-4 py-2 text-xs uppercase tracking-wider text-luxury-black hover:bg-luxury-cream"
+                      className="block px-4 py-2 text-xs uppercase tracking-wider text-ink hover:bg-canvas"
                     >
                       My Profile & Orders
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left flex items-center px-4 py-2 text-xs uppercase tracking-wider text-red-600 hover:bg-luxury-cream"
+                      className="w-full text-left flex items-center px-4 py-2 text-xs uppercase tracking-wider text-muted hover:text-ink hover:bg-canvas"
                     >
                       <LogOut className="w-4 h-4 mr-2" /> Logout
                     </button>
@@ -231,7 +233,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               ) : (
                 <Link
                   href="/login"
-                  className="p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
+                  className="p-1.5 text-ink hover:text-accent transition-colors"
                   title="Sign In"
                 >
                   <User className="w-5 h-5" />
@@ -241,12 +243,12 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               {/* Wishlist Link */}
               <Link
                 href="/wishlist"
-                className="relative p-1.5 text-luxury-black hover:text-luxury-gold transition-colors"
+                className="relative p-1.5 text-ink hover:text-accent transition-colors"
                 title="Saved Wishlist"
               >
                 <Heart className="w-5 h-5" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-luxury-gold text-luxury-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 bg-accent text-canvas text-[10px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -255,16 +257,16 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               {/* Cart Drawer Trigger with Badge */}
               <button
                 onClick={openCart}
-                className="relative p-1.5 text-luxury-black hover:text-luxury-gold transition-colors flex items-center"
+                className="relative p-1.5 text-ink hover:text-accent transition-colors flex items-center"
                 aria-label="View Cart"
               >
                 <ShoppingBag className="w-5 h-5" />
                 {itemCount > 0 ? (
-                  <span className="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 bg-accent text-canvas text-[10px] font-mono font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center">
                     {itemCount}
                   </span>
                 ) : (
-                  <span className="absolute -top-0.5 -right-0.5 bg-luxury-black text-luxury-cream text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 bg-border text-ink text-[10px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     0
                   </span>
                 )}
@@ -278,21 +280,21 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 bg-ink/40 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-luxury-cream shadow-2xl p-6 flex flex-col justify-between z-50">
+          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-surface border-r border-border p-6 flex flex-col justify-between z-50">
             <div>
-              <div className="flex items-center justify-between border-b border-luxury-border pb-4">
+              <div className="flex items-center justify-between border-b border-border pb-4">
                 <div className="flex items-center space-x-2">
                   <img src="/logo.png" alt="CYTRUS" className="h-7 w-7 object-contain" />
-                  <span className="font-sans text-base font-bold tracking-[0.2em] text-luxury-black">
+                  <span className="font-sans text-base font-bold tracking-[0.2em] text-ink">
                     CYTRUS
                   </span>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-1 text-luxury-black hover:text-luxury-gold"
+                  className="p-1 text-ink hover:text-accent"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -304,33 +306,33 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between text-sm uppercase tracking-widest font-medium text-luxury-black hover:text-luxury-gold py-2 border-b border-luxury-border/40"
+                    className="flex items-center justify-between text-xs uppercase tracking-widest font-medium text-ink hover:text-accent py-2 border-b border-border/40"
                   >
                     <span>{link.name}</span>
-                    <ChevronRight className="w-4 h-4 text-luxury-gold" />
+                    <ChevronRight className="w-4 h-4 text-muted" />
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="border-t border-luxury-border pt-6 space-y-3">
+            <div className="border-t border-border pt-6 space-y-3">
               {user ? (
                 <>
-                  <p className="text-xs uppercase tracking-wider text-luxury-black font-semibold">
+                  <p className="text-xs uppercase tracking-wider text-ink font-semibold">
                     Signed in as {user.name}
                   </p>
                   {user.role === 'ADMIN' && (
                     <Link
                       href="/admin"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-xs uppercase tracking-widest text-luxury-gold font-bold"
+                      className="block text-xs uppercase tracking-widest text-accent font-bold"
                     >
                       Admin Dashboard
                     </Link>
                   )}
                   <button
                     onClick={handleLogout}
-                    className="text-xs uppercase tracking-widest text-red-600 font-semibold"
+                    className="text-xs uppercase tracking-widest text-muted hover:text-ink font-semibold"
                   >
                     Sign Out
                   </button>
@@ -340,7 +342,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   <Link
                     href="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full text-center bg-luxury-black text-luxury-cream py-3 text-xs uppercase tracking-widest font-semibold hover:bg-luxury-gold transition-colors"
+                    className="w-full text-center bg-accent text-canvas py-3 text-xs uppercase tracking-widest font-semibold hover:bg-ink transition-colors"
                   >
                     Sign In / Register
                   </Link>

@@ -72,27 +72,27 @@ export default function HomePage() {
   };
 
   return (
-    <div className="space-y-24 pb-20">
+    <div className="space-y-24 pb-20 bg-canvas">
       {/* 1. Exactly 5 Hero Showcase Slides */}
       <HeroSlider initialSlides={slides} />
 
       {/* 2. New Arrivals Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-luxury-border pb-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-border pb-4">
           <div>
-            <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
+            <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
               FALL / WINTER 2026 DROPS
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-luxury-black mt-1">
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-ink mt-1">
               New T-Shirt Arrivals
             </h2>
           </div>
           <Link
             href="/shop?newArrival=true"
-            className="mt-4 md:mt-0 text-xs font-bold uppercase tracking-[0.2em] text-luxury-black hover:text-luxury-gold transition-colors inline-flex items-center space-x-1"
+            className="mt-4 md:mt-0 font-mono text-xs uppercase tracking-[0.2em] text-muted hover:text-ink transition-colors inline-flex items-center space-x-1"
           >
             <span>Explore All T-Shirts</span>
-            <ArrowRight className="w-4 h-4 ml-1" />
+            <ArrowRight className="w-3.5 h-3.5 ml-1" />
           </Link>
         </div>
 
@@ -103,32 +103,52 @@ export default function HomePage() {
             const secondaryImg = product.images?.[1]?.url || primaryImg;
 
             return (
-              <div key={product.id} className="group relative bg-white border border-luxury-border/60 hover:border-luxury-gold transition-all duration-300">
-                <div className="relative h-80 sm:h-96 overflow-hidden bg-luxury-cream">
+              <div
+                key={product.id}
+                className="group relative bg-surface border border-border hover:border-accent transition-all duration-300"
+              >
+                {/* Signature Swing-Tag Detail */}
+                <div className="absolute top-0 right-3 z-20 flex flex-col items-center pointer-events-none">
+                  <div className="w-[1px] h-3.5 bg-border group-hover:bg-accent transition-colors" />
+                  <div className="swing-tag px-2.5 py-1 text-center group-hover:-translate-y-0.5 group-hover:-rotate-2 transition-transform duration-300">
+                    <span className="font-mono text-[11px] font-semibold tracking-wider text-accent block">
+                      {formatPrice(product.price)}
+                    </span>
+                    {product.comparePrice && (
+                      <span className="font-mono text-[9px] line-through text-muted block -mt-0.5">
+                        {formatPrice(product.comparePrice)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="relative h-80 sm:h-96 overflow-hidden bg-surface">
                   <Link href={`/product/${product.slug}`}>
                     <img
                       src={primaryImg}
                       alt={product.name}
-                      className="w-full h-full object-cover object-center transition-opacity duration-700 group-hover:opacity-0"
+                      className="w-full h-full object-cover object-center transition-opacity duration-500 group-hover:opacity-0"
                     />
                     <img
                       src={secondaryImg}
                       alt={`${product.name} hover view`}
-                      className="w-full h-full object-cover object-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                      className="w-full h-full object-cover object-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     />
                   </Link>
 
+                  {/* Minimal Status Badge */}
                   <div className="absolute top-3 left-3 flex flex-col space-y-1 z-10">
-                    <span className="bg-luxury-black text-luxury-cream text-[10px] uppercase font-bold tracking-widest px-2.5 py-1">
-                      NEW DROP
+                    <span className="bg-ink text-canvas font-mono text-[9px] uppercase tracking-widest px-2 py-0.5">
+                      DROP
                     </span>
                     {product.discountPercentage > 0 && (
-                      <span className="bg-luxury-gold text-luxury-black text-[10px] uppercase font-bold tracking-widest px-2 py-0.5">
+                      <span className="bg-surface border border-border text-ink font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5">
                         -{product.discountPercentage}%
                       </span>
                     )}
                   </div>
 
+                  {/* Wishlist Button */}
                   <button
                     onClick={() =>
                       toggleWishlist({
@@ -139,50 +159,44 @@ export default function HomePage() {
                         price: product.price,
                       })
                     }
-                    className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all ${
-                      isWish ? 'bg-red-50 text-red-600' : 'bg-white/80 text-luxury-black hover:bg-luxury-gold hover:text-black'
+                    className={`absolute bottom-3 right-3 z-10 p-2 border transition-all ${
+                      isWish
+                        ? 'bg-ink text-canvas border-ink'
+                        : 'bg-canvas/90 text-ink border-border hover:bg-ink hover:text-canvas'
                     }`}
+                    aria-label="Wishlist"
                   >
-                    <Heart className={`w-4 h-4 ${isWish ? 'fill-current' : ''}`} />
+                    <Heart className={`w-3.5 h-3.5 ${isWish ? 'fill-current' : ''}`} />
                   </button>
 
-                  <div className="absolute bottom-4 inset-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex space-x-2 z-10">
+                  {/* Hover Quick Action Drawer */}
+                  <div className="absolute bottom-3 left-3 right-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex space-x-1.5 z-10">
                     <button
                       onClick={() => setQuickViewProduct(product)}
-                      className="flex-1 bg-white/90 backdrop-blur-sm text-luxury-black hover:bg-luxury-black hover:text-white py-2.5 text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
+                      className="flex-1 bg-canvas/95 backdrop-blur-sm border border-border text-ink hover:bg-ink hover:text-canvas py-2 text-[10px] font-mono uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
                     >
-                      <Eye className="w-3.5 h-3.5" />
-                      <span>Quick View</span>
+                      <Eye className="w-3 h-3" />
+                      <span>Inspect</span>
                     </button>
                     <button
                       onClick={(e) => handleAddToCart(e, product)}
-                      className="bg-luxury-black text-luxury-cream hover:bg-luxury-gold hover:text-black p-2.5 transition-colors"
-                      title="Add to Cart"
+                      className="bg-ink text-canvas hover:bg-accent p-2 transition-colors border border-ink"
+                      title="Add to Bag"
                     >
-                      <ShoppingBag className="w-4 h-4" />
+                      <ShoppingBag className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
 
-                <div className="p-4">
-                  <p className="text-[10px] font-semibold text-luxury-gold uppercase tracking-[0.2em] mb-1">
+                <div className="p-4 bg-surface border-t border-border">
+                  <p className="font-mono text-[10px] text-muted uppercase tracking-[0.2em] mb-1">
                     {product.category?.name || 'HEAVYWEIGHT TEE'}
                   </p>
                   <Link href={`/product/${product.slug}`}>
-                    <h3 className="font-serif text-sm font-bold text-luxury-black group-hover:text-luxury-gold transition-colors line-clamp-1">
+                    <h3 className="font-serif text-sm font-normal text-ink group-hover:text-accent transition-colors line-clamp-1">
                       {product.name}
                     </h3>
                   </Link>
-                  <div className="flex items-center space-x-2 mt-2">
-                    <span className="text-sm font-bold text-luxury-black">
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.comparePrice && (
-                      <span className="text-xs line-through text-gray-400">
-                        {formatPrice(product.comparePrice)}
-                      </span>
-                    )}
-                  </div>
                 </div>
               </div>
             );
@@ -191,16 +205,16 @@ export default function HomePage() {
       </section>
 
       {/* 3. Editorial Collections Section */}
-      <section className="bg-luxury-charcoal text-luxury-cream py-20">
+      <section className="bg-ink text-canvas py-20 border-y border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-luxury-gold text-xs font-semibold uppercase tracking-[0.35em]">
+            <span className="font-mono text-border text-xs uppercase tracking-[0.3em]">
               STREETWEAR EDITS
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight mt-2 mb-4">
-              Featured T-Shirt Collections
+            <h2 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight mt-2 mb-4">
+              Featured Collections
             </h2>
-            <p className="text-xs sm:text-sm font-light text-luxury-cream/70 leading-relaxed">
+            <p className="text-xs sm:text-sm font-normal text-canvas/70 leading-relaxed">
               Explore mineral-washed vintage fades, 300 GSM graphic back prints, and raw Peruvian Pima cotton essentials.
             </p>
           </div>
@@ -210,25 +224,25 @@ export default function HomePage() {
               <Link
                 key={col.id}
                 href={`/collection/${col.slug}`}
-                className="group relative h-[420px] overflow-hidden border border-luxury-cream/10"
+                className="group relative h-[420px] overflow-hidden border border-border/40 bg-surface"
               >
                 <img
                   src={col.image}
                   alt={col.name}
-                  className="w-full h-full object-cover object-center filter brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover object-center filter brightness-[0.75] group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-transparent to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/30 to-transparent" />
 
                 <div className="absolute bottom-0 inset-x-0 p-6 flex flex-col justify-end">
-                  <h3 className="font-serif text-2xl font-bold text-luxury-cream group-hover:text-luxury-gold transition-colors mb-2">
+                  <h3 className="font-serif text-2xl font-normal text-canvas group-hover:text-border transition-colors mb-2">
                     {col.name}
                   </h3>
-                  <p className="text-xs text-luxury-cream/70 line-clamp-2 mb-4">
+                  <p className="text-xs text-canvas/70 line-clamp-2 mb-4 font-light">
                     {col.description}
                   </p>
-                  <span className="text-[11px] uppercase font-bold tracking-[0.2em] text-luxury-gold flex items-center space-x-1 group-hover:translate-x-1 transition-transform">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-border flex items-center space-x-1 group-hover:translate-x-1 transition-transform">
                     <span>DISCOVER COLLECTION</span>
-                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    <ArrowRight className="w-3 h-3 ml-1" />
                   </span>
                 </div>
               </Link>
@@ -240,11 +254,11 @@ export default function HomePage() {
       {/* 4. Category Showcase Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-xl mx-auto mb-12">
-          <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
+          <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
             BY CUT & GRAMMAGE
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-luxury-black mt-1">
-            Shop T-Shirts By Silhouette
+          <h2 className="font-serif text-3xl sm:text-4xl font-normal text-ink mt-1">
+            Shop By Silhouette
           </h2>
         </div>
 
@@ -253,19 +267,19 @@ export default function HomePage() {
             <Link
               key={cat.id}
               href={`/category/${cat.slug}`}
-              className="group relative h-64 overflow-hidden border border-luxury-border shadow-subtle"
+              className="group relative h-64 overflow-hidden border border-border bg-surface"
             >
               <img
                 src={cat.image}
                 alt={cat.name}
-                className="w-full h-full object-cover object-center filter brightness-[0.8] group-hover:scale-110 transition-transform duration-700"
+                className="w-full h-full object-cover object-center filter brightness-[0.75] group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-luxury-black/30 group-hover:bg-luxury-black/50 transition-colors" />
+              <div className="absolute inset-0 bg-ink/30 group-hover:bg-ink/50 transition-colors" />
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                <h3 className="font-serif text-xl font-bold uppercase tracking-widest text-luxury-cream group-hover:text-luxury-gold transition-colors">
+                <h3 className="font-serif text-xl font-normal uppercase tracking-widest text-canvas group-hover:text-border transition-colors">
                   {cat.name}
                 </h3>
-                <span className="text-[10px] uppercase tracking-widest text-luxury-cream/70 mt-1">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-canvas/80 mt-1">
                   {cat._count?.products || 5}+ Styles
                 </span>
               </div>
@@ -274,71 +288,71 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. Promotional Banner */}
+      {/* 5. Promotional Editorial Drop */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative bg-luxury-black text-luxury-cream overflow-hidden border border-luxury-gold/40 shadow-luxury py-16 px-8 sm:px-16 flex flex-col md:flex-row items-center justify-between">
+        <div className="relative bg-surface text-ink overflow-hidden border border-border p-8 sm:p-14 flex flex-col md:flex-row items-center justify-between">
           <div className="max-w-xl text-center md:text-left mb-8 md:mb-0 z-10">
-            <span className="text-luxury-gold text-xs uppercase font-bold tracking-[0.35em] block mb-2">
+            <span className="font-mono text-muted text-xs uppercase font-medium tracking-[0.25em] block mb-2">
               INTRODUCTORY DROP PROMO
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-extrabold uppercase leading-tight mb-4">
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal uppercase leading-tight mb-4 text-ink">
               Get ₹500 Off Your First Heavyweight Tee
             </h2>
-            <p className="text-xs sm:text-sm font-light text-luxury-cream/80 leading-relaxed mb-6">
-              Apply voucher code <span className="text-luxury-gold font-bold">TEE500</span> at checkout on orders over ₹1,500.
+            <p className="text-xs sm:text-sm font-normal text-muted leading-relaxed mb-6">
+              Apply voucher code <span className="font-mono font-bold text-accent">TEE500</span> at checkout on orders over ₹1,500.
             </p>
             <Link
               href="/shop"
-              className="inline-block bg-luxury-gold text-luxury-black font-bold text-xs uppercase tracking-[0.2em] px-8 py-4 hover:bg-white transition-colors"
+              className="inline-block bg-accent text-canvas font-mono text-xs uppercase tracking-[0.2em] px-8 py-4 hover:bg-ink transition-colors border border-accent"
             >
               SHOP T-SHIRT DROPS NOW
             </Link>
           </div>
 
-          <div className="relative w-64 h-64 sm:w-80 sm:h-80 z-10">
+          <div className="relative w-64 h-64 sm:w-72 sm:h-72 z-10">
             <img
               src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=800"
               alt="Heavyweight Tee Promo"
-              className="w-full h-full object-cover border-2 border-luxury-gold rounded-sm filter brightness-90 shadow-2xl"
+              className="w-full h-full object-cover border border-border filter contrast-[1.05]"
             />
           </div>
         </div>
       </section>
 
-      {/* 6. Brand Story Section */}
-      <section className="bg-luxury-beige/40 py-20 border-y border-luxury-border">
+      {/* 6. Brand Atelier Section */}
+      <section className="bg-surface/50 py-20 border-y border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-[480px]">
+            <div className="relative h-[440px] border border-border bg-surface">
               <img
                 src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=1000"
                 alt="CYTRUS T-Shirt Studio"
-                className="w-full h-full object-cover shadow-2xl"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute -bottom-6 -right-6 bg-luxury-black text-luxury-cream p-6 hidden sm:block border border-luxury-gold">
-                <p className="font-serif text-2xl font-bold text-luxury-gold">280 GSM</p>
-                <p className="text-[10px] uppercase tracking-widest text-luxury-cream/80">FRENCH TERRY COTTON</p>
+              <div className="absolute -bottom-4 -right-4 bg-ink text-canvas p-5 hidden sm:block border border-border">
+                <p className="font-mono text-xl font-bold text-canvas">280 GSM</p>
+                <p className="font-mono text-[9px] uppercase tracking-widest text-muted">FRENCH TERRY COTTON</p>
               </div>
             </div>
 
             <div className="space-y-6">
-              <span className="text-xs uppercase font-semibold tracking-[0.35em] text-luxury-gold">
+              <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
                 THE CYTRUS ATELIER
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-luxury-black">
+              <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-ink">
                 Architectural Oversized Fits & Non-Deforming Heavy Ribbed Collars
               </h2>
-              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+              <p className="text-xs sm:text-sm text-muted leading-relaxed">
                 Most t-shirts lose their structure after three washes. At CYTRUS, every garment is constructed with high-density 280-300 GSM French Terry organic cotton and double-needle reinforced necklines.
               </p>
-              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+              <p className="text-xs sm:text-sm text-muted leading-relaxed">
                 From hand-dyed mineral acid washes to high-density puff prints, our t-shirts are crafted for the modern luxury streetwear aesthetic.
               </p>
 
               <div className="pt-2">
                 <Link
                   href="/shop"
-                  className="inline-block border-b-2 border-luxury-black text-luxury-black font-serif text-sm font-bold uppercase tracking-widest hover:text-luxury-gold hover:border-luxury-gold transition-colors pb-1"
+                  className="inline-block border-b border-ink text-ink font-mono text-xs uppercase tracking-widest hover:text-accent hover:border-accent transition-colors pb-1"
                 >
                   Explore All T-Shirt Silhouettes →
                 </Link>

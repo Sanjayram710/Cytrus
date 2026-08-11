@@ -20,52 +20,52 @@ export default function OrderHistoryPage() {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="border-b border-luxury-border pb-6 mb-10">
-        <span className="text-xs uppercase font-semibold tracking-[0.3em] text-luxury-gold">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-canvas">
+      <div className="border-b border-border pb-6 mb-10">
+        <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
           CLIENT PORTAL
         </span>
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-luxury-black mt-1">
+        <h1 className="font-serif text-3xl sm:text-4xl font-normal text-ink mt-1">
           Order History & Tracking
         </h1>
       </div>
 
       {loading ? (
-        <div className="text-center py-16 uppercase tracking-widest text-luxury-gold text-xs">Loading Order History...</div>
+        <div className="text-center py-16 font-mono uppercase tracking-widest text-muted text-xs">Loading Order History...</div>
       ) : orders.length === 0 ? (
-        <div className="text-center py-16 bg-white border border-luxury-border p-8">
-          <Package className="w-12 h-12 text-luxury-gold/40 mx-auto mb-4" />
-          <p className="font-serif text-lg font-bold text-luxury-black mb-2">No Past Orders Found</p>
-          <p className="text-xs text-gray-500 mb-6 uppercase tracking-wider">When you place an order, it will appear here with live tracking updates.</p>
-          <Link href="/shop" className="bg-luxury-black text-luxury-cream px-6 py-3 text-xs uppercase font-bold tracking-widest hover:bg-luxury-gold hover:text-black">
-            Explore Couture Collections
+        <div className="text-center py-16 bg-surface border border-border p-8">
+          <Package className="w-10 h-10 text-muted mx-auto mb-4" />
+          <p className="font-serif text-lg font-normal text-ink mb-2">No Past Orders Found</p>
+          <p className="font-mono text-xs text-muted mb-6 uppercase tracking-wider">When you place an order, it will appear here with live tracking updates.</p>
+          <Link href="/shop" className="bg-accent text-canvas px-6 py-3 font-mono text-xs uppercase font-semibold tracking-widest hover:bg-ink transition-colors border border-accent">
+            Explore Drops
           </Link>
         </div>
       ) : (
         <div className="space-y-6">
           {orders.map((order) => (
-            <div key={order.id} className="bg-white border border-luxury-border p-6 shadow-subtle hover:border-luxury-gold transition-colors">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-luxury-border pb-4 mb-4 gap-2">
+            <div key={order.id} className="bg-surface border border-border p-6 hover:border-accent transition-colors">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border pb-4 mb-4 gap-2">
                 <div>
-                  <span className="text-[10px] font-mono text-gray-400 uppercase">ORDER ID:</span>
-                  <p className="font-serif font-bold text-luxury-black text-sm">{order.orderNumber}</p>
-                  <p className="text-[11px] text-gray-500">
+                  <span className="text-[10px] font-mono text-muted uppercase">ORDER ID:</span>
+                  <p className="font-serif font-normal text-ink text-sm">{order.orderNumber}</p>
+                  <p className="font-mono text-[11px] text-muted">
                     Placed on {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </p>
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <span className={`text-[10px] uppercase font-bold px-3 py-1 border ${
+                  <span className={`font-mono text-[10px] uppercase font-medium px-3 py-1 border ${
                     order.orderStatus === 'DELIVERED'
-                      ? 'bg-green-50 text-green-700 border-green-200'
+                      ? 'bg-canvas text-ink border-border'
                       : order.orderStatus === 'CANCELLED'
-                      ? 'bg-red-50 text-red-700 border-red-200'
-                      : 'bg-luxury-cream text-luxury-black border-luxury-gold'
+                      ? 'bg-canvas text-muted border-border'
+                      : 'bg-canvas text-accent border-accent'
                   }`}>
                     {order.orderStatus}
                   </span>
 
-                  <span className="text-sm font-extrabold text-luxury-black">
+                  <span className="font-mono text-sm font-semibold text-accent">
                     {formatPrice(order.total)}
                   </span>
                 </div>
@@ -75,8 +75,8 @@ export default function OrderHistoryPage() {
               <div className="space-y-2 mb-4">
                 {order.items.map((item: any) => (
                   <div key={item.id} className="flex justify-between items-center text-xs">
-                    <span className="font-serif text-luxury-black font-semibold line-clamp-1">{item.productName} ({item.size} / {item.color}) x{item.quantity}</span>
-                    <span className="font-bold text-luxury-black">{formatPrice(item.total)}</span>
+                    <span className="font-serif text-ink font-normal line-clamp-1">{item.productName} ({item.size} / {item.color}) x{item.quantity}</span>
+                    <span className="font-mono font-semibold text-ink">{formatPrice(item.total)}</span>
                   </div>
                 ))}
               </div>
@@ -84,10 +84,10 @@ export default function OrderHistoryPage() {
               <div className="pt-2 flex justify-end">
                 <Link
                   href={`/orders/${order.id}`}
-                  className="text-xs uppercase tracking-wider font-bold text-luxury-black hover:text-luxury-gold flex items-center space-x-1"
+                  className="font-mono text-xs uppercase tracking-wider text-accent hover:text-ink flex items-center space-x-1"
                 >
                   <span>View Full Order & Tracking Timeline</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>

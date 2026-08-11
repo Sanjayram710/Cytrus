@@ -67,6 +67,93 @@ async function runTests() {
   const invalidSignature = verifyRazorpaySignature('rzp_order_live_123', 'pay_123', 'invalid_signature_xxx');
   assert(invalidSignature === false, 'Razorpay invalid payment signature rejection');
 
+  // 5. Customizer Pure Pricing Engine Calculations
+  console.log('\n--- 5. Testing Customizer Pure Pricing Engine ---');
+  const {
+    calculatePrice: calcCustomPrice,
+    calculateSizeSurcharge,
+    CUT_OPTIONS: cuts,
+    COLOR_OPTIONS: colors,
+    PLACEMENT_OPTIONS: placements,
+    FONT_OPTIONS: fonts,
+    GRAPHIC_PRESETS: graphics,
+  } = await import('../src/lib/customizerPricing');
+
+  const baseTeePrice = calcCustomPrice({
+    cut: cuts[0], // 2499
+    color: colors[0],
+    placement: placements[0], // 0 surcharge
+    headlineText: 'CYTRUS',
+    taglineText: 'DROP 2026',
+    font: fonts[0],
+    textScale: 'md',
+    graphic: graphics[0], // 0 surcharge
+    size: 'L', // 0 surcharge
+  });
+  assert(baseTeePrice === 2499, 'Customizer base price computes accurately (₹2,499)');
+
+  const premiumCustomPrice = calcCustomPrice({
+    cut: cuts[0], // 2499
+    color: colors[1],
+    placement: placements[2], // Back statement (+100)
+    headlineText: 'CYTRUS ATELIER',
+    taglineText: 'LIMITED EDITION',
+    font: fonts[1],
+    textScale: 'lg',
+    graphic: graphics[1], // Emblem (+150)
+    size: 'XXL', // (+150)
+  });
+  assert(
+    premiumCustomPrice === 2499 + 100 + 150 + 150,
+    'Customizer tiered surcharges computed correctly (₹2,899 for XXL + Back Print + Emblem)'
+  );
+
+  assert(calculateSizeSurcharge('L') === 0, 'Standard sizes carry ₹0 size surcharge');
+  assert(calculateSizeSurcharge('XXL') === 150, 'XXL size carries configured +₹150 surcharge');
+
+  // 6. Registration Database Write & Duplicate Handling
+  console.log('\n--- 6. Testing Registration DB Write & Error Handling ---');
+  const { prisma } = await import('../src/lib/prisma');
+  const testRegEmail = `testuser_${Date.now()}@cytrus.com`;
+  const rawPlainPass = 'SecurePass@2026';
+  const hashedPass = await hashPassword(rawPlainPass);
+
+  // Write new user row
+  const createdUser = await prisma.user.create({
+    data: {
+      name: 'Test Client Profile',
+      email: testRegEmail,
+      password: hashedPass,
+      phone: '+919876543210',
+      role: 'USER',
+    },
+  });
+
+  assert(Boolean(createdUser.id), 'User row successfully created in database');
+  assert(createdUser.password !== rawPlainPass, 'Stored password is NOT plaintext');
+  assert(createdUser.password.startsWith('$2'), 'Stored password is valid bcrypt hash');
+
+  // Duplicate email check
+  let duplicateCaught = false;
+  try {
+    await prisma.user.create({
+      data: {
+        name: 'Duplicate Profile',
+        email: testRegEmail,
+        password: hashedPass,
+        role: 'USER',
+      },
+    });
+  } catch (err: any) {
+    if (err?.code === 'P2002') {
+      duplicateCaught = true;
+    }
+  }
+  assert(duplicateCaught, 'Prisma unique constraint P2002 properly detected on duplicate email');
+
+  // Clean up test user
+  await prisma.user.delete({ where: { id: createdUser.id } });
+
   console.log('\n==============================================');
   console.log(`   TEST RESULTS: ${passed} PASSED | ${failed} FAILED`);
   console.log('==============================================\n');
