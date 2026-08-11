@@ -7,16 +7,16 @@ import { sendOrderEmailReceipt, sendOrderSMSNotification } from '@/lib/notificat
 import { z } from 'zod';
 
 const orderSchema = z.object({
-  customerName: z.string().min(2),
-  customerEmail: z.string().email(),
-  customerPhone: z.string().min(6),
+  customerName: z.string().min(1, 'Customer name is required'),
+  customerEmail: z.string().email('Please enter a valid email address'),
+  customerPhone: z.string().min(1, 'Phone number is required'),
   address: z.object({
-    fullName: z.string().min(2),
-    phone: z.string().min(6),
-    street: z.string().min(5),
-    city: z.string().min(2),
-    state: z.string().min(2),
-    postalCode: z.string().min(4),
+    fullName: z.string().min(1, 'Full name is required'),
+    phone: z.string().min(1, 'Phone number is required'),
+    street: z.string().min(1, 'Street address is required'),
+    city: z.string().min(1, 'City is required'),
+    state: z.string().min(1, 'State is required'),
+    postalCode: z.string().min(1, 'Postal code is required'),
     country: z.string().default('India'),
   }),
   items: z.array(
