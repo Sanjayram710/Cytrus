@@ -93,6 +93,18 @@ export default function CustomizePage() {
     setViewSide(p.viewSide);
   };
 
+  // Sync placement when manually toggling front/back views
+  const handleViewSideToggle = (side: 'front' | 'back') => {
+    setViewSide(side);
+    if (side === 'back' && selectedPlacement.viewSide !== 'back') {
+      const backPlace = PLACEMENT_OPTIONS.find((p) => p.viewSide === 'back');
+      if (backPlace) setSelectedPlacement(backPlace);
+    } else if (side === 'front' && selectedPlacement.viewSide !== 'front') {
+      const frontPlace = PLACEMENT_OPTIONS.find((p) => p.viewSide === 'front');
+      if (frontPlace) setSelectedPlacement(frontPlace);
+    }
+  };
+
   // Pure Pricing Calculation
   const currentSelections: CustomizerSelections = {
     cut: selectedCut,
@@ -284,7 +296,7 @@ export default function CustomizePage() {
               <div className="flex space-x-2 font-mono text-xs uppercase tracking-wider">
                 <button
                   type="button"
-                  onClick={() => setViewSide('front')}
+                  onClick={() => handleViewSideToggle('front')}
                   className={`px-4 py-1.5 border transition-all focus:outline-none focus:ring-1 focus:ring-accent ${
                     viewSide === 'front'
                       ? 'bg-ink text-canvas border-ink font-semibold'
@@ -295,7 +307,7 @@ export default function CustomizePage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setViewSide('back')}
+                  onClick={() => handleViewSideToggle('back')}
                   className={`px-4 py-1.5 border transition-all focus:outline-none focus:ring-1 focus:ring-accent ${
                     viewSide === 'back'
                       ? 'bg-ink text-canvas border-ink font-semibold'
@@ -320,15 +332,17 @@ export default function CustomizePage() {
               className="relative w-full aspect-[4/5] max-w-[500px] border border-border flex items-center justify-center p-6 shadow-sm overflow-hidden rounded-none transition-colors duration-500"
               style={{
                 backgroundColor:
-                  selectedSilhouette === 'vintage-wash'
-                    ? '#E2DFD9'
-                    : selectedSilhouette === 'graphic-tees'
-                    ? '#E8E8E8'
-                    : selectedColor.id === 'sand-dune'
+                  selectedColor.id === 'sand-dune'
                     ? '#EBE3D5'
                     : selectedColor.id === 'vintage-chalk'
                     ? '#F7F4EE'
-                    : '#FFFFFF',
+                    : selectedColor.id === 'distressed-clay'
+                    ? '#EFEBE7'
+                    : selectedColor.id === 'mineral-slate'
+                    ? '#E5E7E9'
+                    : selectedColor.id === 'washed-espresso'
+                    ? '#EDE8E3'
+                    : '#FAF8F5',
               }}
             >
               {/* Subtle Dotted-Grid Canvas Background */}
