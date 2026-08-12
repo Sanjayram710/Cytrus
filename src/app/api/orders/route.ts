@@ -116,18 +116,33 @@ export async function POST(req: Request) {
       },
     });
 
-    // 5. Deduct stock for variants / products
+    // 5. Deduct stock for variants / products safely (minimum 0)
     for (const item of calc.items) {
       if (item.variantId) {
-        await prisma.productVariant.update({
-          where: { id: item.variantId },
-          data: { stock: { decrement: item.quantity } },
-        });
+        const v = await prisma.productVariant.findUnique({ where: { id: item.variantId } });
+        if (v) {
+          await prisma.productVariant.update({
+            where: { id: item.variantId },
+            data: { stock: Math.max(0, v.stock - item.quantity) },
+          });
+        }
       }
-      await prisma.product.update({
-        where: { id: item.productId },
-        data: { stock: { decrement: item.quantity } },
-      });
+      const p = await prisma.product.findUnique({ where: { id: item.productId } });
+      if (p) {
+        const newStock = Math.max(0, p.stock - item.quantity);
+        await prisma.product.update({
+          where: { id: item.productId },
+          data: { stock: newStock },
+        });
+
+        const invRecord = await prisma.inventory.findFirst({ where: { productId: item.productId } });
+        if (invRecord) {
+          await prisma.inventory.update({
+            where: { id: invRecord.id },
+            data: { stock: newStock },
+          });
+        }
+      }
     }
 
     // 6. Record coupon usage if applied

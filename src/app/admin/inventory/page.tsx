@@ -83,8 +83,9 @@ export default function AdminInventoryPage() {
                   <td className="p-3">
                     <input
                       type="number"
+                      min="0"
                       value={item.stock}
-                      onChange={(e) => handleStockChange(item.id, parseInt(e.target.value, 10) || 0)}
+                      onChange={(e) => handleStockChange(item.id, Math.max(0, parseInt(e.target.value, 10) || 0))}
                       className="w-20 border border-luxury-border p-1.5 font-bold text-center bg-white focus:outline-none focus:border-luxury-gold"
                     />
                   </td>

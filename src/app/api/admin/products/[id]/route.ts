@@ -1,38 +1,21 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
-import { normalizeImageUrl } from '@/lib/utils';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
-
-async function processAndSaveImageUrl(url: string): Promise<string> {
-  if (!url) return '';
-  const normalized = normalizeImageUrl(url);
-  if (normalized.includes('lh3.googleusercontent.com/d/')) {
-    try {
-      const res = await fetch(normalized);
-      if (res.ok) {
-        const bytes = await res.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const match = normalized.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        const fileId = match ? match[1] : Date.now().toString();
-        const fileName = `upload_${Date.now()}_drive_${fileId}.jpg`;
-        const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-        await mkdir(uploadsDir, { recursive: true });
-        await writeFile(path.join(uploadsDir, fileName), buffer);
-        return `/uploads/${fileName}`;
-      }
-    } catch (e) {
-      console.error('Failed to download drive image locally:', e);
-    }
-  }
-  return normalized;
-}
+import { processAndSaveImageUrl } from '@/lib/server-utils';
+import { PriceHistoryService } from '@/services/PriceHistoryService';
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   try {
-    await requireAdmin();
+    const session = await requireAdmin();
     const body = await req.json();
+
+    const existingProduct = await prisma.product.findUnique({ where: { id: params.id } });
+    if (!existingProduct) {
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    }
+
+    const oldPrice = existingProduct.price;
+    const newPrice = body.price ? parseFloat(body.price) : oldPrice;
 
     const product = await prisma.product.update({
       where: { id: params.id },
@@ -43,15 +26,38 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         price: body.price ? parseFloat(body.price) : undefined,
         comparePrice: body.comparePrice ? parseFloat(body.comparePrice) : null,
         sku: body.sku,
-        stock: body.stock !== undefined ? parseInt(body.stock, 10) : undefined,
+        stock: body.stock !== undefined ? Math.max(0, parseInt(body.stock, 10) || 0) : undefined,
         isFeatured: body.isFeatured,
         isNewArrival: body.isNewArrival,
         isBestSeller: body.isBestSeller,
         status: body.status,
         categoryId: body.categoryId,
         collectionId: body.collectionId || null,
+        customOffer: body.customOffer !== undefined ? body.customOffer : undefined,
       },
     });
+
+    if (body.price && Math.abs(oldPrice - newPrice) > 0.01) {
+      await PriceHistoryService.recordPriceChange({
+        productId: params.id,
+        oldPrice,
+        newPrice,
+        reason: body.priceChangeReason || 'ADMIN_UPDATE',
+        source: 'ADMIN',
+        createdBy: session.name || session.email || 'Admin',
+      });
+    }
+
+    if (body.stock !== undefined) {
+      const sanitizedStock = Math.max(0, parseInt(body.stock, 10) || 0);
+      const invRecord = await prisma.inventory.findFirst({ where: { productId: params.id } });
+      if (invRecord) {
+        await prisma.inventory.update({
+          where: { id: invRecord.id },
+          data: { stock: sanitizedStock },
+        });
+      }
+    }
 
     if (Array.isArray(body.images) && body.images.length > 0) {
       const processedImages = await Promise.all(

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
+import { processAndSaveImageUrl } from '@/lib/server-utils';
 
 export async function GET() {
   try {
@@ -19,12 +20,14 @@ export async function POST(req: Request) {
   try {
     await requireAdmin();
     const body = await req.json();
+    const processedImage = body.image ? await processAndSaveImageUrl(body.image) : undefined;
+
     const category = await prisma.category.create({
       data: {
         name: body.name,
         slug: body.slug,
         description: body.description,
-        image: body.image,
+        image: processedImage,
         isFeatured: body.isFeatured ?? false,
         isActive: body.isActive ?? true,
       },

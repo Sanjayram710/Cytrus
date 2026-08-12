@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
+import { processAndSaveImageUrl } from '@/lib/server-utils';
 
 export async function GET() {
   try {
@@ -19,13 +20,18 @@ export async function POST(req: Request) {
     await requireAdmin();
     const body = await req.json();
 
+    const processedImage = await processAndSaveImageUrl(body.image);
+    const processedMobileImage = body.mobileImage
+      ? await processAndSaveImageUrl(body.mobileImage)
+      : processedImage;
+
     const slide = await prisma.heroSlide.create({
       data: {
         title: body.title,
         subtitle: body.subtitle,
         description: body.description,
-        image: body.image,
-        mobileImage: body.mobileImage || body.image,
+        image: processedImage,
+        mobileImage: processedMobileImage,
         buttonText: body.buttonText || 'Explore Collection',
         buttonUrl: body.buttonUrl || '/shop',
         displayOrder: body.displayOrder ? parseInt(body.displayOrder, 10) : 0,
