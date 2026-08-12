@@ -64,35 +64,37 @@ export default function RealisticTShirt({
 }: RealisticTShirtProps) {
   const isPrintVisible = placement.viewSide === viewSide;
   
-  // Resolve base image source for the active silhouette and color
-  const mockups = COLOR_MOCKUP_MAP[color.id] || COLOR_MOCKUP_MAP['obsidian-black'];
-  let imageSrc = viewSide === 'front' ? mockups.front : mockups.back;
-
-  // Custom filter style for silhouettes to impart unique texture & style character
-  let garmentFilter = 'contrast(1.03)';
-  if (silhouette === 'vintage-wash') {
-    // Authentic vintage wash mineral/acid fading texture
-    garmentFilter = 'contrast(1.15) brightness(0.95) saturate(0.85)';
-  } else if (silhouette === 'graphic-tees') {
-    // Bold streetwear high-fashion punch
-    garmentFilter = 'contrast(1.12) brightness(1.02)';
+  // 1. Resolve distinct base garment mockup based on silhouette
+  let imageSrc = '';
+  if (silhouette === 'graphic-tees') {
+    imageSrc = viewSide === 'front' 
+      ? '/mockups/tshirt_graphic_front.png' 
+      : '/mockups/tshirt_graphic_back.png';
+  } else if (silhouette === 'vintage-wash') {
+    imageSrc = viewSide === 'front' 
+      ? '/mockups/tshirt_vintage_wash_front.png' 
+      : '/mockups/tshirt_vintage_wash_back.png';
+  } else {
+    // Oversized Tees
+    const mockups = COLOR_MOCKUP_MAP[color.id] || COLOR_MOCKUP_MAP['obsidian-black'];
+    imageSrc = viewSide === 'front' ? mockups.front : mockups.back;
   }
 
-  // Calculate text color for high legibility
+  // 2. Calculate text & artwork contrast
   let effectiveTextColor = color.textColor;
-  if (color.id === 'obsidian-black' || color.id === 'washed-espresso' || color.id === 'mineral-slate' || color.id === 'distressed-clay') {
+  if (silhouette === 'graphic-tees' || silhouette === 'vintage-wash') {
     effectiveTextColor = '#FAF7F2';
   } else {
-    effectiveTextColor = '#1C1917';
+    effectiveTextColor = color.textColor;
   }
 
-  // Exact coordinates and scaling for all 4 placement zones
+  // 3. Exact coordinates and responsive scaling for all 4 placement zones
   const isPocket = placement.id === 'pocket-left';
   const isLowerHem = placement.id === 'lower-hem';
   const isBack = placement.id === 'back-oversized';
 
   let placementStyle: React.CSSProperties = {
-    top: '34%',
+    top: silhouette === 'graphic-tees' ? '36%' : '34%',
     left: '50%',
     transform: 'translateX(-50%)',
     width: '60%',
@@ -101,7 +103,7 @@ export default function RealisticTShirt({
 
   if (isPocket) {
     placementStyle = {
-      top: '28%',
+      top: silhouette === 'graphic-tees' ? '30%' : '28%',
       left: '26%',
       width: '28%',
       maxWidth: '95px',
@@ -126,21 +128,22 @@ export default function RealisticTShirt({
   return (
     <div className="relative w-full max-w-[440px] aspect-square flex items-center justify-center select-none overflow-hidden rounded-md bg-transparent">
       
-      {/* 1. Base Studio T-Shirt Mockup */}
+      {/* 1. Distinct Base Studio T-Shirt Mockup */}
       <img
         key={`${silhouette}-${viewSide}-${color.id}`}
         src={imageSrc}
         alt={`CYTRUS ${silhouette} ${color.name} ${viewSide} view`}
-        style={{ filter: garmentFilter }}
-        className="relative z-10 w-full h-full object-contain transition-all duration-300 pointer-events-none"
+        className="relative z-10 w-full h-full object-contain filter contrast-[1.03] transition-all duration-300 pointer-events-none"
       />
 
-      {/* 1.1 Subtle Vintage Wash Distressed Texture Layer */}
-      {silhouette === 'vintage-wash' && (
+      {/* 1.1 Dynamic Color Tone Overlay for Graphic Tees & Vintage Wash */}
+      {(silhouette === 'graphic-tees' || silhouette === 'vintage-wash') && color.id !== 'obsidian-black' && (
         <div
-          className="absolute inset-0 z-20 pointer-events-none opacity-40 mix-blend-overlay transition-opacity duration-300"
+          className="absolute inset-0 z-20 pointer-events-none transition-all duration-300"
           style={{
-            backgroundImage: `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.3) 100%)`,
+            backgroundColor: color.hex,
+            mixBlendMode: silhouette === 'vintage-wash' ? 'color' : 'color-burn',
+            opacity: silhouette === 'vintage-wash' ? 0.85 : 0.65,
             maskImage: `url(${imageSrc})`,
             WebkitMaskImage: `url(${imageSrc})`,
             maskSize: 'contain',
@@ -182,7 +185,8 @@ export default function RealisticTShirt({
                 src={graphic.previewUrl}
                 alt="Graphic Artwork"
                 className={`w-full h-full object-cover rounded-sm ${
-                  color.id === 'vintage-chalk' || color.id === 'sand-dune'
+                  (silhouette === 'oversized-tees' && color.id !== 'obsidian-black' && color.id !== 'washed-espresso') ||
+                  (silhouette !== 'oversized-tees' && (color.id === 'vintage-chalk' || color.id === 'sand-dune'))
                     ? 'mix-blend-multiply'
                     : 'brightness-110'
                 }`}
