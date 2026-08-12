@@ -45,37 +45,37 @@ export default function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps)
               <tbody className="divide-y divide-border text-ink">
                 <tr>
                   <td className="p-3 font-semibold">S</td>
-                  <td className="p-3">42"</td>
-                  <td className="p-3">28.5"</td>
-                  <td className="p-3">21.5"</td>
+                  <td className="p-3">42&quot;</td>
+                  <td className="p-3">28.5&quot;</td>
+                  <td className="p-3">21.5&quot;</td>
                   <td className="p-3 text-accent font-medium">Relaxed Boxy</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-semibold">M</td>
-                  <td className="p-3">44"</td>
-                  <td className="p-3">29.5"</td>
-                  <td className="p-3">22.5"</td>
+                  <td className="p-3">44&quot;</td>
+                  <td className="p-3">29.5&quot;</td>
+                  <td className="p-3">22.5&quot;</td>
                   <td className="p-3 text-accent font-medium">Relaxed Boxy</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-semibold">L</td>
-                  <td className="p-3">46"</td>
-                  <td className="p-3">30.5"</td>
-                  <td className="p-3">23.5"</td>
+                  <td className="p-3">46&quot;</td>
+                  <td className="p-3">30.5&quot;</td>
+                  <td className="p-3">23.5&quot;</td>
                   <td className="p-3 text-accent font-medium">Oversized Drop</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-semibold">XL</td>
-                  <td className="p-3">48"</td>
-                  <td className="p-3">31.5"</td>
-                  <td className="p-3">24.5"</td>
+                  <td className="p-3">48&quot;</td>
+                  <td className="p-3">31.5&quot;</td>
+                  <td className="p-3">24.5&quot;</td>
                   <td className="p-3 text-accent font-medium">Oversized Drop</td>
                 </tr>
                 <tr>
                   <td className="p-3 font-semibold">XXL</td>
-                  <td className="p-3">50"</td>
-                  <td className="p-3">32.5"</td>
-                  <td className="p-3">25.5"</td>
+                  <td className="p-3">50&quot;</td>
+                  <td className="p-3">32.5&quot;</td>
+                  <td className="p-3">25.5&quot;</td>
                   <td className="p-3 text-accent font-medium">Ultra Oversized</td>
                 </tr>
               </tbody>
