@@ -5,10 +5,19 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Filter, SlidersHorizontal, Eye, Heart, ShoppingBag, X, ChevronDown, Check, Zap, Tag } from 'lucide-react';
 import QuickViewModal from '@/components/QuickViewModal';
+import CustomSelect from '@/components/CustomSelect';
 import ProductOffersModal from '@/components/ProductOffersModal';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
+
+const SORT_OPTIONS = [
+  { value: 'recommended', label: 'Recommended' },
+  { value: 'newest', label: 'Newest Arrivals' },
+  { value: 'price-low', label: 'Price: Low to High' },
+  { value: 'price-high', label: 'Price: High to Low' },
+  { value: 'best-selling', label: 'Best Sellers' },
+];
 
 function ShopContent() {
   const searchParams = useSearchParams();
@@ -118,17 +127,11 @@ function ShopContent() {
           <label className="font-mono text-xs uppercase tracking-widest text-muted hidden sm:inline">
             Sort By:
           </label>
-          <select
+          <CustomSelect
             value={currentSort}
-            onChange={(e) => updateParam('sort', e.target.value)}
-            className="bg-surface border border-border font-mono text-xs uppercase tracking-wider text-ink px-3 py-2 focus:outline-none focus:border-accent"
-          >
-            <option value="recommended">Recommended</option>
-            <option value="newest">Newest Arrivals</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="best-selling">Best Sellers</option>
-          </select>
+            onChange={(val) => updateParam('sort', val)}
+            options={SORT_OPTIONS}
+          />
         </div>
       </div>
 

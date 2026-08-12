@@ -56,19 +56,19 @@ export interface CustomizerSelections {
 export const CUT_OPTIONS: CustomizerCutOption[] = [
   {
     id: 'oversized-heavy',
-    name: '300 GSM Oversized Drop-Shoulder',
+    name: '240 GSM Oversized Drop-Shoulder',
     desc: 'Heavyweight organic French Terry with exaggerated drop shoulders & boxy drape.',
     basePrice: 2499,
   },
   {
     id: 'vintage-boxy',
-    name: '280 GSM Vintage Boxy Cut',
+    name: '240 GSM Vintage Boxy Cut',
     desc: 'Slightly cropped waist with wide chest and relaxed reinforced collar.',
     basePrice: 2299,
   },
   {
     id: 'raw-minimalist',
-    name: '320 GSM Raw Edge Atelier Cut',
+    name: '240 GSM Raw Edge Atelier Cut',
     desc: 'Ultra-dense combed cotton with distressed raw hems & heavy ribbing.',
     basePrice: 2699,
   },
@@ -88,28 +88,28 @@ export const PLACEMENT_OPTIONS: CustomizerPlacementOption[] = [
     id: 'center-chest',
     name: 'Center Chest Graphic',
     viewSide: 'front',
-    posClass: 'top-[32%] left-1/2 -translate-x-1/2 max-w-[200px]',
+    posClass: 'top-[34%] left-1/2 -translate-x-1/2 w-[60%] max-w-[210px]',
     surcharge: 0,
   },
   {
     id: 'pocket-left',
     name: 'Left Pocket Minimal',
     viewSide: 'front',
-    posClass: 'top-[28%] left-[34%] max-w-[90px]',
+    posClass: 'top-[28%] left-[28%] w-[26%] max-w-[90px]',
     surcharge: 0,
   },
   {
     id: 'back-oversized',
     name: 'Full Back Statement',
     viewSide: 'back',
-    posClass: 'top-[26%] left-1/2 -translate-x-1/2 max-w-[220px]',
+    posClass: 'top-[26%] left-1/2 -translate-x-1/2 w-[70%] max-w-[230px]',
     surcharge: 100, // Premium for large surface area back print
   },
   {
     id: 'lower-hem',
     name: 'Lower Hem Atelier Tag',
     viewSide: 'front',
-    posClass: 'bottom-[15%] left-[28%] max-w-[100px]',
+    posClass: 'bottom-[14%] left-[25%] w-[30%] max-w-[100px]',
     surcharge: 0,
   },
 ];

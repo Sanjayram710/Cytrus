@@ -40,7 +40,7 @@ export default function Footer() {
           <div className="flex flex-col items-center">
             <Award className="w-6 h-6 text-border mb-3" />
             <h4 className="font-mono text-xs uppercase tracking-widest text-canvas mb-1 font-semibold">
-              300 GSM French Terry
+              240 GSM French Terry
             </h4>
             <p className="font-mono text-[11px] text-canvas/60">100% Organic Heavyweight Combed Cotton</p>
           </div>

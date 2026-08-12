@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>CYTRUS | Luxury Heavyweight Streetwear & Bespoke Drops</title>
         <meta
           name="description"
-          content="Discover CYTRUS 300 GSM organic French Terry oversized tees, vintage mineral washes, graphic streetwear capsules, and custom bespoke tees."
+          content="Discover CYTRUS 240 GSM organic French Terry oversized tees, vintage mineral washes, graphic streetwear capsules, and custom bespoke tees."
         />
       </head>
       <body className="min-h-screen flex flex-col justify-between bg-canvas text-ink font-sans antialiased selection:bg-surface selection:text-ink">

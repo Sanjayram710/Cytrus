@@ -411,7 +411,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               </div>
               <div className="flex flex-col items-center">
                 <ShieldCheck className="w-4 h-4 text-accent mb-1" />
-                <span>300 GSM Organic Cotton</span>
+                <span>240 GSM Organic Cotton</span>
               </div>
               <div className="flex flex-col items-center">
                 <RotateCcw className="w-4 h-4 text-accent mb-1" />
