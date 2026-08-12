@@ -28,10 +28,7 @@ export async function PUT(req: Request) {
     await requireAdmin();
     const { productId, variantId, stock } = await req.json();
 
-    const newStock = parseInt(stock, 10);
-    if (isNaN(newStock) || newStock < 0) {
-      return NextResponse.json({ error: 'Invalid stock count' }, { status: 400 });
-    }
+    const newStock = Math.max(0, parseInt(stock, 10) || 0);
 
     if (variantId) {
       await prisma.productVariant.update({

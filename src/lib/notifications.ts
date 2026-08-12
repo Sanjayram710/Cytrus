@@ -46,6 +46,7 @@ function getSmtpTransporter() {
 export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const trackingUrl = `${baseUrl}/orders/${order.id}`;
+  const invoicePdfUrl = `${baseUrl}/api/orders/${order.id}/invoice`;
 
   let parsedAddress: any = {};
   try {
@@ -160,9 +161,12 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
                     Contact Phone: <strong>${order.customerPhone}</strong>
                   </div>
 
-                  <!-- Live Tracking CTA -->
+                  <!-- Live Tracking & PDF Download CTAs -->
                   <div style="text-align: center; margin-top: 30px;">
-                    <a href="${trackingUrl}" style="background-color: #121212; color: #FAF8F5; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.2em; padding: 14px 30px; display: inline-block; border-radius: 2px;">
+                    <a href="${invoicePdfUrl}" style="background-color: #6B5B45; color: #FFFFFF; text-decoration: none; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; padding: 13px 22px; display: inline-block; border-radius: 2px; margin-right: 8px; margin-bottom: 10px;">
+                      📄 DOWNLOAD TAX INVOICE (PDF)
+                    </a>
+                    <a href="${trackingUrl}" style="background-color: #121212; color: #FAF8F5; text-decoration: none; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; padding: 13px 22px; display: inline-block; border-radius: 2px; margin-bottom: 10px;">
                       TRACK YOUR ORDER LIVE →
                     </a>
                   </div>
@@ -235,7 +239,37 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
 
   const smsText = `[CYTRUS] Hello ${order.customerName}, your order #${order.orderNumber} for ${formatPrice(order.total)} has been confirmed! Track your shipment live: ${trackingUrl}`;
 
-  // If Twilio env variables exist, send real SMS
+  // 1. Fast2SMS Integration (Instant Indian SMS Gateway)
+  if (process.env.FAST2SMS_API_KEY) {
+    try {
+      const cleanPhone = order.customerPhone.replace(/\D/g, '').slice(-10);
+      const orderRefDigits = order.orderNumber.replace(/\D/g, '') || '101';
+
+      const f2sRes = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+        method: 'POST',
+        headers: {
+          authorization: process.env.FAST2SMS_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          route: 'otp',
+          variables_values: orderRefDigits.slice(-6),
+          numbers: cleanPhone,
+        }),
+      });
+      const f2sData = await f2sRes.json();
+      if (f2sData && f2sData.return) {
+        console.log(`✅ [FAST2SMS DISPATCHED] Order #${order.orderNumber} SMS sent to ${order.customerPhone}`);
+        return { success: true, mode: 'FAST2SMS' };
+      } else {
+        console.error('Fast2SMS dispatch warning:', f2sData);
+      }
+    } catch (err: any) {
+      console.error(`❌ [FAST2SMS ERROR] Failed to send SMS via Fast2SMS:`, err.message);
+    }
+  }
+
+  // 2. Twilio Integration (Global SMS Gateway)
   if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
     try {
       let twilioModule: any = null;
@@ -267,6 +301,75 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
   console.log('====================================================');
 
   return { success: true, mode: 'SIMULATED' };
+}
+
+export async function sendOrderWhatsAppNotification(order: OrderNotificationPayload) {
+  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const trackingUrl = `${baseUrl}/orders/${order.id}`;
+  const cleanPhone = order.customerPhone.replace(/\D/g, '').slice(-10);
+
+  const whatsappText = `*CYTRUS Atelier Order Confirmation*\n\nHello ${order.customerName},\nThank you for your order *#${order.orderNumber}*!\n\n*Total Amount:* ${formatPrice(order.total)}\n*Payment Method:* ${order.paymentMethod}\n\nTrack your shipment live:\n${trackingUrl}`;
+
+  // 1. UltraMsg WhatsApp API Integration
+  if (process.env.WHATSAPP_ULTRAMSG_INSTANCE_ID && process.env.WHATSAPP_ULTRAMSG_TOKEN) {
+    try {
+      const instanceId = process.env.WHATSAPP_ULTRAMSG_INSTANCE_ID;
+      const token = process.env.WHATSAPP_ULTRAMSG_TOKEN;
+      const params = new URLSearchParams({
+        token,
+        to: `+91${cleanPhone}`,
+        body: whatsappText,
+      });
+
+      const waRes = await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      });
+      const waData = await waRes.json();
+      if (waData && waData.sent === 'true') {
+        console.log(`✅ [WHATSAPP DISPATCHED] UltraMsg WhatsApp sent to ${order.customerPhone}`);
+        return { success: true, mode: 'ULTRAMSG' };
+      }
+    } catch (err: any) {
+      console.error(`❌ [WHATSAPP ERROR] UltraMsg error:`, err.message);
+    }
+  }
+
+  // 2. Twilio WhatsApp Integration
+  if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_WHATSAPP_NUMBER) {
+    try {
+      let twilioModule: any = null;
+      try {
+        twilioModule = eval('require')('twilio');
+      } catch (e) {
+        twilioModule = null;
+      }
+      if (twilioModule) {
+        const client = twilioModule(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+        await client.messages.create({
+          body: whatsappText,
+          from: process.env.TWILIO_WHATSAPP_NUMBER.startsWith('whatsapp:')
+            ? process.env.TWILIO_WHATSAPP_NUMBER
+            : `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`,
+          to: `whatsapp:+91${cleanPhone}`,
+        });
+        console.log(`✅ [WHATSAPP DISPATCHED] Twilio WhatsApp sent to ${order.customerPhone}`);
+        return { success: true, mode: 'TWILIO_WHATSAPP' };
+      }
+    } catch (err: any) {
+      console.error(`❌ [WHATSAPP ERROR] Twilio WhatsApp error:`, err.message);
+    }
+  }
+
+  const directWaLink = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(whatsappText)}`;
+  console.log('====================================================');
+  console.log(`🟢 [WHATSAPP ORDER NOTIFICATION LINK READY]`);
+  console.log(`CUSTOMER PHONE: +91 ${cleanPhone}`);
+  console.log(`DIRECT WHATSAPP LINK: ${directWaLink}`);
+  console.log('====================================================');
+
+  return { success: true, mode: 'WA_LINK', link: directWaLink };
 }
 
 export async function sendOrderStatusEmail(order: any, newStatus: string, trackingNumber?: string, courierName?: string) {

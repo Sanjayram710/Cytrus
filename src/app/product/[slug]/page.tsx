@@ -17,8 +17,11 @@ import {
   Plus,
   Minus,
   MessageSquare,
+  Tag,
+  Percent,
 } from 'lucide-react';
 import SizeGuideModal from '@/components/SizeGuideModal';
+import ProductOffersModal from '@/components/ProductOffersModal';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
@@ -33,6 +36,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [quantity, setQuantity] = useState(1);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [offersOpen, setOffersOpen] = useState(false);
   const [added, setAdded] = useState(false);
 
   // Review submission form state
@@ -231,6 +235,31 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 </span>
               )}
             </div>
+
+            {/* Special Product Offer Banner (Only displayed when custom offer is set) */}
+            {product.customOffer && product.customOffer.trim() !== '' && (
+              <div className="mb-6">
+                <button
+                  type="button"
+                  onClick={() => setOffersOpen(true)}
+                  className="w-full bg-surface border border-dashed border-accent hover:border-ink p-3 flex items-center justify-between text-left group transition-all"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="p-1.5 bg-ink text-canvas border border-ink group-hover:bg-accent group-hover:border-accent transition-colors">
+                      <Tag className="w-4 h-4 text-accent group-hover:text-canvas" />
+                    </div>
+                    <div>
+                      <span className="font-mono text-xs font-bold text-ink uppercase tracking-wider block">
+                        SPECIAL PRODUCT OFFER (1)
+                      </span>
+                      <span className="font-mono text-[10px] text-muted uppercase">
+                        <span className="font-bold text-accent">{product.customOffer}</span>
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            )}
 
             {/* Stock Level Warning */}
             <div className="mb-6">
@@ -557,8 +586,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         </div>
       )}
 
-      {/* Size Guide Modal */}
+      {/* Size Guide & Offers Modals */}
       <SizeGuideModal isOpen={sizeGuideOpen} onClose={() => setSizeGuideOpen(false)} />
+      <ProductOffersModal isOpen={offersOpen} onClose={() => setOffersOpen(false)} product={product} />
     </div>
   );
 }

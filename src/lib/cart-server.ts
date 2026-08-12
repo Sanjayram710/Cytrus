@@ -1,5 +1,7 @@
 import { prisma } from './prisma';
 
+import { OfferService } from '@/services/OfferService';
+
 export interface RawCartItemInput {
   productId: string;
   variantId?: string;
@@ -56,6 +58,10 @@ export async function recalculateCartAndVerifyStock(
     }
 
     let unitPrice = product.price;
+    const activeOffer = await OfferService.getActiveApprovedOfferForProduct(product.id);
+    if (activeOffer) {
+      unitPrice = activeOffer.salePrice;
+    }
     let availableStock = product.stock;
 
     // Check specific variant if variantId or size/color provided

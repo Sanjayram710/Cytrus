@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Search, X, Check } from 'lucide-react';
+import Link from 'next/link';
+import { Plus, Edit, Trash2, Search, X, Check, History } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import ImageUploadInput from '@/components/ImageUploadInput';
 
@@ -27,6 +28,7 @@ export default function AdminProductsPage() {
     collectionId: '',
     imageUrl: '',
     imageUrl2: '',
+    customOffer: '',
     isFeatured: false,
     isNewArrival: false,
     isBestSeller: false,
@@ -63,6 +65,7 @@ export default function AdminProductsPage() {
       collectionId: collections[0]?.id || '',
       imageUrl: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1000',
       imageUrl2: '',
+      customOffer: 'FLAT ₹500 OFF (Code: TEE500)',
       isFeatured: true,
       isNewArrival: true,
       isBestSeller: false,
@@ -85,6 +88,7 @@ export default function AdminProductsPage() {
       collectionId: prod.collectionId || '',
       imageUrl: prod.images?.[0]?.url || '',
       imageUrl2: prod.images?.[1]?.url || '',
+      customOffer: prod.customOffer || '',
       isFeatured: prod.isFeatured,
       isNewArrival: prod.isNewArrival,
       isBestSeller: prod.isBestSeller,
@@ -196,7 +200,14 @@ export default function AdminProductsPage() {
               {filteredProducts.map((prod) => (
                 <tr key={prod.id} className="hover:bg-luxury-cream/40">
                   <td className="p-3 flex items-center space-x-3">
-                    <img src={prod.images?.[0]?.url} alt={prod.name} className="w-10 h-14 object-cover border" />
+                    <img
+                      src={prod.images?.[0]?.url || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000'}
+                      alt={prod.name}
+                      className="w-10 h-14 object-cover border"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000';
+                      }}
+                    />
                     <div>
                       <span className="font-serif font-bold text-luxury-black text-xs block">{prod.name}</span>
                       <span className="text-[10px] text-luxury-gold uppercase font-semibold">
@@ -218,6 +229,13 @@ export default function AdminProductsPage() {
                     </span>
                   </td>
                   <td className="p-3 text-right space-x-2">
+                    <Link
+                      href={`/admin/products/${prod.id}/price-history`}
+                      className="p-1.5 inline-block text-luxury-gold hover:text-luxury-black"
+                      title="View Price History"
+                    >
+                      <History className="w-4 h-4" />
+                    </Link>
                     <button
                       onClick={() => handleOpenEditModal(prod)}
                       className="p-1.5 text-luxury-black hover:text-luxury-gold"
@@ -343,9 +361,13 @@ export default function AdminProductsPage() {
                   <label className="block uppercase font-bold mb-1 text-luxury-black">Stock Units</label>
                   <input
                     type="number"
+                    min="0"
                     required
                     value={formData.stock}
-                    onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                    onChange={(e) => {
+                      const val = Math.max(0, parseInt(e.target.value, 10) || 0);
+                      setFormData({ ...formData, stock: val.toString() });
+                    }}
                     className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-bold"
                   />
                 </div>
@@ -376,15 +398,39 @@ export default function AdminProductsPage() {
                 </div>
               </div>
 
+              {/* Custom Product Offer / Promo Badge */}
               <div>
-                <label className="block uppercase font-bold mb-1 text-luxury-black">Primary Image URL</label>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="block uppercase font-bold text-luxury-black text-xs">
+                    ⚡ CUSTOM PRODUCT OFFER / PROMO BADGE (OPTIONAL)
+                  </label>
+                  <span className="font-mono text-[10px] text-gray-500 uppercase">Displayed in Offers Modal & Badge</span>
+                </div>
                 <input
                   type="text"
-                  required
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-mono"
+                  placeholder="e.g. FLAT ₹500 INSTANT DISCOUNT or BUY 2 FOR ₹1,599"
+                  value={formData.customOffer}
+                  onChange={(e) => setFormData({ ...formData, customOffer: e.target.value })}
+                  className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-mono text-xs"
                 />
+                <div className="flex flex-wrap gap-1.5 mt-2 font-mono text-[10px]">
+                  <span className="text-gray-400 self-center uppercase font-bold">Quick Presets:</span>
+                  {[
+                    'FLAT ₹500 INSTANT DISCOUNT',
+                    'BUY 2 FOR ₹1,599 BUNDLE',
+                    'FREE CYTRUS TOTE BAG GIFT',
+                    'EXTRA 15% UPI CASHBACK',
+                  ].map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, customOffer: preset })}
+                      className="bg-gray-100 border border-gray-300 hover:border-black px-2 py-0.5 text-gray-700 hover:text-black transition-colors"
+                    >
+                      + {preset}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="flex space-x-6 pt-2">

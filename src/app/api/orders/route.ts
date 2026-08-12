@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 import { recalculateCartAndVerifyStock } from '@/lib/cart-server';
 import { validateCouponCode } from '@/lib/coupon';
-import { sendOrderEmailReceipt, sendOrderSMSNotification } from '@/lib/notifications';
+import { sendOrderEmailReceipt, sendOrderSMSNotification, sendOrderWhatsAppNotification } from '@/lib/notifications';
 import { z } from 'zod';
 
 const orderSchema = z.object({
@@ -116,18 +116,33 @@ export async function POST(req: Request) {
       },
     });
 
-    // 5. Deduct stock for variants / products
+    // 5. Deduct stock for variants / products safely (minimum 0)
     for (const item of calc.items) {
       if (item.variantId) {
-        await prisma.productVariant.update({
-          where: { id: item.variantId },
-          data: { stock: { decrement: item.quantity } },
-        });
+        const v = await prisma.productVariant.findUnique({ where: { id: item.variantId } });
+        if (v) {
+          await prisma.productVariant.update({
+            where: { id: item.variantId },
+            data: { stock: Math.max(0, v.stock - item.quantity) },
+          });
+        }
       }
-      await prisma.product.update({
-        where: { id: item.productId },
-        data: { stock: { decrement: item.quantity } },
-      });
+      const p = await prisma.product.findUnique({ where: { id: item.productId } });
+      if (p) {
+        const newStock = Math.max(0, p.stock - item.quantity);
+        await prisma.product.update({
+          where: { id: item.productId },
+          data: { stock: newStock },
+        });
+
+        const invRecord = await prisma.inventory.findFirst({ where: { productId: item.productId } });
+        if (invRecord) {
+          await prisma.inventory.update({
+            where: { id: invRecord.id },
+            data: { stock: newStock },
+          });
+        }
+      }
     }
 
     // 6. Record coupon usage if applied
@@ -148,10 +163,11 @@ export async function POST(req: Request) {
       }
     }
 
-    // 7. Dispatch automated Email Receipt and SMS Notifications to customer
+    // 7. Dispatch automated Email Receipt, SMS, and WhatsApp Notifications to customer
     try {
       await sendOrderEmailReceipt(order as any);
       await sendOrderSMSNotification(order as any);
+      await sendOrderWhatsAppNotification(order as any);
     } catch (notifErr) {
       console.error('Notification dispatch warning:', notifErr);
     }

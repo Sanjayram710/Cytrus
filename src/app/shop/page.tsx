@@ -3,9 +3,10 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Filter, SlidersHorizontal, Eye, Heart, ShoppingBag, X, ChevronDown, Check } from 'lucide-react';
+import { Filter, SlidersHorizontal, Eye, Heart, ShoppingBag, X, ChevronDown, Check, Zap, Tag } from 'lucide-react';
 import QuickViewModal from '@/components/QuickViewModal';
 import CustomSelect from '@/components/CustomSelect';
+import ProductOffersModal from '@/components/ProductOffersModal';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
@@ -28,6 +29,7 @@ function ShopContent() {
   const [loading, setLoading] = useState(true);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<any | null>(null);
+  const [offerModalProduct, setOfferModalProduct] = useState<any | null>(null);
 
   // Active Filter state
   const currentCategory = searchParams.get('category') || '';
@@ -267,6 +269,21 @@ function ShopContent() {
                     </div>
 
                     <div className="relative h-72 sm:h-84 overflow-hidden bg-surface">
+                      {/* Product Offers Trigger Badge */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setOfferModalProduct(product);
+                        }}
+                        className="absolute top-3 left-3 z-20 bg-accent text-canvas font-mono text-[9px] uppercase tracking-widest px-2 py-1 font-bold flex items-center space-x-1 hover:bg-ink transition-colors shadow-sm border border-accent"
+                        title="View Special Deals for this Item"
+                      >
+                        <Zap className="w-3 h-3 text-canvas" />
+                        <span>OFFERS</span>
+                      </button>
+
                       <Link href={`/product/${product.slug}`}>
                         <img
                           src={primaryImg}
@@ -344,10 +361,15 @@ function ShopContent() {
         </div>
       </div>
 
-      {/* Quick View Modal */}
+      {/* Quick View & Product Offers Modals */}
       {quickViewProduct && (
         <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
       )}
+      <ProductOffersModal
+        isOpen={Boolean(offerModalProduct)}
+        onClose={() => setOfferModalProduct(null)}
+        product={offerModalProduct}
+      />
     </div>
   );
 }
