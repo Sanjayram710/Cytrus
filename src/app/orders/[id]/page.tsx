@@ -19,14 +19,14 @@ export default function OrderTrackingDetailPage({ params }: { params: { id: stri
   }, [params.id]);
 
   if (loading) {
-    return <div className="p-20 text-center font-mono uppercase tracking-widest text-muted text-xs">Loading Live Tracking Status...</div>;
+    return <div className="p-20 text-center font-mono uppercase tracking-widest text-slate-400 text-xs">Loading Live Tracking Status...</div>;
   }
 
   if (!order) {
     return (
-      <div className="max-w-md mx-auto my-20 text-center p-8 bg-surface border border-border">
-        <h2 className="font-serif text-2xl font-normal text-ink mb-2">Order Not Found</h2>
-        <Link href="/orders" className="font-mono text-xs uppercase font-semibold tracking-widest text-accent hover:underline">
+      <div className="max-w-md mx-auto my-20 text-center p-8 bg-[#101D3F] border border-white/10 rounded-2xl text-white shadow-subtle">
+        <h2 className="font-serif text-2xl font-normal text-white mb-2">Order Not Found</h2>
+        <Link href="/orders" className="font-mono text-xs uppercase font-bold tracking-widest text-royal-light hover:underline">
           Back to Orders
         </Link>
       </div>
@@ -47,27 +47,28 @@ export default function OrderTrackingDetailPage({ params }: { params: { id: stri
   const shippingAddr = JSON.parse(order.shippingAddressJson || '{}');
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-canvas">
-      <div className="border-b border-border pb-6 mb-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-[#0A1128] text-white">
+      <div className="border-b border-white/10 pb-6 mb-10 text-white">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between">
           <div>
-            <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
-              LIVE SHIPMENT TRACKING
+            <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal-light flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
+              <span>LIVE SHIPMENT TRACKING</span>
             </span>
-            <h1 className="font-serif text-3xl font-normal text-ink mt-1">
+            <h1 className="font-serif text-3xl font-normal text-white mt-1">
               Order {order.orderNumber}
             </h1>
           </div>
           <div className="mt-4 sm:mt-0 text-left sm:text-right font-mono">
-            <span className="text-xs text-muted uppercase tracking-widest block">Payment Mode: {order.paymentMethod}</span>
-            <span className="text-sm font-semibold text-accent">{formatPrice(order.total)}</span>
+            <span className="text-xs text-slate-400 uppercase tracking-widest block">Payment Mode: {order.paymentMethod}</span>
+            <span className="text-sm font-bold text-white">{formatPrice(order.total)}</span>
           </div>
         </div>
       </div>
 
       {/* Visual Step Tracker Timeline */}
-      <div className="bg-surface border border-border p-6 sm:p-10 mb-10">
-        <h2 className="font-serif text-lg font-normal uppercase tracking-wider text-ink mb-8 text-center sm:text-left">
+      <div className="bg-[#101D3F] border border-white/10 p-6 sm:p-10 mb-10 rounded-2xl shadow-subtle text-white">
+        <h2 className="font-serif text-lg font-normal uppercase tracking-wider text-white mb-8 text-center sm:text-left">
           Delivery Status Progress
         </h2>
 
@@ -79,15 +80,15 @@ export default function OrderTrackingDetailPage({ params }: { params: { id: stri
             return (
               <div key={st.key} className="flex flex-col items-center text-center z-10">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-mono font-semibold text-xs mb-3 transition-all ${
+                  className={`w-10 h-10 rounded-full flex items-center justify-center font-mono font-bold text-xs mb-3 transition-all ${
                     isCompleted
-                      ? 'bg-ink text-canvas'
-                      : 'bg-canvas text-muted border border-border'
-                  } ${isCurrent ? 'ring-2 ring-accent' : ''}`}
+                      ? 'bg-royal text-white shadow-sm'
+                      : 'bg-[#0A1128] text-slate-500 border border-white/10'
+                  } ${isCurrent ? 'ring-2 ring-royal ring-offset-2 ring-offset-[#101D3F]' : ''}`}
                 >
-                  {isCompleted ? <CheckCircle2 className="w-5 h-5 text-accent" /> : idx + 1}
+                  {isCompleted ? <CheckCircle2 className="w-5 h-5 text-white" /> : idx + 1}
                 </div>
-                <p className={`font-mono text-[10px] uppercase tracking-wider ${isCompleted ? 'text-ink font-semibold' : 'text-muted'}`}>
+                <p className={`font-mono text-[10px] uppercase tracking-wider ${isCompleted ? 'text-white font-bold' : 'text-slate-500'}`}>
                   {st.label}
                 </p>
               </div>
@@ -97,48 +98,63 @@ export default function OrderTrackingDetailPage({ params }: { params: { id: stri
 
         {/* Courier Details */}
         {order.courierName && (
-          <div className="mt-10 p-4 bg-canvas border border-border flex flex-col sm:flex-row items-center justify-between text-xs">
-            <div className="flex items-center space-x-3 mb-2 sm:mb-0">
-              <Truck className="w-5 h-5 text-accent" />
-              <div>
-                <p className="font-mono font-semibold text-ink uppercase">Courier: {order.courierName}</p>
-                <p className="text-muted font-mono text-[11px]">Tracking AWB: {order.trackingNumber || 'AWB Pending'}</p>
-              </div>
+          <div className="mt-10 p-4 bg-[#0D1836] border border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs rounded-xl text-white">
+            <div className="space-y-1 text-center sm:text-left mb-3 sm:mb-0">
+              <span className="font-mono text-[10px] uppercase text-slate-400 tracking-widest">COURIER DISPATCH</span>
+              <p className="font-serif text-white font-normal">{order.courierName} · Tracking AWB: <strong className="font-mono text-royal-light">{order.trackingNumber || 'PENDING'}</strong></p>
             </div>
-            {order.trackingNumber && (
-              <span className="font-mono text-[11px] uppercase font-semibold text-accent hover:underline flex items-center">
-                Track on {order.courierName} Portal <ExternalLink className="w-3.5 h-3.5 ml-1" />
-              </span>
+            {order.trackingUrl && (
+              <a
+                href={order.trackingUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-royal hover:bg-royal-dark text-white font-mono text-xs uppercase tracking-wider px-4 py-2 flex items-center space-x-1.5 rounded-md font-bold transition-colors shadow-sm"
+              >
+                <span>Live Courier Tracker</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
             )}
           </div>
         )}
       </div>
 
-      {/* Shipment & Address Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10 text-xs">
-        <div className="bg-surface border border-border p-6 space-y-2">
-          <h3 className="font-serif font-normal uppercase tracking-wider text-ink flex items-center">
-            <MapPin className="w-4 h-4 text-accent mr-1" /> Delivery Address
+      {/* Order Summary Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 text-xs text-white">
+        <div className="bg-[#101D3F] border border-white/10 p-6 rounded-2xl shadow-subtle text-white">
+          <h3 className="font-serif text-sm font-normal uppercase tracking-wider text-white mb-4 flex items-center">
+            <MapPin className="w-4 h-4 text-royal-light mr-2" /> Destination Address
           </h3>
-          <p className="font-semibold text-ink">{shippingAddr.fullName}</p>
-          <p className="text-muted">{shippingAddr.street}</p>
-          <p className="text-muted">{shippingAddr.city}, {shippingAddr.state} - {shippingAddr.postalCode}</p>
-          <p className="font-mono text-muted">Phone: {order.customerPhone}</p>
+          <p className="font-bold text-white">{shippingAddr.fullName}</p>
+          <p className="text-slate-300">{shippingAddr.street}</p>
+          <p className="text-slate-300">{shippingAddr.city}, {shippingAddr.state} - {shippingAddr.postalCode}</p>
+          <p className="font-mono text-slate-400 mt-2">Phone: {order.customerPhone}</p>
         </div>
 
-        <div className="bg-surface border border-border p-6 space-y-2">
-          <h3 className="font-serif font-normal uppercase tracking-wider text-ink flex items-center">
-            <Clock className="w-4 h-4 text-accent mr-1" /> Audit Status Log
+        <div className="bg-[#101D3F] border border-white/10 p-6 rounded-2xl shadow-subtle text-white">
+          <h3 className="font-serif text-sm font-normal uppercase tracking-wider text-white mb-4 flex items-center">
+            <Package className="w-4 h-4 text-royal-light mr-2" /> Ordered Pieces ({order.items.length})
           </h3>
-          <div className="space-y-1 max-h-40 overflow-y-auto">
-            {order.statusHistory?.map((h: any) => (
-              <div key={h.id} className="border-b border-border pb-1">
-                <span className="font-mono font-semibold text-ink uppercase text-[11px]">{h.status}</span>
-                <p className="font-mono text-[10px] text-muted">{h.notes} ({new Date(h.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})</p>
+          <div className="divide-y divide-white/10 text-white">
+            {order.items.map((item: any) => (
+              <div key={item.id} className="py-2.5 flex justify-between items-center text-white">
+                <div>
+                  <p className="font-serif font-normal text-white">{item.productName}</p>
+                  <p className="font-mono text-[10px] text-slate-400 uppercase">Size: {item.size} | Color: {item.color} | Qty: {item.quantity}</p>
+                </div>
+                <span className="font-mono font-bold text-white">{formatPrice(item.total)}</span>
               </div>
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="text-center">
+        <Link
+          href="/orders"
+          className="font-mono text-xs uppercase tracking-widest text-slate-400 hover:text-white transition-colors font-bold"
+        >
+          ← Return to Orders
+        </Link>
       </div>
     </div>
   );

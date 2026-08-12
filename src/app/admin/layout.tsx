@@ -18,6 +18,7 @@ import {
   LogOut,
   ShieldCheck,
 } from 'lucide-react';
+import CelebriteeLogo from '@/components/CelebriteeLogo';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -60,13 +61,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Admin Sidebar */}
       <aside className="w-64 bg-luxury-black text-luxury-cream flex flex-col justify-between p-6 border-r border-luxury-gold/20 flex-shrink-0">
         <div>
-          <div className="flex items-center space-x-2 border-b border-luxury-cream/10 pb-6 mb-8">
-            <ShieldCheck className="w-6 h-6 text-luxury-gold" />
+          <div className="flex items-center space-x-3 border-b border-white/10 pb-6 mb-8">
+            <CelebriteeLogo variant="badge" size="xs" />
             <div>
-              <span className="font-serif text-lg font-bold tracking-widest block text-luxury-cream">
-                CYTRUS
-              </span>
-              <span className="text-[9px] uppercase tracking-[0.3em] text-luxury-gold font-bold">
+              <span className="text-[9px] uppercase tracking-[0.25em] text-pink font-bold block">
                 ADMIN CONSOLE
               </span>
             </div>

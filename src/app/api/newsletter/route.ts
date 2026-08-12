@@ -16,14 +16,14 @@ export async function POST(req: Request) {
     });
 
     if (existing) {
-      return NextResponse.json({ message: 'You are already subscribed to CYTRUS Gazette.' });
+      return NextResponse.json({ message: 'You are already on the CELEBRITEE VIP invitation list.' });
     }
 
     await prisma.newsletterSubscriber.create({
       data: { email: email.toLowerCase() },
     });
 
-    return NextResponse.json({ success: true, message: 'Welcome to CYTRUS Gazette. You are subscribed.' });
+    return NextResponse.json({ success: true, message: 'Welcome to CELEBRITEE VIP Gazette. You have priority drop access.' });
   } catch (error: any) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.errors[0].message }, { status: 400 });

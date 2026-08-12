@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { User, Package, Heart, MapPin, LogOut, ShieldCheck } from 'lucide-react';
+import CelebriteeLogo from '@/components/CelebriteeLogo';
 
 export default function AccountDashboardPage() {
   const [user, setUser] = useState<any | null>(null);
@@ -23,15 +24,15 @@ export default function AccountDashboardPage() {
   };
 
   if (loading) {
-    return <div className="p-20 text-center font-mono uppercase tracking-widest text-muted text-xs">Loading Account Profile...</div>;
+    return <div className="p-20 text-center font-mono uppercase tracking-widest text-slate-400 text-xs">Loading Account Profile...</div>;
   }
 
   if (!user) {
     return (
-      <div className="max-w-md mx-auto my-20 text-center p-8 bg-surface border border-border">
-        <h2 className="font-serif text-2xl font-normal text-ink mb-2">Access Restricted</h2>
-        <p className="font-mono text-xs text-muted mb-6 uppercase tracking-wider">Please sign in to view your client profile.</p>
-        <Link href="/login" className="bg-accent text-canvas px-6 py-3 font-mono text-xs font-semibold uppercase tracking-widest hover:bg-ink transition-colors border border-accent">
+      <div className="max-w-md mx-auto my-20 text-center p-8 bg-[#101D3F] border border-white/10 rounded-2xl shadow-subtle text-white">
+        <h2 className="font-serif text-2xl font-normal text-white mb-2">Access Restricted</h2>
+        <p className="font-mono text-xs text-slate-400 mb-6 uppercase tracking-wider">Please sign in to view your client profile.</p>
+        <Link href="/login" className="bg-royal hover:bg-royal-dark text-white px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-colors rounded-md shadow-sm">
           Sign In
         </Link>
       </div>
@@ -39,13 +40,14 @@ export default function AccountDashboardPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-canvas">
-      <div className="border-b border-border pb-6 mb-10 flex flex-col sm:flex-row justify-between sm:items-center">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-[#0A1128] text-white">
+      <div className="border-b border-white/10 pb-6 mb-10 flex flex-col sm:flex-row justify-between sm:items-center text-white">
         <div>
-          <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
-            CLIENT PORTAL
+          <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal-light flex items-center space-x-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
+            <span>CLIENT PORTAL</span>
           </span>
-          <h1 className="font-serif text-3xl font-normal text-ink mt-1">
+          <h1 className="font-serif text-3xl font-normal text-white mt-1">
             Welcome, {user.name}
           </h1>
         </div>
@@ -54,48 +56,54 @@ export default function AccountDashboardPage() {
           {user.role === 'ADMIN' && (
             <Link
               href="/admin"
-              className="bg-accent text-canvas px-4 py-2 font-mono text-xs font-semibold uppercase tracking-wider flex items-center border border-accent hover:bg-ink"
+              className="bg-royal text-white hover:bg-royal-dark px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider flex items-center rounded-md transition-colors shadow-sm"
             >
-              <ShieldCheck className="w-4 h-4 mr-1.5" /> Admin Dashboard
+              <ShieldCheck className="w-4 h-4 mr-1.5 text-white" /> Admin Console
             </Link>
           )}
           <button
             onClick={handleLogout}
-            className="border border-border font-mono text-muted hover:text-ink px-4 py-2 text-xs uppercase tracking-wider bg-surface transition-colors"
+            className="border border-white/20 font-mono text-white hover:bg-[#16254F] px-4 py-2 text-xs uppercase tracking-wider bg-[#101D3F] transition-colors rounded-md font-bold"
           >
             Logout
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
         <Link
           href="/orders"
-          className="bg-surface border border-border p-6 hover:border-accent transition-all flex items-center space-x-4"
+          className="bg-[#101D3F] border border-white/10 p-6 hover:border-royal/60 hover:shadow-card transition-all rounded-2xl flex items-center space-x-4 shadow-subtle text-white"
         >
-          <Package className="w-7 h-7 text-accent" />
+          <div className="w-12 h-12 rounded-full bg-[#0A1128] flex items-center justify-center flex-shrink-0 border border-white/10">
+            <Package className="w-6 h-6 text-royal-light" />
+          </div>
           <div>
-            <h3 className="font-serif font-normal text-ink text-sm uppercase tracking-wider">My Orders & Tracking</h3>
-            <p className="font-mono text-xs text-muted">Track drop shipments & view receipts</p>
+            <h3 className="font-serif font-normal text-white text-sm uppercase tracking-wider">My Orders & Tracking</h3>
+            <p className="font-mono text-xs text-slate-400">Track drop shipments & view receipts</p>
           </div>
         </Link>
 
         <Link
           href="/wishlist"
-          className="bg-surface border border-border p-6 hover:border-accent transition-all flex items-center space-x-4"
+          className="bg-[#101D3F] border border-white/10 p-6 hover:border-royal/60 hover:shadow-card transition-all rounded-2xl flex items-center space-x-4 shadow-subtle text-white"
         >
-          <Heart className="w-7 h-7 text-accent" />
+          <div className="w-12 h-12 rounded-full bg-pink-light flex items-center justify-center flex-shrink-0 border border-pink/30">
+            <Heart className="w-6 h-6 text-pink" />
+          </div>
           <div>
-            <h3 className="font-serif font-normal text-ink text-sm uppercase tracking-wider">Saved Drop Vault</h3>
-            <p className="font-mono text-xs text-muted">View saved tees & cuts</p>
+            <h3 className="font-serif font-normal text-white text-sm uppercase tracking-wider">Saved Drop Vault</h3>
+            <p className="font-mono text-xs text-slate-400">View saved tees & cuts</p>
           </div>
         </Link>
 
-        <div className="bg-surface border border-border p-6 flex items-center space-x-4">
-          <User className="w-7 h-7 text-accent" />
+        <div className="bg-[#101D3F] border border-white/10 p-6 rounded-2xl flex items-center space-x-4 shadow-subtle text-white">
+          <div className="w-12 h-12 rounded-full bg-[#0A1128] flex items-center justify-center flex-shrink-0 border border-white/10">
+            <User className="w-6 h-6 text-royal-light" />
+          </div>
           <div>
-            <h3 className="font-serif font-normal text-ink text-sm uppercase tracking-wider">Profile Details</h3>
-            <p className="font-mono text-xs text-muted">{user.email}</p>
+            <h3 className="font-serif font-normal text-white text-sm uppercase tracking-wider">Profile Details</h3>
+            <p className="font-mono text-xs text-slate-400">{user.email}</p>
           </div>
         </div>
       </div>

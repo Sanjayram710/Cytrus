@@ -12,29 +12,43 @@
   }
 
   body {
-    background-color: #FFFEFA;
-    color: #151515;
+    background-color: #0A1128;
+    color: #FFFFFF;
     font-family: var(--font-jakarta);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    selection-background-color: #104EA5;
-    selection-color: #FFFEFA;
+  }
+
+  /* Text color defaults on dark blue */
+  h1, h2, h3, h4, h5, h6, p, span, a, label, li, dt, dd, th, td, div {
+    color: inherit;
+  }
+
+  ::selection {
+    background-color: #1E5AE6;
+    color: #FFFFFF;
   }
 
   h1, h2, h3, h4, .font-serif {
     font-family: var(--font-fraunces);
   }
 
-  /* Accessible focus ring in Royal Blue */
   :focus-visible {
-    outline: 2px solid #104EA5;
+    outline: 2px solid #1E5AE6;
     outline-offset: 2px;
   }
 }
 
-/* CELEBRITEE Luxury Glass Header */
+/* CELEBRITEE Deep Blue Frosted Glass Header */
 .luxury-nav {
-  background: rgba(255, 254, 250, 0.94);
+  background: rgba(10, 17, 40, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.luxury-nav-dark {
+  background: rgba(6, 11, 26, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -42,8 +56,9 @@
 /* Signature Drop Badge */
 .drop-tag {
   position: relative;
-  background-color: #FFFEFA;
-  border: 1px solid #E5E5E0;
+  background-color: rgba(30, 90, 230, 0.12);
+  border: 1px solid rgba(30, 90, 230, 0.35);
+  color: #FFFFFF;
   clip-path: polygon(8px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 8px);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
@@ -55,23 +70,24 @@
   left: 4px;
   width: 3px;
   height: 3px;
-  background-color: #104EA5;
+  background-color: #FF4D97;
   border-radius: 50%;
 }
 
 /* Minimal Luxury Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFFEFA;
+  background: #0A1128;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E5E5E0;
+  background: #1E5AE6;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #104EA5;
+  background: #FF4D97;
 }
 
 .no-scrollbar::-webkit-scrollbar {

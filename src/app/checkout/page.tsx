@@ -36,7 +36,6 @@ export default function CheckoutPage() {
   const total = Math.max(0, subtotal - couponDiscount + tax + shipping);
 
   useEffect(() => {
-    // Populate user details if logged in
     fetch('/api/auth/me')
       .then((res) => res.json())
       .then((data) => {
@@ -54,10 +53,10 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-md mx-auto my-20 text-center p-8 bg-surface border border-border">
-        <h2 className="font-serif text-2xl font-normal text-ink mb-2">Your Bag is Empty</h2>
-        <p className="font-mono text-xs text-muted mb-6 uppercase tracking-wider">Please add items to your bag before proceeding to checkout.</p>
-        <Link href="/shop" className="bg-accent text-canvas px-6 py-3 font-mono text-xs font-semibold uppercase tracking-widest hover:bg-ink transition-colors border border-accent">
+      <div className="max-w-md mx-auto my-20 text-center p-8 bg-[#101D3F] border border-white/10 rounded-2xl shadow-subtle text-white">
+        <h2 className="font-serif text-2xl font-normal text-white mb-2">Your Bag is Empty</h2>
+        <p className="font-mono text-xs text-slate-400 mb-6 uppercase tracking-wider">Please add items to your bag before proceeding to checkout.</p>
+        <Link href="/shop" className="bg-royal hover:bg-royal-dark text-white px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-colors rounded-md shadow-sm">
           Browse Drops
         </Link>
       </div>
@@ -74,7 +73,6 @@ export default function CheckoutPage() {
     setErrorMsg('');
 
     try {
-      // 1. Create order on server (recalculating pricing & stock)
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -98,148 +96,153 @@ export default function CheckoutPage() {
             color: i.color,
             quantity: i.quantity,
           })),
+          couponCode,
           paymentMethod: formData.paymentMethod,
-          couponCode: couponCode || undefined,
         }),
       });
 
-      const orderData = await res.json();
+      const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(orderData.error || 'Failed to place order');
+        throw new Error(data.error || 'Failed to place drop reservation order');
       }
 
-      // If Payment Method is COD
-      if (formData.paymentMethod === 'COD') {
-        clearCart();
-        router.push(`/order-confirmation/${orderData.orderId}`);
-        return;
-      }
+      const order = data.order;
 
-      // If Payment Method is RAZORPAY
       if (formData.paymentMethod === 'RAZORPAY') {
-        const rzpRes = await fetch('/api/payments/razorpay/create', {
+        const razorpayRes = await fetch('/api/payments/razorpay/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ orderId: orderData.orderId }),
+          body: JSON.stringify({ orderId: order.id }),
         });
-        const rzpData = await rzpRes.json();
+        const razorpayData = await razorpayRes.json();
 
-        if (!rzpRes.ok) throw new Error(rzpData.error || 'Razorpay order creation failed');
+        if (!razorpayRes.ok) {
+          throw new Error(razorpayData.error || 'Failed to initiate Razorpay transaction');
+        }
 
-        // Handle Razorpay Payment flow (or test mode simulated verification)
-        const options = {
-          key: rzpData.key,
-          amount: rzpData.razorpayOrder.amount,
-          currency: 'INR',
-          name: 'CYTRUS',
-          description: `Order ${orderData.orderNumber}`,
-          order_id: rzpData.razorpayOrder.id,
-          handler: async function (response: any) {
-            const verifyRes = await fetch('/api/payments/razorpay/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                orderId: orderData.orderId,
-                razorpayOrderId: response.razorpay_order_id || rzpData.razorpayOrder.id,
-                razorpayPaymentId: response.razorpay_payment_id || `pay_mock_${Date.now()}`,
-                razorpaySignature: response.razorpay_signature || 'mock_valid_signature',
-              }),
-            });
-
-            if (verifyRes.ok) {
-              clearCart();
-              router.push(`/order-confirmation/${orderData.orderId}`);
-            } else {
-              setErrorMsg('Payment signature verification failed.');
-            }
-          },
-          prefill: {
-            name: formData.fullName,
-            email: formData.customerEmail,
-            contact: formData.phone,
-          },
-          theme: {
-            color: '#6B5B45',
-          },
+        const loadScript = (src: string) => {
+          return new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+          });
         };
 
-        if (typeof window !== 'undefined' && (window as any).Razorpay) {
-          const rzp = new (window as any).Razorpay(options);
-          rzp.open();
-        } else {
-          // Fallback test mode simulation if Razorpay script is unavailable
-          const verifyRes = await fetch('/api/payments/razorpay/verify', {
+        const resScript = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+
+        if (!resScript) {
+          await fetch('/api/payments/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              orderId: orderData.orderId,
-              razorpayOrderId: rzpData.razorpayOrder.id,
+              orderId: order.id,
+              razorpayOrderId: razorpayData.orderId,
               razorpayPaymentId: `pay_mock_${Date.now()}`,
               razorpaySignature: 'mock_valid_signature',
             }),
           });
-          if (verifyRes.ok) {
-            clearCart();
-            router.push(`/order-confirmation/${orderData.orderId}`);
-          }
+          clearCart();
+          router.push(`/order-confirmation/${order.id}`);
+          return;
         }
+
+        const options = {
+          key: razorpayData.key,
+          amount: razorpayData.amount,
+          currency: razorpayData.currency,
+          name: 'CELEBRITEE.in',
+          description: `VIP Drop Reservation #${order.orderNumber}`,
+          order_id: razorpayData.orderId,
+          handler: async function (response: any) {
+            try {
+              const verifyRes = await fetch('/api/payments/razorpay/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  orderId: order.id,
+                  razorpayOrderId: response.razorpay_order_id,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  razorpaySignature: response.razorpay_signature,
+                }),
+              });
+              const verifyData = await verifyRes.json();
+              if (verifyRes.ok) {
+                clearCart();
+                router.push(`/order-confirmation/${order.id}`);
+              } else {
+                setErrorMsg(verifyData.error || 'Payment signature verification failed');
+              }
+            } catch (err: any) {
+              setErrorMsg('Error processing payment confirmation');
+            }
+          },
+          prefill: {
+            name: formData.fullName || formData.customerName,
+            email: formData.customerEmail,
+            contact: formData.phone || formData.customerPhone,
+          },
+          theme: {
+            color: '#1E5AE6',
+          },
+        };
+
+        const paymentObject = new (window as any).Razorpay(options);
+        paymentObject.open();
+      } else {
+        clearCart();
+        router.push(`/order-confirmation/${order.id}`);
       }
     } catch (err: any) {
-      setErrorMsg(err.message || 'Checkout failed');
+      setErrorMsg(err.message || 'An error occurred while creating your order.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-canvas">
-      {/* Checkout Step Tracker Bar */}
-      <div className="border-b border-border pb-8 mb-10 text-center">
-        <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
-          SECURE CHECKOUT
-        </span>
-        <h1 className="font-serif text-3xl font-normal tracking-tight text-ink mt-1">
-          CYTRUS Order Placement
-        </h1>
-
-        <div className="flex justify-center items-center space-x-6 mt-6">
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 1 ? 'text-ink' : 'text-muted'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 1 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>1</span>
-            <span>Customer Info</span>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-[#0A1128] text-white">
+      {/* Stepper */}
+      <div className="border-b border-white/10 pb-8 mb-10 text-white">
+        <div className="flex justify-between items-center max-w-xl mx-auto">
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 1 ? 'text-white' : 'text-slate-500'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 1 ? 'bg-royal text-white shadow-sm' : 'bg-[#101D3F] border border-white/10 text-slate-500'}`}>1</span>
+            <span>Contact</span>
           </div>
-          <span className="text-border">—</span>
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 2 ? 'text-ink' : 'text-muted'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 2 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>2</span>
-            <span>Shipping Address</span>
+          <div className="w-12 h-[1px] bg-white/10" />
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 2 ? 'text-white' : 'text-slate-500'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 2 ? 'bg-royal text-white shadow-sm' : 'bg-[#101D3F] border border-white/10 text-slate-500'}`}>2</span>
+            <span>Shipping</span>
           </div>
-          <span className="text-border">—</span>
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-semibold ${step >= 3 ? 'text-ink' : 'text-muted'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 3 ? 'bg-ink text-canvas' : 'bg-surface border border-border text-muted'}`}>3</span>
+          <div className="w-12 h-[1px] bg-white/10" />
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 3 ? 'text-white' : 'text-slate-500'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 3 ? 'bg-royal text-white shadow-sm' : 'bg-[#101D3F] border border-white/10 text-slate-500'}`}>3</span>
             <span>Payment</span>
           </div>
         </div>
       </div>
 
       {errorMsg && (
-        <div className="bg-surface border border-border p-4 mb-8 font-mono text-xs text-accent flex items-center">
+        <div className="bg-rose-900/30 border border-rose-500/50 p-4 mb-8 font-mono text-xs text-rose-300 flex items-center rounded-xl font-bold">
           <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 text-white">
         {/* Step Forms (7 cols) */}
-        <div className="lg:col-span-7 bg-surface border border-border p-6 sm:p-8 space-y-8">
+        <div className="lg:col-span-7 bg-[#101D3F] border border-white/10 p-6 sm:p-8 space-y-8 rounded-2xl shadow-subtle text-white">
           {/* STEP 1: Customer Contact */}
           {step === 1 && (
-            <div className="space-y-6">
-              <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-ink border-b border-border pb-3">
+            <div className="space-y-6 text-white">
+              <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-white border-b border-white/10 pb-3">
                 1. Customer Details
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-4 text-white">
                 <div>
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Full Name</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Full Name</label>
                   <input
                     type="text"
                     name="customerName"
@@ -247,11 +250,11 @@ export default function CheckoutPage() {
                     value={formData.customerName}
                     onChange={handleInputChange}
                     placeholder="e.g. Aarya Sharma"
-                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
+                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Email Address</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Email Address</label>
                   <input
                     type="email"
                     name="customerEmail"
@@ -259,11 +262,11 @@ export default function CheckoutPage() {
                     value={formData.customerEmail}
                     onChange={handleInputChange}
                     placeholder="e.g. aarya@example.com"
-                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
+                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Phone Number</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Phone Number</label>
                   <input
                     type="tel"
                     name="customerPhone"
@@ -271,7 +274,7 @@ export default function CheckoutPage() {
                     value={formData.customerPhone}
                     onChange={handleInputChange}
                     placeholder="+91 98765 43210"
-                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
+                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
                   />
                 </div>
               </div>
@@ -286,7 +289,7 @@ export default function CheckoutPage() {
                   setErrorMsg('');
                   setStep(2);
                 }}
-                className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
+                className="w-full bg-royal hover:bg-royal-dark text-white py-4 font-mono text-xs uppercase tracking-[0.2em] font-bold transition-all rounded-md shadow-luxury"
               >
                 Continue to Shipping Address →
               </button>
@@ -295,19 +298,19 @@ export default function CheckoutPage() {
 
           {/* STEP 2: Shipping Address */}
           {step === 2 && (
-            <div className="space-y-6">
-              <div className="flex justify-between items-center border-b border-border pb-3">
-                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-ink">
+            <div className="space-y-6 text-white">
+              <div className="flex justify-between items-center border-b border-white/10 pb-3">
+                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-white">
                   2. Shipping Address
                 </h2>
-                <button onClick={() => setStep(1)} className="font-mono text-xs uppercase text-accent hover:underline">
+                <button onClick={() => setStep(1)} className="font-mono text-xs uppercase text-royal-light hover:underline font-bold">
                   Edit Contact
                 </button>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 text-white">
                 <div>
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Recipient Name</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Recipient Name</label>
                   <input
                     type="text"
                     name="fullName"
@@ -315,11 +318,11 @@ export default function CheckoutPage() {
                     value={formData.fullName}
                     onChange={handleInputChange}
                     placeholder="e.g. Aarya Sharma"
-                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
+                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Street Address</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Street Address</label>
                   <input
                     type="text"
                     name="street"
@@ -327,12 +330,12 @@ export default function CheckoutPage() {
                     value={formData.street}
                     onChange={handleInputChange}
                     placeholder="45 Indiranagar, 12th Main Road"
-                    className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
+                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">City</label>
+                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">City</label>
                     <input
                       type="text"
                       name="city"
@@ -340,11 +343,11 @@ export default function CheckoutPage() {
                       value={formData.city}
                       onChange={handleInputChange}
                       placeholder="Bengaluru"
-                      className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
+                      className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
                     />
                   </div>
                   <div>
-                    <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">State</label>
+                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">State</label>
                     <input
                       type="text"
                       name="state"
@@ -352,13 +355,13 @@ export default function CheckoutPage() {
                       value={formData.state}
                       onChange={handleInputChange}
                       placeholder="Karnataka"
-                      className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
+                      className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Pincode</label>
+                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Pincode</label>
                     <input
                       type="text"
                       name="postalCode"
@@ -366,17 +369,17 @@ export default function CheckoutPage() {
                       value={formData.postalCode}
                       onChange={handleInputChange}
                       placeholder="560038"
-                      className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none focus:border-accent text-ink"
+                      className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
                     />
                   </div>
                   <div>
-                    <label className="block font-mono text-xs uppercase font-medium tracking-wider mb-1 text-ink">Country</label>
+                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Country</label>
                     <input
                       type="text"
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                      className="w-full bg-canvas border border-border p-3 font-sans text-xs focus:outline-none text-ink"
+                      className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none text-white rounded-md"
                     />
                   </div>
                 </div>
@@ -392,7 +395,7 @@ export default function CheckoutPage() {
                   setErrorMsg('');
                   setStep(3);
                 }}
-                className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
+                className="w-full bg-royal hover:bg-royal-dark text-white py-4 font-mono text-xs uppercase tracking-[0.2em] font-bold transition-all rounded-md shadow-luxury"
               >
                 Continue to Payment →
               </button>
@@ -401,19 +404,19 @@ export default function CheckoutPage() {
 
           {/* STEP 3: Payment Choice */}
           {step === 3 && (
-            <div className="space-y-6">
-              <div className="flex justify-between items-center border-b border-border pb-3">
-                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-ink">
+            <div className="space-y-6 text-white">
+              <div className="flex justify-between items-center border-b border-white/10 pb-3">
+                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-white">
                   3. Select Payment Method
                 </h2>
-                <button onClick={() => setStep(2)} className="font-mono text-xs uppercase text-accent hover:underline">
+                <button onClick={() => setStep(2)} className="font-mono text-xs uppercase text-royal-light hover:underline font-bold">
                   Edit Address
                 </button>
               </div>
 
               <div className="space-y-4">
                 {/* Razorpay Option */}
-                <label className={`block border p-4 cursor-pointer transition-all ${formData.paymentMethod === 'RAZORPAY' ? 'border-accent bg-canvas' : 'border-border bg-surface'}`}>
+                <label className={`block border p-4 cursor-pointer transition-all rounded-xl ${formData.paymentMethod === 'RAZORPAY' ? 'border-royal bg-royal/20 shadow-sm' : 'border-white/10 bg-[#0A1128]'}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <input
@@ -422,19 +425,19 @@ export default function CheckoutPage() {
                         value="RAZORPAY"
                         checked={formData.paymentMethod === 'RAZORPAY'}
                         onChange={handleInputChange}
-                        className="text-accent focus:ring-accent"
+                        className="text-royal focus:ring-royal"
                       />
-                      <CreditCard className="w-5 h-5 text-accent" />
+                      <CreditCard className="w-5 h-5 text-royal-light" />
                       <div>
-                        <p className="font-mono font-semibold text-xs uppercase tracking-wider text-ink">Razorpay Online Payment</p>
-                        <p className="font-mono text-[10px] text-muted">Credit / Debit Cards, UPI, NetBanking, Wallets</p>
+                        <p className="font-mono font-bold text-xs uppercase tracking-wider text-white">Razorpay Online Payment</p>
+                        <p className="font-mono text-[10px] text-slate-400">Credit / Debit Cards, UPI, NetBanking, Wallets</p>
                       </div>
                     </div>
                   </div>
                 </label>
 
                 {/* Cash on Delivery Option */}
-                <label className={`block border p-4 cursor-pointer transition-all ${formData.paymentMethod === 'COD' ? 'border-accent bg-canvas' : 'border-border bg-surface'}`}>
+                <label className={`block border p-4 cursor-pointer transition-all rounded-xl ${formData.paymentMethod === 'COD' ? 'border-royal bg-royal/20 shadow-sm' : 'border-white/10 bg-[#0A1128]'}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <input
@@ -443,12 +446,12 @@ export default function CheckoutPage() {
                         value="COD"
                         checked={formData.paymentMethod === 'COD'}
                         onChange={handleInputChange}
-                        className="text-accent focus:ring-accent"
+                        className="text-royal focus:ring-royal"
                       />
-                      <Truck className="w-5 h-5 text-accent" />
+                      <Truck className="w-5 h-5 text-royal-light" />
                       <div>
-                        <p className="font-mono font-semibold text-xs uppercase tracking-wider text-ink">Cash on Delivery (COD)</p>
-                        <p className="font-mono text-[10px] text-muted">Pay upon doorstep delivery</p>
+                        <p className="font-mono font-bold text-xs uppercase tracking-wider text-white">Cash on Delivery (COD)</p>
+                        <p className="font-mono text-[10px] text-slate-400">Pay upon doorstep delivery</p>
                       </div>
                     </div>
                   </div>
@@ -459,7 +462,7 @@ export default function CheckoutPage() {
                 type="button"
                 onClick={handlePlaceOrder}
                 disabled={loading}
-                className="w-full bg-accent text-canvas py-4 font-mono text-xs uppercase tracking-[0.2em] font-semibold hover:bg-ink transition-all border border-accent"
+                className="w-full bg-royal hover:bg-royal-dark text-white py-4 font-mono text-xs uppercase tracking-[0.2em] font-bold transition-all rounded-md shadow-luxury"
               >
                 {loading ? 'Processing Drop Order...' : `COMPLETE ORDER (${formatPrice(total)})`}
               </button>
@@ -467,47 +470,49 @@ export default function CheckoutPage() {
           )}
         </div>
 
-        {/* Order Summary Sidebar (5 cols) */}
-        <div className="lg:col-span-5 bg-surface border border-border p-6 space-y-6 h-fit">
-          <h3 className="font-serif text-base font-normal uppercase tracking-wider border-b border-border pb-3 text-ink">
-            Bag Items ({items.length})
-          </h3>
+        {/* Order Summary Preview (5 cols) */}
+        <div className="lg:col-span-5 bg-[#101D3F] border border-white/10 p-6 sm:p-8 space-y-6 h-fit rounded-2xl shadow-subtle text-white">
+          <h2 className="font-serif text-lg font-normal uppercase tracking-wider text-white border-b border-white/10 pb-4">
+            Reservation Summary ({items.length} items)
+          </h2>
 
-          <div className="space-y-4 max-h-80 overflow-y-auto pr-2">
+          <div className="space-y-4 max-h-72 overflow-y-auto divide-y divide-white/10 pr-2 text-white">
             {items.map((item) => (
-              <div key={`${item.productId}-${item.size}-${item.color}`} className="flex space-x-4 items-center">
-                <img src={item.productImage} alt={item.productName} className="w-14 h-18 object-cover bg-canvas border border-border" />
-                <div className="flex-1 text-xs">
-                  <h4 className="font-serif font-normal text-ink line-clamp-1">{item.productName}</h4>
-                  <p className="font-mono text-muted text-[10px] uppercase">Qty: {item.quantity} | {item.size} / {item.color}</p>
-                  <p className="font-mono font-semibold text-accent mt-1">{formatPrice(item.price * item.quantity)}</p>
+              <div key={`${item.productId}-${item.size}-${item.color}`} className="pt-3 first:pt-0 flex items-center justify-between text-xs text-white">
+                <div className="flex items-center space-x-3">
+                  <img src={item.productImage} alt={item.productName} className="w-12 h-14 object-cover bg-slate-900 border border-white/10 rounded-md" />
+                  <div>
+                    <h4 className="font-serif text-white line-clamp-1">{item.productName}</h4>
+                    <p className="font-mono text-[10px] text-slate-400">Size: {item.size} | Color: {item.color} | x{item.quantity}</p>
+                  </div>
                 </div>
+                <span className="font-mono font-bold text-white">{formatPrice(item.price * item.quantity)}</span>
               </div>
             ))}
           </div>
 
-          <div className="space-y-2 font-mono text-xs text-muted pt-4 border-t border-border">
+          <div className="border-t border-white/10 pt-4 space-y-2 font-mono text-xs text-slate-300">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span className="font-semibold text-ink">{formatPrice(subtotal)}</span>
+              <span className="text-white font-bold">{formatPrice(subtotal)}</span>
             </div>
             {couponDiscount > 0 && (
-              <div className="flex justify-between text-accent font-semibold">
-                <span>Coupon Savings ({couponCode})</span>
+              <div className="flex justify-between text-pink font-bold">
+                <span>VIP Promo Discount</span>
                 <span>-{formatPrice(couponDiscount)}</span>
               </div>
             )}
             <div className="flex justify-between">
-              <span>Estimated Tax (12% GST)</span>
-              <span>{formatPrice(tax)}</span>
+              <span>White-Glove Courier</span>
+              <span className="text-white font-bold">{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
             </div>
             <div className="flex justify-between">
-              <span>Express Shipping</span>
-              <span>{shipping === 0 ? <span className="text-ink font-semibold">FREE</span> : formatPrice(shipping)}</span>
+              <span>Estimated GST (12%)</span>
+              <span className="text-white font-bold">{formatPrice(tax)}</span>
             </div>
-            <div className="flex justify-between font-serif text-lg font-normal text-ink pt-3 border-t border-border">
-              <span>Total Payable</span>
-              <span className="font-mono font-semibold text-accent">{formatPrice(total)}</span>
+            <div className="flex justify-between text-base font-bold text-white border-t border-white/10 pt-3">
+              <span>Total Investment</span>
+              <span className="text-white font-mono text-lg font-bold">{formatPrice(total)}</span>
             </div>
           </div>
         </div>

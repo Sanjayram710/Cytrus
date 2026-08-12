@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import QuickViewModal from '@/components/QuickViewModal';
+import CelebriteeLogo from '@/components/CelebriteeLogo';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
@@ -54,7 +55,7 @@ const ICON_EDITIONS = [
     dropNumber: 'DROP 03 // 250 UNITS',
     status: 'NEW RELEASE',
     tag: 'Signature Edition',
-    description: 'Deep mineral-dyed acid wash tees with high-density gold and metallic puff prints.',
+    description: 'Deep mineral-dyed acid wash tees with high-density metallic and neon puff prints.',
     image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&q=80&w=1200',
     link: '/shop?category=vintage-wash-tees',
     badge: 'Just Dropped',
@@ -120,92 +121,93 @@ export default function HomePage() {
       productId: product.id,
       productName: product.name,
       productImage: product.images[0]?.url || '',
-      size: product.variants?.[0]?.size || 'L',
-      color: product.variants?.[0]?.color || 'Black',
+      size: 'M',
+      color: 'Black',
       price: product.price,
       quantity: 1,
     });
   };
 
   return (
-    <div className="space-y-24 sm:space-y-32 pb-24 bg-ivory">
+    <div className="space-y-24 sm:space-y-32 pb-24 bg-[#0A1128] text-white">
       {/* ========================================================================= */}
-      {/* 1. CINEMATIC FULL-SCREEN HERO */}
+      {/* 1. CINEMATIC HERO (Natural Visible Model Image with Deep Blue Integration) */}
       {/* ========================================================================= */}
-      <section className="relative min-h-[90vh] flex items-center justify-center bg-charcoal overflow-hidden select-none">
-        {/* Background Celebrity Fashion Image with Editorial Vignette */}
+      <section className="relative min-h-[85vh] sm:min-h-[88vh] flex items-center justify-center overflow-hidden select-none bg-[#0A1128] border-b border-white/10">
+        {/* Crystal Clear, Fully Visible Fashion Model Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=85&w=2000"
-            alt="CELEBRITEE Iconic Drop"
-            className="w-full h-full object-cover object-center filter brightness-[0.75] contrast-[1.15] scale-105 transition-transform duration-1000"
+            src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=90&w=2000"
+            alt="CELEBRITEE Iconic Collection"
+            className="w-full h-full object-cover object-center filter brightness-[0.7] contrast-[1.1]"
           />
-          {/* Deep Royal Blue & Charcoal Editorial Gradient Scrim */}
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-royal/30 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-transparent to-charcoal/60" />
+          {/* Subtle Deep Blue Gradient Vignette so Model is Natural & Text is Pristine */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A1128] via-[#0A1128]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A1128]/70 via-transparent to-[#0A1128]/70" />
         </div>
 
-        {/* Hero Content Box */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-ivory space-y-6 pt-16">
+        {/* Hero Content Box with Pure White Typography */}
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white space-y-6 py-16 sm:py-24">
           {/* VIP Drop Badge */}
-          <div className="inline-flex items-center space-x-2 bg-royal/80 backdrop-blur-md border border-royal-light/30 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.25em] text-ivory shadow-luxury">
+          <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-white rounded-full shadow-md">
             <span className="w-1.5 h-1.5 rounded-full bg-pink animate-pulse" />
-            <span>EXCLUSIVE COLLABORATION DROPS // 2026</span>
+            <span className="font-bold tracking-widest text-white">EXCLUSIVE COLLABORATION DROPS // 2026</span>
           </div>
 
           {/* Master Headline */}
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight leading-[1.08] text-ivory drop-shadow-md">
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight leading-[1.08] text-white drop-shadow-md">
             The Art of Being Iconic.
           </h1>
 
           {/* Subline */}
-          <p className="font-sans text-sm sm:text-base md:text-lg text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
-            Limited collections created in collaboration with the people who define culture.
+          <p className="font-sans text-sm sm:text-base md:text-lg text-slate-200 font-light max-w-2xl mx-auto leading-relaxed tracking-wide drop-shadow-sm">
+            Limited edition couture and heavyweight streetwear created in exclusive collaboration with the icons who define culture.
           </p>
 
           {/* Action CTAs */}
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/shop"
-              className="w-full sm:w-auto bg-royal hover:bg-pink text-ivory px-8 py-4 font-mono text-xs uppercase tracking-[0.22em] font-semibold transition-all duration-300 border border-royal hover:border-pink flex items-center justify-center space-x-2 shadow-luxury group"
+              className="w-full sm:w-auto bg-royal hover:bg-royal-dark text-white px-8 py-3.5 font-mono text-xs uppercase tracking-[0.2em] font-bold transition-all duration-200 rounded-md shadow-luxury flex items-center justify-center space-x-2 group"
             >
-              <span>Explore the Collection</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              <span>Explore the Vault</span>
+              <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
             </Link>
 
             <Link
               href="/shop?newArrival=true"
-              className="w-full sm:w-auto bg-ivory/10 hover:bg-ivory hover:text-charcoal text-ivory px-8 py-4 font-mono text-xs uppercase tracking-[0.22em] font-semibold transition-all duration-300 border border-ivory/40 backdrop-blur-sm flex items-center justify-center space-x-2"
+              className="w-full sm:w-auto bg-white/10 hover:bg-white hover:text-[#0A1128] text-white px-8 py-3.5 font-mono text-xs uppercase tracking-[0.2em] font-bold transition-all duration-200 border border-white/25 backdrop-blur-md rounded-md flex items-center justify-center space-x-2 shadow-md"
             >
               <span>View New Arrivals</span>
             </Link>
           </div>
 
           {/* Bottom Drop Indicator */}
-          <div className="pt-8 flex items-center justify-center space-x-6 text-[10px] font-mono text-ivory/60 uppercase tracking-widest">
+          <div className="pt-6 flex items-center justify-center space-x-6 text-[10px] font-mono text-slate-300 uppercase tracking-widest font-bold">
             <span>STRICTLY NUMBERED RUNS</span>
-            <span className="w-1 h-1 bg-gold rounded-full" />
+            <span className="w-1 h-1 bg-royal rounded-full" />
             <span>NFC AUTHENTICATED</span>
-            <span className="w-1 h-1 bg-gold rounded-full" />
+            <span className="w-1 h-1 bg-royal rounded-full" />
             <span>320 GSM FRENCH TERRY</span>
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. FEATURED "ICON EDITIONS" (Large-Format Celebrity Collaborations) */}
+      {/* 2. FEATURED "ICON EDITIONS" (Deep Blue #101D3F Surface Cards) */}
       {/* ========================================================================= */}
-      <section id="icons" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-border pb-4">
+      <section id="icons" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-white/10 pb-4">
           <div>
-            <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-royal">
-              LIMITED VAULT RELEASES
+            <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal-light flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
+              <span>LIMITED VAULT RELEASES</span>
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-charcoal mt-1">
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-white mt-1">
               Featured Icon Editions
             </h2>
           </div>
-          <p className="font-mono text-xs text-muted uppercase tracking-widest mt-2 md:mt-0">
+          <p className="font-mono text-xs text-slate-400 uppercase tracking-widest mt-2 md:mt-0 font-medium">
             Co-created with icons of music, cinema, and art
           </p>
         </div>
@@ -215,51 +217,51 @@ export default function HomePage() {
             <Link
               key={edition.id}
               href={edition.link}
-              className="group relative bg-softgrey border border-border overflow-hidden flex flex-col justify-between hover:border-royal transition-all duration-300 shadow-subtle"
+              className="group relative bg-[#101D3F] border border-white/10 overflow-hidden flex flex-col justify-between hover:border-royal/60 hover:shadow-card transition-all duration-300 rounded-2xl shadow-subtle text-white"
             >
               {/* Image Container with Hover Zoom */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-charcoal">
+              <div className="relative aspect-[3/4] overflow-hidden bg-slate-900">
                 <img
                   src={edition.image}
                   alt={edition.title}
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 filter brightness-[0.92] contrast-[1.05]"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 filter contrast-[1.05]"
                 />
                 
                 {/* Overlay Badges */}
                 <div className="absolute top-4 left-4 z-10 flex flex-col space-y-1.5">
-                  <span className="bg-charcoal text-ivory text-[9px] font-mono font-bold tracking-[0.2em] uppercase px-2.5 py-1">
+                  <span className="bg-[#0A1128]/90 text-white text-[9px] font-mono font-bold tracking-[0.2em] uppercase px-3 py-1 rounded-sm shadow-sm backdrop-blur-sm border border-white/15">
                     {edition.dropNumber}
                   </span>
-                  <span className="bg-royal text-ivory text-[9px] font-mono tracking-widest uppercase px-2 py-0.5 self-start">
+                  <span className="bg-royal text-white text-[9px] font-mono font-bold tracking-widest uppercase px-2.5 py-0.5 self-start rounded-sm shadow-sm">
                     {edition.tag}
                   </span>
                 </div>
 
                 <div className="absolute top-4 right-4 z-10">
-                  <span className="bg-pink text-ivory text-[9px] font-mono font-bold tracking-wider uppercase px-2.5 py-1 shadow-sm">
+                  <span className="bg-pink text-white text-[9px] font-mono font-bold tracking-wider uppercase px-3 py-1 rounded-sm">
                     {edition.badge}
                   </span>
                 </div>
 
-                {/* Subtle Bottom Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                {/* Bottom Gradient for Text Legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1128]/90 via-transparent to-transparent opacity-90 group-hover:opacity-95 transition-opacity" />
                 
-                <div className="absolute bottom-4 left-4 right-4 text-ivory z-10">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-gold">
+                <div className="absolute bottom-5 left-5 right-5 text-white z-10">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-slate-300 font-bold">
                     {edition.celebrity}
                   </p>
-                  <h3 className="font-serif text-xl sm:text-2xl font-normal tracking-tight text-ivory mt-0.5">
+                  <h3 className="font-serif text-xl sm:text-2xl font-normal tracking-tight text-white mt-1">
                     {edition.title}
                   </h3>
                 </div>
               </div>
 
               {/* Bottom Card Copy & Action */}
-              <div className="p-5 flex items-center justify-between bg-ivory border-t border-border">
-                <p className="font-sans text-xs text-muted font-normal line-clamp-1 pr-3">
+              <div className="p-5 flex items-center justify-between bg-[#101D3F] border-t border-white/10 text-white">
+                <p className="font-sans text-xs text-slate-300 font-normal line-clamp-1 pr-3">
                   {edition.description}
                 </p>
-                <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-charcoal group-hover:bg-royal group-hover:text-ivory group-hover:border-royal transition-colors flex-shrink-0">
+                <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white group-hover:bg-royal group-hover:border-royal transition-colors flex-shrink-0">
                   <ArrowUpRight className="w-4 h-4" />
                 </div>
               </div>
@@ -269,60 +271,58 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. CURATED PRODUCT GRID (Restrained Luxury Cards) */}
+      {/* 3. CURATED PRODUCT GRID (Deep Blue #101D3F Cards) */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-border pb-4">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-white/10 pb-4">
           <div>
-            <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-royal">
-              CURATED DROPS
+            <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal-light flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
+              <span>CURATED DROPS</span>
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-charcoal mt-1">
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-white mt-1">
               Iconic Streetwear Garments
             </h2>
           </div>
           <Link
             href="/shop"
-            className="mt-4 md:mt-0 font-mono text-xs uppercase tracking-[0.2em] text-charcoal hover:text-royal transition-colors inline-flex items-center space-x-1 font-semibold"
+            className="mt-4 md:mt-0 font-mono text-xs uppercase tracking-[0.2em] text-white hover:text-royal transition-colors inline-flex items-center space-x-1 font-bold"
           >
-            <span>Explore All 11 Editions</span>
-            <ArrowRight className="w-3.5 h-3.5 ml-1" />
+            <span>Explore All Drops</span>
+            <ArrowRight className="w-3.5 h-3.5 ml-1 text-royal" />
           </Link>
         </div>
 
         {loading ? (
-          <div className="text-center py-20 font-mono text-xs uppercase tracking-widest text-muted">
+          <div className="text-center py-20 font-mono text-xs uppercase tracking-widest text-slate-400">
             Loading Curated Vault...
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-white">
             {products.map((product, idx) => {
               const isWish = isInWishlist(product.id);
               const primaryImg =
                 product.images?.[0]?.url ||
                 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000';
-              const secondaryImg =
-                product.images?.[1]?.url || primaryImg;
 
-              // Limited Stock Badge simulation
               const stockRemaining = 12 + ((idx * 7) % 28);
 
               return (
                 <div
                   key={product.id}
-                  className="group relative bg-ivory border border-border hover:border-royal transition-all duration-300 flex flex-col justify-between"
+                  className="group relative bg-[#101D3F] border border-white/10 hover:border-royal/60 hover:shadow-card transition-all duration-300 flex flex-col justify-between rounded-2xl overflow-hidden shadow-subtle text-white"
                 >
-                  {/* Top Bar Details: Drop Number & Limited Stock */}
-                  <div className="p-3 border-b border-border flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-muted">
-                    <span className="text-royal font-bold">EDITION 0{idx + 1}</span>
-                    <span className="text-pink font-semibold flex items-center space-x-1">
-                      <Flame className="w-2.5 h-2.5 inline" />
+                  {/* Top Bar Details */}
+                  <div className="p-2.5 bg-[#0D1836] border-b border-white/10 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white">
+                    <span className="font-bold">EDITION 0{idx + 1}</span>
+                    <span className="text-slate-300 font-medium flex items-center space-x-1">
+                      <Flame className="w-2.5 h-2.5 inline text-pink" />
                       <span>{stockRemaining} Left</span>
                     </span>
                   </div>
 
                   {/* Product Image Stage */}
-                  <div className="relative aspect-[4/5] overflow-hidden bg-softgrey">
+                  <div className="relative aspect-[4/5] overflow-hidden bg-slate-900">
                     <Link href={`/product/${product.slug}`} className="block w-full h-full">
                       <img
                         src={primaryImg}
@@ -346,21 +346,21 @@ export default function HomePage() {
                           price: product.price,
                         })
                       }
-                      className={`absolute top-3 right-3 z-10 p-2 border transition-all ${
+                      className={`absolute top-3 right-3 z-10 p-2 rounded-md border transition-all ${
                         isWish
-                          ? 'bg-charcoal text-ivory border-charcoal'
-                          : 'bg-ivory/90 text-charcoal border-border hover:bg-royal hover:text-ivory hover:border-royal'
+                          ? 'bg-pink text-white border-pink'
+                          : 'bg-[#0A1128]/80 text-white border-white/20 hover:bg-royal hover:text-white hover:border-royal'
                       }`}
                       aria-label="Wishlist"
                     >
-                      <Heart className={`w-3.5 h-3.5 ${isWish ? 'fill-current' : ''}`} />
+                      <Heart className={`w-3.5 h-3.5 ${isWish ? 'fill-current text-white' : ''}`} />
                     </button>
 
                     {/* Hover Quick Actions */}
                     <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex space-x-2 z-10">
                       <button
                         onClick={() => setQuickViewProduct(product)}
-                        className="flex-1 bg-ivory/95 backdrop-blur-sm border border-border text-charcoal hover:bg-charcoal hover:text-ivory py-2.5 text-[10px] font-mono uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
+                        className="flex-1 bg-[#0A1128]/95 backdrop-blur-sm border border-white/20 text-white hover:bg-white hover:text-[#0A1128] py-2 text-[10px] font-mono font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1 rounded-md shadow-sm"
                       >
                         <Eye className="w-3 h-3" />
                         <span>Inspect</span>
@@ -368,7 +368,7 @@ export default function HomePage() {
 
                       <button
                         onClick={(e) => handleAddToCart(e, product)}
-                        className="bg-pink hover:bg-pink-hover text-ivory px-3.5 py-2.5 font-mono text-[10px] uppercase font-bold tracking-wider transition-colors flex items-center justify-center space-x-1 shadow-sm"
+                        className="bg-royal hover:bg-royal-dark text-white px-3 py-2 font-mono text-[10px] uppercase font-bold tracking-wider transition-colors flex items-center justify-center space-x-1 rounded-md shadow-sm"
                         title="Add to Bag"
                       >
                         <ShoppingBag className="w-3.5 h-3.5" />
@@ -378,21 +378,21 @@ export default function HomePage() {
                   </div>
 
                   {/* Card Bottom Meta */}
-                  <div className="p-4 bg-ivory border-t border-border">
-                    <p className="font-mono text-[10px] text-muted uppercase tracking-[0.2em] mb-1">
-                      {product.category?.name || '320 GSM FRENCH TERRY'}
+                  <div className="p-4 bg-[#101D3F] border-t border-white/10 text-white">
+                    <p className="font-mono text-[10px] text-slate-400 uppercase tracking-[0.2em] mb-1 font-medium">
+                      {product.category?.name || '320 GSM HEAVYWEIGHT'}
                     </p>
                     <Link href={`/product/${product.slug}`}>
-                      <h3 className="font-serif text-sm font-normal text-charcoal group-hover:text-royal transition-colors line-clamp-1">
+                      <h3 className="font-serif text-sm font-normal text-white group-hover:text-royal-light transition-colors line-clamp-1">
                         {product.name}
                       </h3>
                     </Link>
                     <div className="mt-2.5 flex items-baseline justify-between">
-                      <span className="font-mono text-xs font-semibold tracking-wider text-charcoal">
+                      <span className="font-mono text-xs font-bold tracking-wider text-white">
                         {formatPrice(product.price)}
                       </span>
                       {product.comparePrice && (
-                        <span className="font-mono text-[10px] line-through text-muted">
+                        <span className="font-mono text-[10px] line-through text-slate-400">
                           {formatPrice(product.comparePrice)}
                         </span>
                       )}
@@ -406,51 +406,51 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 4. EDITORIAL CAMPAIGN SECTION (Full Bleed Split) */}
+      {/* 4. EDITORIAL MANIFESTO (Deep Blue Section) */}
       {/* ========================================================================= */}
-      <section className="bg-charcoal text-ivory overflow-hidden border-y border-charcoal">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
+      <section className="bg-[#0D1836] border-y border-white/10 overflow-hidden text-white shadow-subtle">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-[540px]">
           {/* Left Column: Storytelling Manifesto */}
-          <div className="lg:col-span-6 p-8 sm:p-14 lg:p-20 flex flex-col justify-between space-y-8">
+          <div className="lg:col-span-6 p-8 sm:p-14 lg:p-20 flex flex-col justify-between space-y-8 text-white">
             <div className="space-y-4">
-              <span className="font-mono text-xs uppercase tracking-[0.3em] text-pink font-semibold">
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-royal-light font-bold">
                 THE CELEBRITEE MANIFESTO
               </span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-ivory leading-tight">
+              <h2 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-white leading-tight">
                 Not Merch. <br />
-                <span className="text-gold italic font-serif">Wearable Artifacts.</span>
+                <span className="text-pink italic font-serif">Wearable Artifacts.</span>
               </h2>
-              <p className="font-sans text-sm sm:text-base text-ivory/70 font-light leading-relaxed pt-2">
+              <p className="font-sans text-sm sm:text-base text-slate-300 font-light leading-relaxed pt-2">
                 Every CELEBRITEE piece begins in closed-door design ateliers with culture-shaping icons. From custom dye formulation to custom collar tension and weight calibration, nothing is generic. Once a drop sells out, the moulds are retired forever.
               </p>
             </div>
 
-            <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-6 text-white">
               <Link
                 href="/shop"
-                className="bg-royal hover:bg-pink text-ivory px-8 py-4 font-mono text-xs uppercase tracking-[0.22em] font-semibold transition-all duration-300 border border-royal hover:border-pink inline-flex items-center space-x-2"
+                className="bg-royal hover:bg-royal-dark text-white px-8 py-3.5 font-mono text-xs uppercase tracking-[0.2em] font-bold transition-all duration-200 rounded-md shadow-luxury inline-flex items-center space-x-2"
               >
                 <span>Enter The Archive</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4 text-white" />
               </Link>
-              <div className="font-mono text-[11px] text-ivory/50 uppercase tracking-widest">
+              <div className="font-mono text-[11px] text-slate-400 uppercase tracking-widest font-semibold">
                 VERIFIED COLLABORATION CONTRACTS
               </div>
             </div>
           </div>
 
           {/* Right Column: Editorial Campaign Image */}
-          <div className="lg:col-span-6 relative min-h-[380px] lg:min-h-full">
+          <div className="lg:col-span-6 relative min-h-[360px] lg:min-h-full bg-slate-900">
             <img
               src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=85&w=1200"
               alt="Editorial Campaign"
-              className="w-full h-full object-cover object-center filter contrast-110 brightness-90"
+              className="w-full h-full object-cover object-center filter contrast-105"
             />
-            <div className="absolute bottom-6 right-6 bg-charcoal/90 backdrop-blur-md border border-ivory/20 p-4 max-w-xs text-ivory text-left hidden sm:block">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-gold mb-1">
+            <div className="absolute bottom-6 right-6 bg-[#0A1128]/95 backdrop-blur-md border border-white/15 p-4 max-w-xs text-white text-left hidden sm:block rounded-xl shadow-lg">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-1">
                 CAMPAIGN NO. 04
               </p>
-              <p className="font-serif text-xs font-normal">
+              <p className="font-serif text-xs font-normal text-white">
                 "We don’t chase trends. We collaborate with those who create them."
               </p>
             </div>
@@ -459,124 +459,126 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 5. THE CELEBRITEE STANDARD (Authenticity, Craftsmanship, VIP Access) */}
+      {/* 5. THE CELEBRITEE STANDARD */}
       {/* ========================================================================= */}
-      <section id="standards" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-royal">
-            THE MAISON BENCHMARK
+      <section id="standards" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+        <div className="text-center max-w-2xl mx-auto mb-14 text-white">
+          <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal-light flex items-center justify-center space-x-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
+            <span>THE MAISON BENCHMARK</span>
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-charcoal mt-1">
+          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-white mt-1">
             The CELEBRITEE Standard
           </h2>
-          <p className="font-sans text-xs sm:text-sm text-muted font-light mt-2">
+          <p className="font-sans text-xs sm:text-sm text-slate-300 font-normal mt-2">
             Engineered to bridge haute couture precision with luxury heavyweight streetwear.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="bg-softgrey border border-border p-6 sm:p-8 space-y-4 hover:border-royal transition-colors">
-            <div className="w-10 h-10 rounded-full bg-royal text-ivory flex items-center justify-center font-mono text-xs font-bold">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-white">
+          <div className="bg-[#101D3F] border border-white/10 p-6 sm:p-8 space-y-4 hover:border-royal/60 hover:shadow-card transition-all rounded-2xl shadow-subtle">
+            <div className="w-9 h-9 rounded-full bg-royal-light text-royal flex items-center justify-center font-mono text-xs font-bold border border-royal/30">
               01
             </div>
-            <h3 className="font-serif text-lg font-normal text-charcoal">
+            <h3 className="font-serif text-lg font-normal text-white">
               Numbered Authenticity
             </h3>
-            <p className="font-sans text-xs text-muted font-light leading-relaxed">
+            <p className="font-sans text-xs text-slate-300 font-normal leading-relaxed">
               Every garment includes a tamper-proof certificate and encrypted NFC label linking directly to the collaborator’s authentication ledger.
             </p>
           </div>
 
-          <div className="bg-softgrey border border-border p-6 sm:p-8 space-y-4 hover:border-royal transition-colors">
-            <div className="w-10 h-10 rounded-full bg-royal text-ivory flex items-center justify-center font-mono text-xs font-bold">
+          <div className="bg-[#101D3F] border border-white/10 p-6 sm:p-8 space-y-4 hover:border-royal/60 hover:shadow-card transition-all rounded-2xl shadow-subtle">
+            <div className="w-9 h-9 rounded-full bg-royal-light text-royal flex items-center justify-center font-mono text-xs font-bold border border-royal/30">
               02
             </div>
-            <h3 className="font-serif text-lg font-normal text-charcoal">
+            <h3 className="font-serif text-lg font-normal text-white">
               320+ GSM Master Knit
             </h3>
-            <p className="font-sans text-xs text-muted font-light leading-relaxed">
+            <p className="font-sans text-xs text-slate-300 font-normal leading-relaxed">
               Crafted from 100% long-staple combed cotton French Terry with structured drop-shoulders and 1.2-inch shape-retaining ribbed collars.
             </p>
           </div>
 
-          <div className="bg-softgrey border border-border p-6 sm:p-8 space-y-4 hover:border-royal transition-colors">
-            <div className="w-10 h-10 rounded-full bg-royal text-ivory flex items-center justify-center font-mono text-xs font-bold">
+          <div className="bg-[#101D3F] border border-white/10 p-6 sm:p-8 space-y-4 hover:border-royal/60 hover:shadow-card transition-all rounded-2xl shadow-subtle">
+            <div className="w-9 h-9 rounded-full bg-royal-light text-royal flex items-center justify-center font-mono text-xs font-bold border border-royal/30">
               03
             </div>
-            <h3 className="font-serif text-lg font-normal text-charcoal">
+            <h3 className="font-serif text-lg font-normal text-white">
               Exclusive VIP Drops
             </h3>
-            <p className="font-sans text-xs text-muted font-light leading-relaxed">
+            <p className="font-sans text-xs text-slate-300 font-normal leading-relaxed">
               Strictly capped unit counts per release. No endless reprints. Clients gain priority access to upcoming celebrity drops.
             </p>
           </div>
 
-          <div className="bg-softgrey border border-border p-6 sm:p-8 space-y-4 hover:border-royal transition-colors">
-            <div className="w-10 h-10 rounded-full bg-royal text-ivory flex items-center justify-center font-mono text-xs font-bold">
+          <div className="bg-[#101D3F] border border-white/10 p-6 sm:p-8 space-y-4 hover:border-royal/60 hover:shadow-card transition-all rounded-2xl shadow-subtle">
+            <div className="w-9 h-9 rounded-full bg-royal-light text-royal flex items-center justify-center font-mono text-xs font-bold border border-royal/30">
               04
             </div>
-            <h3 className="font-serif text-lg font-normal text-charcoal">
+            <h3 className="font-serif text-lg font-normal text-white">
               White-Glove Delivery
             </h3>
-            <p className="font-sans text-xs text-muted font-light leading-relaxed">
-              Shipped in signature velvet-lined presentation boxes with complimentary insured express courier to your doorstep across India.
+            <p className="font-sans text-xs text-slate-300 font-normal leading-relaxed">
+              Shipped in signature presentation boxes with complimentary insured express courier to your doorstep across India.
             </p>
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 6. THE EDITORIAL JOURNAL (Celebrity Stories & Styling Notes) */}
+      {/* 6. THE EDITORIAL JOURNAL */}
       {/* ========================================================================= */}
-      <section id="journal" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-border pb-4">
+      <section id="journal" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 border-b border-white/10 pb-4">
           <div>
-            <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-royal">
-              EDITORIAL GAZETTE
+            <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal-light flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
+              <span>EDITORIAL GAZETTE</span>
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-charcoal mt-1">
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-white mt-1">
               The CELEBRITEE Journal
             </h2>
           </div>
-          <p className="font-mono text-xs text-muted uppercase tracking-widest mt-2 md:mt-0">
+          <p className="font-mono text-xs text-slate-400 uppercase tracking-widest mt-2 md:mt-0 font-medium">
             Stories, backstage ateliers & styling notes
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
           {JOURNAL_ARTICLES.map((article) => (
             <article
               key={article.id}
-              className="group bg-ivory border border-border hover:border-royal transition-all duration-300 flex flex-col justify-between"
+              className="group bg-[#101D3F] border border-white/10 hover:border-royal/60 hover:shadow-card transition-all duration-300 flex flex-col justify-between rounded-2xl overflow-hidden shadow-subtle text-white"
             >
-              <div className="relative aspect-[16/10] overflow-hidden bg-softgrey">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
                 <img
                   src={article.image}
                   alt={article.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-3 left-3 bg-charcoal text-ivory text-[9px] font-mono tracking-widest uppercase px-2.5 py-1">
+                <div className="absolute top-3 left-3 bg-[#0A1128] text-white text-[9px] font-mono tracking-widest uppercase px-2.5 py-1 rounded-sm border border-white/15">
                   {article.category}
                 </div>
               </div>
 
-              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between text-white">
                 <div>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-muted uppercase tracking-wider mb-2">
+                  <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-2">
                     <span>{article.date}</span>
                     <span>{article.readTime}</span>
                   </div>
-                  <h3 className="font-serif text-lg font-normal text-charcoal group-hover:text-royal transition-colors leading-snug">
+                  <h3 className="font-serif text-lg font-normal text-white group-hover:text-royal-light transition-colors leading-snug">
                     {article.title}
                   </h3>
-                  <p className="font-sans text-xs text-muted font-light leading-relaxed mt-2 line-clamp-2">
+                  <p className="font-sans text-xs text-slate-300 font-normal leading-relaxed mt-2 line-clamp-2">
                     {article.summary}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-border/60 flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-charcoal group-hover:text-royal font-semibold">
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-white font-bold">
                   <span>Read Full Article</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-royal" />
                 </div>
               </div>
             </article>

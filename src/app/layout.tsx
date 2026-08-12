@@ -7,6 +7,7 @@ import CartDrawer from '@/components/CartDrawer';
 import SearchModal from '@/components/SearchModal';
 import QuickViewModal from '@/components/QuickViewModal';
 import SizeGuideModal from '@/components/SizeGuideModal';
+import SplashScreen from '@/components/SplashScreen';
 import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,15 +18,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>CELEBRITEE | Luxury Celebrity-Commerce &amp; Iconic Drops</title>
+        <title>CELEBRITEE.in | Luxury Celebrity-Commerce &amp; Iconic Drops</title>
         <meta
           name="description"
-          content="CELEBRITEE.in — Limited edition couture and streetwear collections created in exclusive collaboration with the icons who define culture."
+          content="CELEBRITEE.in — Limited edition couture and heavyweight streetwear collections created in exclusive collaboration with the icons who define culture."
         />
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/logo.svg" />
+        <meta name="theme-color" content="#1E5AE6" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="min-h-screen flex flex-col justify-between bg-ivory text-charcoal font-sans antialiased selection:bg-royal selection:text-ivory">
+      <body className="min-h-screen flex flex-col justify-between bg-canvas text-charcoal font-sans antialiased selection:bg-royal selection:text-white">
+        <SplashScreen />
         <div>
           <Navbar onOpenSearch={() => setSearchOpen(true)} />
           <main>{children}</main>

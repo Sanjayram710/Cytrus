@@ -47,33 +47,34 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   const categoryName = category?.name || params.slug.replace('-', ' ').toUpperCase();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-canvas">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-[#0A1128] text-white">
       {/* Editorial Header */}
-      <div className="relative bg-surface text-ink p-8 sm:p-14 mb-12 border border-border overflow-hidden">
-        <div className="relative z-10 max-w-2xl">
-          <span className="font-mono text-muted text-xs uppercase font-medium tracking-[0.25em]">
-            CYTRUS SILHOUETTE
+      <div className="relative bg-[#101D3F] text-white p-8 sm:p-14 mb-12 border border-white/10 rounded-2xl overflow-hidden shadow-subtle">
+        <div className="relative z-10 max-w-2xl text-white">
+          <span className="font-mono text-royal-light text-xs uppercase font-bold tracking-[0.25em] flex items-center space-x-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
+            <span>CELEBRITEE SILHOUETTE</span>
           </span>
-          <h1 className="font-serif text-3xl sm:text-5xl font-normal uppercase mt-1 mb-4 text-ink">
+          <h1 className="font-serif text-3xl sm:text-5xl font-normal uppercase mt-1 mb-4 text-white">
             {categoryName}
           </h1>
-          <p className="text-xs sm:text-sm font-normal text-muted leading-relaxed">
-            {category?.description || 'Explore our hand-curated silhouette collection engineered with heavy 280-300 GSM French Terry organic cotton.'}
+          <p className="text-xs sm:text-sm font-normal text-slate-300 leading-relaxed">
+            {category?.description || 'Explore our hand-curated silhouette collection engineered with heavyweight 320+ GSM French Terry organic cotton.'}
           </p>
         </div>
       </div>
 
       {loading ? (
-        <div className="text-center py-16 font-mono uppercase tracking-widest text-muted text-xs">Loading Silhouette Drops...</div>
+        <div className="text-center py-16 font-mono uppercase tracking-widest text-slate-400 text-xs">Loading Silhouette Drops...</div>
       ) : products.length === 0 ? (
-        <div className="text-center py-16 bg-surface border border-border p-8">
-          <p className="font-serif text-xl font-normal text-ink mb-2">No products currently available in {categoryName}</p>
-          <Link href="/shop" className="font-mono text-xs uppercase tracking-widest text-accent hover:underline">
+        <div className="text-center py-16 bg-[#101D3F] border border-white/10 p-8 rounded-2xl text-white shadow-subtle">
+          <p className="font-serif text-xl font-normal text-white mb-2">No drops currently available in {categoryName}</p>
+          <Link href="/shop" className="font-mono text-xs uppercase tracking-widest text-royal-light font-bold hover:underline transition-colors">
             Browse All Drops →
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 text-white">
           {products.map((product) => {
             const isWish = isInWishlist(product.id);
             const primaryImg = product.images?.[0]?.url || '';
@@ -81,24 +82,9 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
             return (
               <div
                 key={product.id}
-                className="group relative bg-surface border border-border hover:border-accent transition-all duration-300"
+                className="group relative bg-[#101D3F] border border-white/10 hover:border-royal/60 hover:shadow-card transition-all duration-300 rounded-2xl overflow-hidden flex flex-col justify-between shadow-subtle text-white"
               >
-                {/* Signature Swing-Tag Detail */}
-                <div className="absolute top-0 right-3 z-20 flex flex-col items-center pointer-events-none">
-                  <div className="w-[1px] h-3.5 bg-border group-hover:bg-accent transition-colors" />
-                  <div className="swing-tag px-2.5 py-1 text-center group-hover:-translate-y-0.5 group-hover:-rotate-2 transition-transform duration-300">
-                    <span className="font-mono text-[11px] font-semibold tracking-wider text-accent block">
-                      {formatPrice(product.price)}
-                    </span>
-                    {product.comparePrice && (
-                      <span className="font-mono text-[9px] line-through text-muted block -mt-0.5">
-                        {formatPrice(product.comparePrice)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="relative h-72 sm:h-84 overflow-hidden bg-surface">
+                <div className="relative aspect-[4/5] overflow-hidden bg-slate-900">
                   <Link href={`/product/${product.slug}`}>
                     <img
                       src={primaryImg}
@@ -107,6 +93,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                     />
                   </Link>
 
+                  {/* Wishlist button */}
                   <button
                     onClick={() =>
                       toggleWishlist({
@@ -117,27 +104,28 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                         price: product.price,
                       })
                     }
-                    className={`absolute bottom-3 right-3 z-10 p-2 border transition-all ${
+                    className={`absolute top-3 right-3 z-10 p-2 rounded-md border transition-all ${
                       isWish
-                        ? 'bg-ink text-canvas border-ink'
-                        : 'bg-canvas/90 text-ink border-border hover:bg-ink hover:text-canvas'
+                        ? 'bg-pink text-white border-pink'
+                        : 'bg-[#0A1128]/80 text-white border-white/20 hover:bg-royal hover:text-white hover:border-royal'
                     }`}
                     aria-label="Wishlist"
                   >
-                    <Heart className={`w-3.5 h-3.5 ${isWish ? 'fill-current' : ''}`} />
+                    <Heart className={`w-3.5 h-3.5 ${isWish ? 'fill-current text-white' : ''}`} />
                   </button>
 
-                  <div className="absolute bottom-3 left-3 right-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex space-x-1.5 z-10">
+                  {/* Hover Quick Action buttons */}
+                  <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex space-x-2 z-10">
                     <button
                       onClick={() => setQuickViewProduct(product)}
-                      className="flex-1 bg-canvas/95 backdrop-blur-sm border border-border text-ink hover:bg-ink hover:text-canvas py-2 text-[10px] font-mono uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
+                      className="flex-1 bg-[#0A1128]/95 backdrop-blur-sm border border-white/20 text-white hover:bg-white hover:text-[#0A1128] py-2 text-[10px] font-mono font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1 rounded-md shadow-sm"
                     >
                       <Eye className="w-3 h-3" />
                       <span>Inspect</span>
                     </button>
                     <button
                       onClick={(e) => handleAddToCart(e, product)}
-                      className="bg-ink text-canvas hover:bg-accent p-2 transition-colors border border-ink"
+                      className="bg-royal hover:bg-royal-dark text-white px-3.5 py-2 transition-colors rounded-md shadow-sm"
                       title="Add to Bag"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
@@ -145,12 +133,20 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                   </div>
                 </div>
 
-                <div className="p-4 bg-surface border-t border-border">
+                <div className="p-4 bg-[#101D3F] border-t border-white/10 text-white">
+                  <p className="font-mono text-[10px] text-slate-400 uppercase tracking-[0.2em] mb-1">
+                    {product.category?.name || 'SILHOUETTE'}
+                  </p>
                   <Link href={`/product/${product.slug}`}>
-                    <h3 className="font-serif text-xs font-normal text-ink group-hover:text-accent transition-colors line-clamp-1">
+                    <h3 className="font-serif text-xs font-normal text-white group-hover:text-royal-light transition-colors line-clamp-1">
                       {product.name}
                     </h3>
                   </Link>
+                  <div className="mt-2 flex items-baseline justify-between text-white">
+                    <span className="font-mono text-xs font-bold text-white">
+                      {formatPrice(product.price)}
+                    </span>
+                  </div>
                 </div>
               </div>
             );

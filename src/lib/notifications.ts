@@ -58,37 +58,43 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>CYTRUS Order Receipt #${order.orderNumber}</title>
+      <title>CELEBRITEE.in Order Receipt #${order.orderNumber}</title>
     </head>
-    <body style="margin:0; padding:0; background-color: #FAF8F5; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #FAF8F5; padding: 40px 10px;">
+    <body style="margin:0; padding:0; background-color: #F8FAFC; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F8FAFC; padding: 40px 10px;">
         <tr>
           <td align="center">
-            <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; border: 1px solid #EAE5DC; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden;">
+            <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,72,217,0.08); overflow: hidden;">
               <!-- Header -->
               <tr>
-                <td style="background-color: #121212; padding: 30px; text-align: center;">
-                  <h1 style="color: #FAF8F5; font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.2em; margin: 0;">CYTRUS</h1>
-                  <p style="color: #D4AF37; font-size: 10px; letter-spacing: 0.3em; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">HEAVYWEIGHT TEES ATELIER</p>
+                <td style="background-color: #0048D9; padding: 32px; text-align: center;">
+                  <h1 style="color: #FFFFFF; font-style: italic; font-weight: 900; font-size: 28px; letter-spacing: -0.5px; margin: 0;">
+                    CELEBRI<span style="color: #FF4D97;">TEE.in</span>
+                  </h1>
+                  <p style="color: #EFF4FF; font-size: 10px; letter-spacing: 0.3em; margin: 6px 0 0 0; font-weight: bold; text-transform: uppercase;">LUXURY CELEBRITY-COMMERCE</p>
                 </td>
               </tr>
 
               <!-- Greeting & Order Info -->
               <tr>
                 <td style="padding: 30px 40px 20px 40px;">
-                  <h2 style="font-family: Georgia, serif; color: #121212; font-size: 20px; margin-top: 0;">Order Confirmation & Official Receipt</h2>
+                  <h2 style="color: #0B0F19; font-size: 20px; margin-top: 0; font-weight: bold;">Order Confirmation & Official Receipt</h2>
                   <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Dear <strong>${order.customerName}</strong>,</p>
-                  <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Thank you for your order with CYTRUS. Your bespoke t-shirt order has been confirmed and is currently being processed by our atelier staff.</p>
+                  <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Thank you for your order with CELEBRITEE.in. Your limited collaboration drop order has been confirmed and is currently being prepared for white-glove dispatch.</p>
                   
-                  <div style="background-color: #FAF8F5; border: 1px solid #EAE5DC; padding: 15px 20px; margin: 20px 0;">
+                  <div style="background-color: #F4F7FC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 15px 20px; margin: 20px 0;">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td style="font-size: 12px; color: #707070; text-transform: uppercase; letter-spacing: 0.1em;">Order Reference</td>
-                        <td style="font-size: 14px; font-weight: bold; color: #D4AF37; font-family: monospace; text-align: right;">${order.orderNumber}</td>
+                        <td style="font-size: 12px; color: #64748B; text-transform: uppercase; letter-spacing: 0.1em; font-weight: bold;">Order Reference</td>
+                        <td style="font-size: 14px; font-weight: bold; color: #0048D9; font-family: monospace; text-align: right;">${order.orderNumber}</td>
                       </tr>
                       <tr>
-                        <td style="font-size: 12px; color: #707070; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 8px;">Payment Method</td>
-                        <td style="font-size: 12px; font-weight: bold; color: #121212; text-align: right; padding-top: 8px; text-transform: uppercase;">${order.paymentMethod}</td>
+                        <td style="font-size: 12px; color: #64748B; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 8px; font-weight: bold;">Payment Method</td>
+                        <td style="font-size: 12px; font-weight: bold; color: #0B0F19; font-family: monospace; text-align: right; padding-top: 8px;">${order.paymentMethod}</td>
+                      </tr>
+                      <tr>
+                        <td style="font-size: 12px; color: #64748B; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 8px; font-weight: bold;">Order Date</td>
+                        <td style="font-size: 12px; font-weight: bold; color: #0B0F19; font-family: monospace; text-align: right; padding-top: 8px;">${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
                       </tr>
                     </table>
                   </div>
@@ -97,41 +103,43 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
 
               <!-- Items Table -->
               <tr>
-                <td style="padding: 0 40px;">
-                  <h3 style="font-family: Georgia, serif; font-size: 16px; color: #121212; border-bottom: 2px solid #121212; padding-bottom: 8px; margin-bottom: 10px;">Ordered Items</h3>
+                <td style="padding: 0 40px 20px 40px;">
+                  <h3 style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #0B0F19; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; margin-bottom: 12px; font-weight: bold;">Reserved Pieces</h3>
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     ${itemsHtml}
                   </table>
                 </td>
               </tr>
 
-              <!-- Calculation Totals -->
+              <!-- Totals -->
               <tr>
-                <td style="padding: 20px 40px 30px 40px;">
-                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top: 2px solid #121212; padding-top: 15px;">
+                <td style="padding: 10px 40px 30px 40px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top: 1px solid #E2E8F0; padding-top: 15px;">
                     <tr>
-                      <td style="font-size: 12px; color: #707070; padding: 4px 0;">Subtotal</td>
-                      <td style="font-size: 12px; font-weight: bold; color: #121212; text-align: right; padding: 4px 0;">${formatPrice(order.subtotal)}</td>
+                      <td style="font-size: 13px; color: #64748B; padding-bottom: 6px;">Subtotal</td>
+                      <td style="font-size: 13px; color: #0B0F19; font-family: monospace; text-align: right; padding-bottom: 6px;">${formatPrice(order.subtotal)}</td>
                     </tr>
                     ${
                       order.discount > 0
-                        ? `<tr>
-                            <td style="font-size: 12px; color: #2E7D32; padding: 4px 0;">Voucher Discount</td>
-                            <td style="font-size: 12px; font-weight: bold; color: #2E7D32; text-align: right; padding: 4px 0;">-${formatPrice(order.discount)}</td>
-                           </tr>`
+                        ? `
+                      <tr>
+                        <td style="font-size: 13px; color: #0048D9; font-weight: bold; padding-bottom: 6px;">VIP Promo Discount</td>
+                        <td style="font-size: 13px; color: #0048D9; font-family: monospace; font-weight: bold; text-align: right; padding-bottom: 6px;">-${formatPrice(order.discount)}</td>
+                      </tr>
+                    `
                         : ''
                     }
                     <tr>
-                      <td style="font-size: 12px; color: #707070; padding: 4px 0;">Estimated Tax (12% GST)</td>
-                      <td style="font-size: 12px; font-weight: bold; color: #121212; text-align: right; padding: 4px 0;">${formatPrice(order.tax)}</td>
+                      <td style="font-size: 13px; color: #64748B; padding-bottom: 6px;">White-Glove Courier</td>
+                      <td style="font-size: 13px; color: #0B0F19; font-family: monospace; text-align: right; padding-bottom: 6px;">${order.shippingFee === 0 ? 'FREE' : formatPrice(order.shippingFee)}</td>
                     </tr>
                     <tr>
-                      <td style="font-size: 12px; color: #707070; padding: 4px 0;">Express Courier Shipping</td>
-                      <td style="font-size: 12px; font-weight: bold; color: #121212; text-align: right; padding: 4px 0;">${formatPrice(order.shippingFee)}</td>
+                      <td style="font-size: 13px; color: #64748B; padding-bottom: 10px;">Estimated GST (12%)</td>
+                      <td style="font-size: 13px; color: #0B0F19; font-family: monospace; text-align: right; padding-bottom: 10px;">${formatPrice(order.tax)}</td>
                     </tr>
-                    <tr style="border-top: 1px solid #EAE5DC;">
-                      <td style="font-size: 16px; font-family: Georgia, serif; font-weight: bold; color: #121212; padding-top: 12px;">Total Paid / Payable</td>
-                      <td style="font-size: 18px; font-weight: bold; color: #D4AF37; text-align: right; padding-top: 12px;">${formatPrice(order.total)}</td>
+                    <tr style="border-top: 2px solid #0048D9;">
+                      <td style="font-size: 15px; font-weight: bold; color: #0B0F19; padding-top: 10px;">Total Investment</td>
+                      <td style="font-size: 18px; font-weight: bold; color: #0048D9; font-family: monospace; text-align: right; padding-top: 10px;">${formatPrice(order.total)}</td>
                     </tr>
                   </table>
 
@@ -181,9 +189,9 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
       });
 
       await transporter.sendMail({
-        from: `"CYTRUS Atelier" <${process.env.SMTP_FROM || 'orders@cytrus.com'}>`,
+        from: `"CELEBRITEE.in Concierge" <${process.env.SMTP_FROM || 'concierge@celebritee.in'}>`,
         to: order.customerEmail,
-        subject: `CYTRUS Order Confirmation & Receipt #${order.orderNumber}`,
+        subject: `CELEBRITEE.in Order Confirmation & Receipt #${order.orderNumber}`,
         html: htmlTemplate,
       });
 
@@ -198,7 +206,7 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
   console.log('====================================================');
   console.log(`📧 [EMAIL RECEIPT SIMULATED DISPATCH]`);
   console.log(`TO: ${order.customerEmail}`);
-  console.log(`SUBJECT: CYTRUS Order Confirmation & Receipt #${order.orderNumber}`);
+  console.log(`SUBJECT: CELEBRITEE.in Order Confirmation & Receipt #${order.orderNumber}`);
   console.log(`TOTAL AMOUNT: ${formatPrice(order.total)} | PAYMENT: ${order.paymentMethod}`);
   console.log(`TRACKING URL: ${trackingUrl}`);
   console.log('====================================================');
@@ -210,7 +218,7 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const trackingUrl = `${baseUrl}/orders/${order.id}`;
 
-  const smsText = `[CYTRUS] Hello ${order.customerName}, your order #${order.orderNumber} for ${formatPrice(order.total)} has been confirmed! Track your shipment live: ${trackingUrl}`;
+  const smsText = `[CELEBRITEE.in] Hello ${order.customerName}, your order #${order.orderNumber} for ${formatPrice(order.total)} has been confirmed! Track your shipment live: ${trackingUrl}`;
 
   // If Twilio env variables exist, send real SMS
   if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {

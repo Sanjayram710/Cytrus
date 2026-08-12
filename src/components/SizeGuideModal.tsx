@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
-import { X } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Ruler, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface SizeGuideModalProps {
   isOpen: boolean;
@@ -9,86 +10,127 @@ interface SizeGuideModalProps {
 }
 
 export default function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps) {
+  const [unit, setUnit] = useState<'inches' | 'cm'>('inches');
+
   if (!isOpen) return null;
 
+  const measurementsInches = [
+    { size: 'S', chest: '42 - 44', length: '28.5', shoulder: '21.0', sleeve: '9.0' },
+    { size: 'M', chest: '44 - 46', length: '29.5', shoulder: '22.0', sleeve: '9.5' },
+    { size: 'L', chest: '46 - 48', length: '30.5', shoulder: '23.0', sleeve: '10.0' },
+    { size: 'XL', chest: '48 - 50', length: '31.5', shoulder: '24.0', sleeve: '10.5' },
+    { size: 'XXL', chest: '50 - 52', length: '32.5', shoulder: '25.0', sleeve: '11.0' },
+  ];
+
+  const measurementsCm = [
+    { size: 'S', chest: '106 - 112', length: '72.4', shoulder: '53.3', sleeve: '22.8' },
+    { size: 'M', chest: '112 - 117', length: '74.9', shoulder: '55.8', sleeve: '24.1' },
+    { size: 'L', chest: '117 - 122', length: '77.5', shoulder: '58.4', sleeve: '25.4' },
+    { size: 'XL', chest: '122 - 127', length: '80.0', shoulder: '61.0', sleeve: '26.7' },
+    { size: 'XXL', chest: '127 - 132', length: '82.5', shoulder: '63.5', sleeve: '28.0' },
+  ];
+
+  const currentData = unit === 'inches' ? measurementsInches : measurementsCm;
+
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="fixed inset-0 bg-ink/75 backdrop-blur-sm" onClick={onClose} />
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 text-white">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+        />
 
-      <div className="relative min-h-screen flex items-center justify-center p-4 z-50">
-        <div className="bg-surface border border-border max-w-2xl w-full p-6 sm:p-8 relative">
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-ink hover:text-accent"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
-          <h2 className="font-serif text-2xl font-normal uppercase tracking-wider text-ink mb-1">
-            CYTRUS Size Guide
-          </h2>
-          <p className="font-mono text-xs uppercase tracking-widest text-muted mb-6 font-medium">
-            Oversized & Heavyweight Cut Measurements (Inches)
-          </p>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left font-mono text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-border bg-canvas text-ink uppercase tracking-widest">
-                  <th className="p-3 font-semibold">Size</th>
-                  <th className="p-3 font-semibold">Chest Width (In)</th>
-                  <th className="p-3 font-semibold">Tee Length (In)</th>
-                  <th className="p-3 font-semibold">Shoulder Drop (In)</th>
-                  <th className="p-3 font-semibold">Fit Profile</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border text-ink">
-                <tr>
-                  <td className="p-3 font-semibold">S</td>
-                  <td className="p-3">42"</td>
-                  <td className="p-3">28.5"</td>
-                  <td className="p-3">21.5"</td>
-                  <td className="p-3 text-accent font-medium">Relaxed Boxy</td>
-                </tr>
-                <tr>
-                  <td className="p-3 font-semibold">M</td>
-                  <td className="p-3">44"</td>
-                  <td className="p-3">29.5"</td>
-                  <td className="p-3">22.5"</td>
-                  <td className="p-3 text-accent font-medium">Relaxed Boxy</td>
-                </tr>
-                <tr>
-                  <td className="p-3 font-semibold">L</td>
-                  <td className="p-3">46"</td>
-                  <td className="p-3">30.5"</td>
-                  <td className="p-3">23.5"</td>
-                  <td className="p-3 text-accent font-medium">Oversized Drop</td>
-                </tr>
-                <tr>
-                  <td className="p-3 font-semibold">XL</td>
-                  <td className="p-3">48"</td>
-                  <td className="p-3">31.5"</td>
-                  <td className="p-3">24.5"</td>
-                  <td className="p-3 text-accent font-medium">Oversized Drop</td>
-                </tr>
-                <tr>
-                  <td className="p-3 font-semibold">XXL</td>
-                  <td className="p-3">50"</td>
-                  <td className="p-3">32.5"</td>
-                  <td className="p-3">25.5"</td>
-                  <td className="p-3 text-accent font-medium">Ultra Oversized</td>
-                </tr>
-              </tbody>
-            </table>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 15 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 15 }}
+          className="relative w-full max-w-2xl bg-[#0A1128] border border-white/15 overflow-hidden z-10 shadow-2xl rounded-2xl text-white"
+        >
+          {/* Header */}
+          <div className="p-6 border-b border-white/10 bg-[#060B1A] flex items-center justify-between text-white">
+            <div className="flex items-center space-x-2">
+              <Ruler className="w-5 h-5 text-royal-light" />
+              <h2 className="font-serif text-xl font-normal tracking-tight text-white">
+                CELEBRITEE Boxy Streetwear Size Guide
+              </h2>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md bg-[#101D3F] border border-white/10"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          <div className="mt-6 p-4 bg-canvas border border-border text-[11px] text-muted leading-relaxed font-sans">
-            <p className="font-mono text-xs uppercase font-medium tracking-wider text-ink mb-1">Fit & Care Recommendation:</p>
-            <p>• Our <strong>Oversized Tees</strong> feature dropped shoulders and a wide boxy body width. Stick to your true size for the intended streetwear drape, or size down for a standard fit.</p>
-            <p className="mt-1">• Pre-shrunk 280-300 GSM French Terry organic cotton. Machine wash cold with similar colors; lay flat to dry.</p>
+          <div className="p-6 space-y-6 text-white">
+            {/* Editorial Fit Description */}
+            <div className="p-4 bg-[#101D3F] border border-white/10 rounded-xl space-y-1.5 font-mono text-xs text-white">
+              <div className="flex items-center space-x-2 text-white font-bold">
+                <Sparkles className="w-4 h-4 text-pink" />
+                <span className="uppercase tracking-wider">Bespoke Boxy Oversized Silhouette</span>
+              </div>
+              <p className="text-slate-300 leading-relaxed font-sans text-xs">
+                All CELEBRITEE collaboration tees are custom-patterned with a generous drop-shoulder, widened chest, and structured drape. 
+                For the intended designer boxy fit, choose your normal size. For a tailored standard fit, choose one size down.
+              </p>
+            </div>
+
+            {/* Unit Toggle */}
+            <div className="flex items-center justify-between text-white">
+              <span className="font-mono text-xs uppercase font-bold tracking-wider text-slate-300">
+                Garment Measurement Table
+              </span>
+              <div className="inline-flex border border-white/15 rounded-md overflow-hidden font-mono text-xs">
+                <button
+                  onClick={() => setUnit('inches')}
+                  className={`px-3 py-1.5 transition-colors uppercase font-bold ${
+                    unit === 'inches' ? 'bg-royal text-white' : 'bg-[#101D3F] text-slate-300 hover:bg-[#16254F]'
+                  }`}
+                >
+                  Inches (")
+                </button>
+                <button
+                  onClick={() => setUnit('cm')}
+                  className={`px-3 py-1.5 transition-colors uppercase font-bold ${
+                    unit === 'cm' ? 'bg-royal text-white' : 'bg-[#101D3F] text-slate-300 hover:bg-[#16254F]'
+                  }`}
+                >
+                  Centimeters (CM)
+                </button>
+              </div>
+            </div>
+
+            {/* Sizing Table */}
+            <div className="border border-white/10 overflow-hidden rounded-xl">
+              <table className="w-full text-left font-mono text-xs text-white">
+                <thead className="bg-[#060B1A] border-b border-white/10 text-slate-400 uppercase tracking-wider text-[10px]">
+                  <tr>
+                    <th className="p-3 font-bold text-white">Size</th>
+                    <th className="p-3">Chest Circumference</th>
+                    <th className="p-3">Body Length</th>
+                    <th className="p-3">Shoulder Width</th>
+                    <th className="p-3">Sleeve Length</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10 text-white">
+                  {currentData.map((row) => (
+                    <tr key={row.size} className="hover:bg-[#101D3F] transition-colors">
+                      <td className="p-3 font-bold text-white">{row.size}</td>
+                      <td className="p-3 text-slate-300">{row.chest}</td>
+                      <td className="p-3 text-slate-300">{row.length}</td>
+                      <td className="p-3 text-slate-300">{row.shoulder}</td>
+                      <td className="p-3 text-slate-300">{row.sleeve}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </AnimatePresence>
   );
 }

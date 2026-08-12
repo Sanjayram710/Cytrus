@@ -27,7 +27,7 @@ export async function createRazorpayOrder(amountInRupees: number, orderId: strin
     currency: 'INR',
     receipt: orderId,
     notes: {
-      platform: 'CYTRUS',
+      platform: 'CELEBRITEE.in',
       orderId,
     },
   });

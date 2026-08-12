@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { X, Star, ShoppingBag, Heart, Check } from 'lucide-react';
+import { X, Star, ShoppingBag, Heart, Check, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
@@ -13,23 +14,36 @@ interface QuickViewModalProps {
 }
 
 export default function QuickViewModal({ product, onClose }: QuickViewModalProps) {
-  if (!product) return null;
-
-  const [selectedSize, setSelectedSize] = useState(product.variants?.[0]?.size || 'M');
-  const [selectedColor, setSelectedColor] = useState(product.variants?.[0]?.color || 'Black');
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedSize, setSelectedSize] = useState('L');
+  const [selectedColor, setSelectedColor] = useState('Obsidian Black');
   const [added, setAdded] = useState(false);
 
-  const { addItem } = useCartStore();
+  const { addItem, openCart } = useCartStore();
   const { toggleWishlist, isInWishlist } = useWishlistStore();
 
-  const isWishlisted = isInWishlist(product.id);
-  const primaryImage = product.images?.[0]?.url || '';
+  if (!product) return null;
+
+  const images =
+    product.images && product.images.length > 0
+      ? product.images
+      : [{ url: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000' }];
+  const currentImage = images[selectedImageIndex]?.url || images[0].url;
+
+  const sizes = Array.from(
+    new Set(product.variants?.map((v: any) => v.size) || ['S', 'M', 'L', 'XL', 'XXL'])
+  );
+  const colors = Array.from(
+    new Set(
+      product.variants?.map((v: any) => v.color) || ['Obsidian Black', 'Washed Espresso', 'Mineral Slate']
+    )
+  );
 
   const handleAddToCart = () => {
     addItem({
       productId: product.id,
       productName: product.name,
-      productImage: primaryImage,
+      productImage: currentImage,
       size: selectedSize,
       color: selectedColor,
       price: product.price,
@@ -39,77 +53,100 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
     setTimeout(() => setAdded(false), 2000);
   };
 
-  const sizes = Array.from(new Set(product.variants?.map((v: any) => v.size) || ['XS', 'S', 'M', 'L', 'XL']));
-  const colors = Array.from(new Set(product.variants?.map((v: any) => v.color) || ['Default']));
+  const isWish = isInWishlist(product.id);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="fixed inset-0 bg-ink/75 backdrop-blur-sm" onClick={onClose} />
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 text-white">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+        />
 
-      <div className="relative min-h-screen flex items-center justify-center p-4 z-50">
-        <div className="bg-surface border border-border max-w-4xl w-full p-6 sm:p-8 relative">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 15 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 15 }}
+          className="relative w-full max-w-3xl bg-[#0A1128] border border-white/10 overflow-hidden z-10 shadow-2xl rounded-2xl text-white max-h-[90vh] flex flex-col"
+        >
+          {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-ink hover:text-accent transition-colors z-10"
+            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white transition-colors z-20 rounded-md bg-[#101D3F] border border-white/10"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Image Preview */}
-            <div className="bg-canvas border border-border p-2">
-              <img
-                src={primaryImage}
-                alt={product.name}
-                className="w-full h-96 object-cover object-center"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 overflow-y-auto text-white">
+            {/* Gallery Column */}
+            <div className="p-6 bg-[#0D1836] flex flex-col justify-between border-r border-white/10 text-white">
+              <div className="aspect-[4/5] bg-slate-900 border border-white/10 overflow-hidden mb-4 rounded-xl">
+                <img src={currentImage} alt={product.name} className="w-full h-full object-cover object-center" />
+              </div>
+
+              {images.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto no-scrollbar">
+                  {images.map((img: any, idx: number) => (
+                    <button
+                      key={img.id || idx}
+                      onClick={() => setSelectedImageIndex(idx)}
+                      className={`w-14 h-16 border overflow-hidden rounded-md transition-all ${
+                        selectedImageIndex === idx ? 'border-royal ring-1 ring-royal' : 'border-white/10 opacity-70'
+                      }`}
+                    >
+                      <img src={img.url} alt="" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Product Quick Details */}
-            <div className="flex flex-col justify-between">
+            {/* Details Column */}
+            <div className="p-6 sm:p-8 flex flex-col justify-between space-y-5 text-white">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] font-medium text-muted mb-1">
-                  {product.category?.name || 'SILHOUETTE'}
-                </p>
-
-                <h2 className="font-serif text-2xl font-normal text-ink mb-2">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-royal-light font-bold">
+                  {product.category?.name || 'HEAVYWEIGHT STREETWEAR'}
+                </span>
+                <h2 className="font-serif text-2xl font-normal text-white mt-1">
                   {product.name}
                 </h2>
 
-                <div className="flex items-center space-x-3 mb-4">
-                  <span className="font-mono text-xl font-semibold text-accent">
+                <div className="flex items-baseline space-x-3 mt-3 pb-4 border-b border-white/10 text-white">
+                  <span className="font-mono text-xl font-bold text-white">
                     {formatPrice(product.price)}
                   </span>
                   {product.comparePrice && (
-                    <span className="font-mono text-sm line-through text-muted">
+                    <span className="font-mono text-xs line-through text-slate-400">
                       {formatPrice(product.comparePrice)}
                     </span>
                   )}
-                  {product.discountPercentage > 0 && (
-                    <span className="bg-surface border border-border text-ink font-mono text-[10px] font-semibold px-2 py-0.5 uppercase tracking-wider">
-                      {product.discountPercentage}% OFF
-                    </span>
-                  )}
+                  <span className="bg-[#16254F] text-white font-mono text-[9px] font-bold px-2 py-0.5 uppercase tracking-wider rounded border border-white/15">
+                    VIP ALLOCATION
+                  </span>
                 </div>
 
-                <p className="text-xs text-muted leading-relaxed mb-6 line-clamp-3">
-                  {product.description}
+                <p className="text-xs text-slate-300 leading-relaxed my-4 font-normal">
+                  {product.description ||
+                    '320 GSM organic French Terry cotton engineered with dropped shoulders and reinforced shape-retaining ribbed crewneck collar.'}
                 </p>
 
                 {/* Size Selector */}
-                <div className="mb-4">
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider text-ink mb-2">
-                    Size: <span className="text-muted">{selectedSize}</span>
+                <div className="mb-4 text-white">
+                  <label className="block font-mono text-[10px] uppercase font-bold tracking-wider text-slate-300 mb-2">
+                    Select Size: <span className="text-white font-bold">{selectedSize}</span>
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {sizes.map((sz: any) => (
                       <button
                         key={sz}
                         onClick={() => setSelectedSize(sz)}
-                        className={`px-3 py-1.5 font-mono text-xs uppercase transition-all border ${
+                        className={`w-10 h-10 font-mono text-xs uppercase border flex items-center justify-center transition-all rounded-md text-white ${
                           selectedSize === sz
-                            ? 'bg-ink text-canvas border-ink'
-                            : 'bg-canvas text-ink border-border hover:border-accent'
+                            ? 'bg-royal text-white border-royal font-bold shadow-sm'
+                            : 'bg-[#101D3F] border-white/10 hover:border-royal'
                         }`}
                       >
                         {sz}
@@ -117,46 +154,24 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                     ))}
                   </div>
                 </div>
-
-                {/* Color Selector */}
-                <div className="mb-6">
-                  <label className="block font-mono text-xs uppercase font-medium tracking-wider text-ink mb-2">
-                    Color: <span className="text-muted">{selectedColor}</span>
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {colors.map((cl: any) => (
-                      <button
-                        key={cl}
-                        onClick={() => setSelectedColor(cl)}
-                        className={`px-3 py-1.5 font-mono text-xs uppercase transition-all border ${
-                          selectedColor === cl
-                            ? 'bg-ink text-canvas border-ink'
-                            : 'bg-canvas text-ink border-border hover:border-accent'
-                        }`}
-                      >
-                        {cl}
-                      </button>
-                    ))}
-                  </div>
-                </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="space-y-3">
-                <div className="flex space-x-3">
+              <div className="space-y-2.5 pt-4 border-t border-white/10 text-white">
+                <div className="flex space-x-2">
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 bg-accent text-canvas py-3.5 font-mono text-xs uppercase font-semibold tracking-[0.2em] hover:bg-ink transition-all flex items-center justify-center space-x-2 border border-accent"
+                    className="flex-1 bg-royal hover:bg-royal-dark text-white py-3 font-mono text-xs uppercase tracking-[0.2em] font-bold transition-all flex items-center justify-center space-x-2 rounded-md shadow-sm"
                   >
                     {added ? (
                       <>
-                        <Check className="w-4 h-4 text-canvas" />
+                        <Check className="w-4 h-4 text-white" />
                         <span>ADDED TO BAG</span>
                       </>
                     ) : (
                       <>
-                        <ShoppingBag className="w-4 h-4" />
-                        <span>ADD TO BAG</span>
+                        <ShoppingBag className="w-4 h-4 text-white" />
+                        <span>ADD TO CLIENT BAG</span>
                       </>
                     )}
                   </button>
@@ -167,32 +182,32 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                         productId: product.id,
                         name: product.name,
                         slug: product.slug,
-                        image: primaryImage,
+                        image: currentImage,
                         price: product.price,
                       })
                     }
-                    className={`p-3.5 border transition-colors ${
-                      isWishlisted
-                        ? 'bg-ink text-canvas border-ink'
-                        : 'border-border text-ink bg-canvas hover:border-accent'
+                    className={`p-3 border rounded-md transition-all ${
+                      isWish
+                        ? 'bg-pink text-white border-pink'
+                        : 'bg-[#101D3F] text-white border-white/15 hover:border-royal'
                     }`}
                   >
-                    <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
+                    <Heart className={`w-4 h-4 ${isWish ? 'fill-current text-white' : ''}`} />
                   </button>
                 </div>
 
                 <Link
                   href={`/product/${product.slug}`}
                   onClick={onClose}
-                  className="block text-center font-mono text-xs uppercase tracking-widest text-muted hover:text-ink py-1"
+                  className="block text-center font-mono text-[11px] uppercase tracking-widest text-slate-400 hover:text-white transition-colors font-bold pt-1"
                 >
-                  View Full Product Details →
+                  View Full Drop Specifications →
                 </Link>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </AnimatePresence>
   );
 }

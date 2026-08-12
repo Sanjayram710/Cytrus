@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="blueBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#004CE8" />
+      <stop offset="100%" stop-color="#003EB8" />
+    </linearGradient>
+  </defs>
+  <!-- Cobalt Blue Background Card -->
+  <rect width="800" height="400" rx="40" fill="url(#blueBg)" />
+  
+  <!-- Wordmark CELEBRI + TEE.in -->
+  <g transform="skewX(-8) translate(50, 240)">
+    <!-- CELEBRI in White -->
+    <text font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif" font-weight="900" font-style="italic" font-size="112" fill="#FFFFFF" letter-spacing="-2">CELEBRI</text>
+    
+    <!-- TEE.in in Electric Hot Pink -->
+    <text x="500" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif" font-weight="900" font-style="italic" font-size="112" fill="#FF4D97" letter-spacing="-2">TEE<tspan font-size="96" font-style="italic" letter-spacing="-1">.in</tspan></text>
+  </g>
+</svg>

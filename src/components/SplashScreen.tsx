@@ -2,15 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import CelebriteeLogo from '@/components/CelebriteeLogo';
 
 export default function SplashScreen() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Show splash screen for exactly 2 seconds then smoothly fade out
+    // Show splash screen for exactly 1.8 seconds then smoothly fade out
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 2000);
+    }, 1800);
 
     return () => clearTimeout(timer);
   }, []);
@@ -19,55 +20,44 @@ export default function SplashScreen() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          key="cytrus-splash"
+          key="celebritee-splash"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.02 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-canvas text-ink overflow-hidden select-none"
+          exit={{ opacity: 0, scale: 1.03 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0F172A] text-white overflow-hidden select-none"
         >
-          {/* Subtle Ambient Radial Glow */}
-          <div className="absolute w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] bg-accent/5 rounded-full blur-[100px] pointer-events-none -z-10" />
+          {/* Ambient Soft Cobalt & Pink Glow */}
+          <div className="absolute w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] bg-[#1E5AE6]/20 rounded-full blur-[120px] pointer-events-none -z-10" />
+          <div className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] bg-[#FF4D97]/15 rounded-full blur-[100px] pointer-events-none -z-10 translate-x-20 -translate-y-10" />
 
-          {/* Logo & Brand Emblem Animation */}
+          {/* Master Logo Animation */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 15 }}
+            initial={{ opacity: 0, scale: 0.85, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col items-center"
           >
-            <div className="relative mb-4">
-              <motion.img
-                src="/logo.png"
-                alt="CYTRUS Logo"
-                className="w-24 h-24 sm:w-32 sm:h-32 object-contain"
-                animate={{
-                  scale: [1, 1.03, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
+            <div className="relative mb-6">
+              <CelebriteeLogo variant="badge" size="xl" className="shadow-2xl shadow-[#1E5AE6]/40" />
             </div>
 
-            <motion.h1
-              initial={{ opacity: 0, letterSpacing: '0.2em' }}
+            <motion.p
+              initial={{ opacity: 0, letterSpacing: '0.25em' }}
               animate={{ opacity: 1, letterSpacing: '0.35em' }}
-              transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
-              className="font-sans text-2xl sm:text-3xl font-extrabold tracking-[0.35em] uppercase text-ink pl-1"
+              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+              className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.35em] text-slate-400 font-semibold"
             >
-              CYTRUS
-            </motion.h1>
+              LUXURY CELEBRITY-COMMERCE
+            </motion.p>
           </motion.div>
 
-          {/* 2-Second Progress Line Indicator */}
-          <div className="absolute bottom-12 w-32 sm:w-44 h-[2px] bg-border rounded-full overflow-hidden">
+          {/* Smooth Progress Indicator */}
+          <div className="absolute bottom-12 w-36 sm:w-48 h-[3px] bg-white/10 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: '0%' }}
               animate={{ width: '100%' }}
-              transition={{ duration: 1.9, ease: 'easeInOut' }}
-              className="h-full bg-accent"
+              transition={{ duration: 1.7, ease: 'easeInOut' }}
+              className="h-full bg-gradient-to-r from-royal via-pink to-royal"
             />
           </div>
         </motion.div>

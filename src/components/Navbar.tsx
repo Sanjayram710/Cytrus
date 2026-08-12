@@ -11,12 +11,12 @@ import {
   Menu,
   X,
   ChevronRight,
-  Sparkles,
-  ArrowUpRight,
+  Truck,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
+import CelebriteeLogo from '@/components/CelebriteeLogo';
 
 interface UserSession {
   id: string;
@@ -43,7 +43,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -59,59 +59,74 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   }, [pathname]);
 
   const navLinks = [
-    { name: 'Shop', href: '/shop' },
-    { name: 'Icons', href: '/#icons' },
-    { name: 'Collections', href: '/shop?category=oversized-tees' },
+    { name: 'Vault', href: '/shop' },
+    { name: 'Celebrity Drops', href: '/#icons' },
+    { name: 'Oversized', href: '/shop?category=oversized-tees' },
+    { name: 'Vintage Acid', href: '/shop?category=vintage-wash-tees' },
     { name: 'Journal', href: '/#journal' },
   ];
 
   return (
     <>
-      {/* 1. Top Announcement Bar */}
-      <div className="bg-charcoal text-ivory text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase py-2 px-4 text-center border-b border-charcoal/40 flex items-center justify-center space-x-2">
+      {/* 1. Top Announcement Bar - Full width */}
+      <div className="w-full bg-[#060B1A] text-white text-[10px] sm:text-[11px] font-mono tracking-[0.22em] uppercase py-2 px-3 sm:px-6 text-center border-b border-white/10 flex items-center justify-center space-x-2">
         <span className="inline-block w-1.5 h-1.5 rounded-full bg-pink animate-pulse" />
-        <span>LIMITED DROPS IN COLLABORATION WITH CULTURE DEFINERS</span>
-        <span className="hidden md:inline text-gold">· COMPLIMENTARY EXPRESS DELIVERY OVER ₹2,500</span>
+        <span className="font-semibold text-white">
+          LIMITED DROPS IN COLLABORATION WITH CULTURE DEFINERS
+        </span>
+        <span className="hidden md:inline text-pink font-semibold">· COMPLIMENTARY EXPRESS DELIVERY OVER ₹2,500</span>
       </div>
 
-      {/* 2. Main Minimalist Sticky Header */}
+      {/* 2. Full-Width Sticky Header - Deep Blue Frosted Luxury Canvas */}
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 ${
+        className={`w-full sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'luxury-nav border-b border-border shadow-subtle py-3.5'
-            : 'bg-ivory/95 backdrop-blur-md py-5 border-b border-border/80'
+            ? 'luxury-nav shadow-subtle py-2 sm:py-2.5'
+            : 'bg-[#0A1128]/95 backdrop-blur-md py-2.5 sm:py-3.5 border-b border-white/10 text-white'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            {/* Left: Mobile Menu Trigger + Main Nav Links */}
-            <div className="flex items-center space-x-8">
+        <div className="w-full px-2 sm:px-4 lg:px-6">
+          <div className="flex items-center justify-between gap-3 sm:gap-6">
+            
+            {/* FAR LEFT: Rectangle Logo + Main Navigation Links */}
+            <div className="flex items-center space-x-3 sm:space-x-5 lg:space-x-7 flex-1 min-w-0">
+              {/* Mobile menu trigger */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="lg:hidden p-1.5 text-charcoal hover:text-royal transition-colors"
+                className="lg:hidden p-1.5 text-white hover:text-royal transition-colors rounded-md flex-shrink-0"
                 aria-label="Open Navigation Menu"
               >
-                <Menu className="w-5 h-5" />
+                <Menu className="w-5 h-5 text-white" />
               </button>
 
-              <nav className="hidden lg:flex items-center space-x-7">
+              {/* CELEBRITEE.in Rectangular Badge Logo on Far Left Corner */}
+              <Link
+                href="/"
+                className="flex-shrink-0 inline-flex items-center group transition-transform duration-200 active:scale-95 py-0.5"
+                title="CELEBRITEE.in Home"
+              >
+                <CelebriteeLogo variant="rectangle" size="md" className="group-hover:opacity-95" />
+              </Link>
+
+              {/* Navigation Links in Pure White */}
+              <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`text-[11px] uppercase tracking-[0.22em] font-medium transition-all duration-200 relative py-1 ${
+                      className={`text-[11px] xl:text-xs uppercase tracking-[0.2em] font-bold transition-all duration-200 relative py-1 whitespace-nowrap text-white ${
                         isActive
-                          ? 'text-royal font-semibold'
-                          : 'text-muted hover:text-charcoal'
+                          ? 'text-white font-black'
+                          : 'text-white/80 hover:text-white'
                       }`}
                     >
                       {link.name}
                       {isActive && (
                         <motion.span
                           layoutId="navIndicator"
-                          className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-royal"
+                          className="absolute bottom-0 left-0 right-0 h-[2px] bg-royal rounded-full"
                         />
                       )}
                     </Link>
@@ -120,65 +135,58 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               </nav>
             </div>
 
-            {/* Center: CELEBRITEE Brand Wordmark */}
-            <div className="text-center">
-              <Link href="/" className="inline-flex items-baseline space-x-0.5 group">
-                <span className="font-serif text-2xl sm:text-3xl tracking-[0.28em] font-semibold text-charcoal group-hover:text-royal transition-colors uppercase">
-                  CELEBRITEE
-                </span>
-                <span className="w-1.5 h-1.5 rounded-full bg-pink inline-block mb-0.5" />
-                <span className="font-mono text-[9px] text-muted tracking-widest uppercase ml-0.5 opacity-80">
-                  .IN
-                </span>
-              </Link>
-            </div>
-
-            {/* Right: Actions (Search, Wishlist, Account, Bag) */}
-            <div className="flex items-center space-x-4 sm:space-x-6">
-              {/* Search Modal Trigger */}
+            {/* FAR RIGHT: Search Bar + Express Delivery + Actions */}
+            <div className="flex items-center space-x-2.5 sm:space-x-4 text-white flex-shrink-0">
+              {/* Search Trigger */}
               <button
                 onClick={onOpenSearch}
-                className="p-1 text-charcoal hover:text-royal transition-colors flex items-center space-x-1.5 text-xs font-mono tracking-wider"
+                className="group flex items-center space-x-2 border-b border-white/30 hover:border-white py-1 px-1 transition-colors text-white"
                 title="Search Products"
               >
-                <Search className="w-4 h-4" />
-                <span className="hidden xl:inline text-[11px] uppercase text-muted hover:text-charcoal">
-                  Search
+                <Search className="w-4 h-4 text-white group-hover:text-white transition-colors" />
+                <span className="hidden md:inline font-sans text-xs text-white/80 group-hover:text-white tracking-wide">
+                  Search Vault...
                 </span>
               </button>
 
-              {/* Account */}
+              {/* Express Delivery Badge Pill */}
+              <div className="hidden 2xl:flex items-center space-x-2 bg-[#101D3F] border border-white/15 px-3 py-1.5 rounded-full font-mono text-[10px] text-white font-semibold">
+                <Truck className="w-3.5 h-3.5 text-white" />
+                <span>EXPRESS DISPATCH</span>
+              </div>
+
+              {/* Client Profile */}
               <Link
                 href={user ? '/account' : '/login'}
-                className="p-1 text-charcoal hover:text-royal transition-colors"
-                title={user ? `Signed in as ${user.name}` : 'Sign In'}
+                className="p-1.5 text-white hover:text-white transition-colors rounded-md"
+                title={user ? `Signed in as ${user.name}` : 'Client Sign In'}
               >
-                <User className="w-4 h-4" />
+                <User className="w-4 h-4 text-white" />
               </Link>
 
-              {/* Wishlist */}
+              {/* Saved Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative p-1 text-charcoal hover:text-royal transition-colors hidden sm:block"
+                className="relative p-1.5 text-white hover:text-white transition-colors hidden sm:block rounded-md"
                 title="Wishlist"
               >
-                <Heart className="w-4 h-4" />
+                <Heart className="w-4 h-4 text-white" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-royal text-ivory text-[9px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-mono">
+                  <span className="absolute top-0 right-0 bg-pink text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-mono font-bold shadow-sm">
                     {wishlistCount}
                   </span>
                 )}
               </Link>
 
-              {/* Bag Trigger */}
+              {/* Luxury Shopping Bag Button */}
               <button
                 onClick={openCart}
-                className="relative bg-charcoal hover:bg-royal text-ivory px-3 sm:px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase transition-all duration-200 flex items-center space-x-2 shadow-subtle"
+                className="relative bg-royal hover:bg-royal-dark text-white px-3.5 sm:px-4 py-2 text-[11px] font-mono tracking-[0.18em] uppercase font-bold transition-all duration-200 flex items-center space-x-2 rounded-md shadow-sm"
                 aria-label="Shopping Bag"
               >
-                <ShoppingBag className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Bag</span>
-                <span className="bg-pink text-ivory text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold">
+                <ShoppingBag className="w-3.5 h-3.5 text-white" />
+                <span className="hidden sm:inline text-white">Bag</span>
+                <span className="bg-white text-royal text-[10px] px-1.5 py-0.5 rounded-full font-mono font-black shadow-sm">
                   {itemCount}
                 </span>
               </button>
@@ -196,55 +204,53 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-50 lg:hidden"
+              className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 lg:hidden"
             />
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed top-0 left-0 bottom-0 w-[82%] max-w-[360px] bg-ivory border-r border-border z-50 p-6 flex flex-col justify-between overflow-y-auto lg:hidden"
+              className="fixed top-0 left-0 bottom-0 w-[84%] max-w-[360px] bg-[#0A1128] border-r border-white/10 z-50 p-6 flex flex-col justify-between overflow-y-auto lg:hidden text-white shadow-2xl"
             >
               <div>
-                <div className="flex items-center justify-between pb-6 border-b border-border">
-                  <div className="flex items-baseline space-x-0.5">
-                    <span className="font-serif text-xl tracking-[0.24em] font-semibold text-charcoal uppercase">
-                      CELEBRITEE
-                    </span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-pink inline-block mb-0.5" />
-                  </div>
+                <div className="flex items-center justify-between pb-6 border-b border-white/10">
+                  <CelebriteeLogo variant="rectangle" size="sm" />
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="p-1 text-muted hover:text-charcoal"
+                    className="p-1.5 text-white/70 hover:text-white rounded-md"
                     aria-label="Close menu"
                   >
-                    <X className="w-5 h-5" />
+                    <X className="w-5 h-5 text-white" />
                   </button>
                 </div>
 
-                <div className="mt-8 space-y-5">
+                <div className="mt-8 space-y-4">
                   {navLinks.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-sm uppercase tracking-[0.2em] font-medium text-charcoal hover:text-royal transition-colors py-1.5 flex items-center justify-between border-b border-border/50"
+                      className="block text-sm uppercase tracking-[0.2em] font-bold text-white hover:text-royal transition-colors py-2 flex items-center justify-between border-b border-white/10"
                     >
-                      <span>{link.name}</span>
-                      <ChevronRight className="w-4 h-4 text-muted" />
+                      <span className="text-white">{link.name}</span>
+                      <ChevronRight className="w-4 h-4 text-white/60" />
                     </Link>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-border space-y-4 font-mono text-xs text-muted">
-                <p className="uppercase tracking-widest text-[10px]">
+              <div className="pt-6 border-t border-white/10 space-y-4 font-mono text-xs text-white/80">
+                <div className="flex items-center justify-center pb-2">
+                  <CelebriteeLogo variant="rectangle" size="sm" />
+                </div>
+                <p className="uppercase tracking-widest text-[10px] text-center text-white/70">
                   CELEBRITEE.IN · LIMITED DROP ATELIER
                 </p>
                 <Link
                   href={user ? '/account' : '/login'}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block bg-charcoal text-ivory py-3 text-center uppercase tracking-widest text-[11px] font-semibold hover:bg-royal transition-colors"
+                  className="block bg-royal hover:bg-royal-dark text-white py-3 text-center uppercase tracking-widest text-[11px] font-bold transition-colors rounded-md shadow-sm"
                 >
                   {user ? 'My Client Profile' : 'Client Sign In'}
                 </Link>
