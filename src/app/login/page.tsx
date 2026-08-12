@@ -107,7 +107,7 @@ export default function LoginPage() {
         {/* Create Account Link / Button */}
         <div className="mt-8 pt-6 border-t border-border font-mono text-xs uppercase tracking-wider text-center space-y-3">
           <p className="text-muted">
-            Don't have a CYTRUS account yet?
+            Don&apos;t have a CYTRUS account yet?
           </p>
           <Link
             href="/register"

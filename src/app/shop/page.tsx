@@ -103,7 +103,7 @@ function ShopContent() {
         </h1>
         {currentQuery && (
           <p className="font-mono text-xs uppercase tracking-widest text-ink mt-2">
-            Showing search results for "{currentQuery}"
+            Showing search results for &quot;{currentQuery}&quot;
           </p>
         )}
       </div>
