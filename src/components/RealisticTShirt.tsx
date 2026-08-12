@@ -9,7 +9,10 @@ import {
   CustomizerGraphicOption,
 } from '@/lib/customizerPricing';
 
+export type CustomizerSilhouette = 'oversized-tees' | 'graphic-tees' | 'vintage-wash';
+
 interface RealisticTShirtProps {
+  silhouette?: CustomizerSilhouette;
   viewSide: 'front' | 'back';
   color: CustomizerColorOption;
   placement: CustomizerPlacementOption;
@@ -20,7 +23,7 @@ interface RealisticTShirtProps {
   graphic: CustomizerGraphicOption;
 }
 
-// Dedicated High-Resolution Studio Apparel Mockup per Color
+// Dedicated High-Resolution Studio Apparel Mockup per Color for Oversized Tees
 const COLOR_MOCKUP_MAP: Record<string, { front: string; back: string }> = {
   'obsidian-black': {
     front: '/mockups/tshirt_black_front.png',
@@ -49,6 +52,7 @@ const COLOR_MOCKUP_MAP: Record<string, { front: string; back: string }> = {
 };
 
 export default function RealisticTShirt({
+  silhouette = 'oversized-tees',
   viewSide,
   color,
   placement,
@@ -60,17 +64,36 @@ export default function RealisticTShirt({
 }: RealisticTShirtProps) {
   const isPrintVisible = placement.viewSide === viewSide;
   
-  // Resolve the actual real oversized t-shirt photo for the selected color
-  const mockups = COLOR_MOCKUP_MAP[color.id] || COLOR_MOCKUP_MAP['obsidian-black'];
-  const imageSrc = viewSide === 'front' ? mockups.front : mockups.back;
+  // Resolve image source based on active silhouette category
+  let imageSrc = '';
+  let effectiveTextColor = color.textColor;
+
+  if (silhouette === 'graphic-tees') {
+    imageSrc = viewSide === 'front' 
+      ? '/mockups/tshirt_graphic_front.png' 
+      : '/mockups/tshirt_graphic_back.png';
+    // Dark silhouette gets high-contrast crisp text
+    effectiveTextColor = '#FAF7F2';
+  } else if (silhouette === 'vintage-wash') {
+    imageSrc = viewSide === 'front' 
+      ? '/mockups/tshirt_vintage_wash_front.png' 
+      : '/mockups/tshirt_vintage_wash_back.png';
+    // Acid wash silhouette gets high-contrast crisp text
+    effectiveTextColor = '#FAF7F2';
+  } else {
+    // Oversized Tees: Use color-specific photorealistic mockups
+    const mockups = COLOR_MOCKUP_MAP[color.id] || COLOR_MOCKUP_MAP['vintage-chalk'] || COLOR_MOCKUP_MAP['obsidian-black'];
+    imageSrc = viewSide === 'front' ? mockups.front : mockups.back;
+  }
 
   return (
     <div className="relative w-full max-w-[440px] aspect-square flex items-center justify-center select-none overflow-hidden rounded-md bg-transparent">
       
-      {/* 1. Real Studio Oversized T-Shirt Photography (Pure White Background / No Blending Distortion) */}
+      {/* 1. Real Studio T-Shirt Photography */}
       <img
+        key={`${silhouette}-${viewSide}-${color.id}`}
         src={imageSrc}
-        alt={`CYTRUS ${color.name} Heavyweight Oversized Tee ${viewSide} view`}
+        alt={`CYTRUS ${silhouette} ${color.name} ${viewSide} view`}
         className="relative z-10 w-full h-full object-contain filter contrast-[1.03] transition-all duration-300 pointer-events-none"
       />
 
@@ -91,7 +114,11 @@ export default function RealisticTShirt({
               <img
                 src={graphic.previewUrl}
                 alt="Graphic Artwork"
-                className="w-full h-full object-cover mix-blend-multiply rounded-sm"
+                className={`w-full h-full object-cover rounded-sm ${
+                  silhouette === 'oversized-tees' && color.id !== 'obsidian-black' && color.id !== 'washed-espresso'
+                    ? 'mix-blend-multiply'
+                    : 'brightness-110'
+                }`}
               />
             </motion.div>
           )}
@@ -106,7 +133,7 @@ export default function RealisticTShirt({
                   ? 'text-base sm:text-lg'
                   : 'text-xl sm:text-2xl'
               }`}
-              style={{ color: color.textColor }}
+              style={{ color: effectiveTextColor }}
             >
               {headlineText}
             </p>
@@ -116,7 +143,7 @@ export default function RealisticTShirt({
           {taglineText && (
             <p
               className="font-mono text-[8px] sm:text-[9px] uppercase tracking-[0.2em] mt-1.5 opacity-85 leading-normal drop-shadow-sm"
-              style={{ color: color.textColor }}
+              style={{ color: effectiveTextColor }}
             >
               {taglineText}
             </p>
