@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { OfferService } from '@/services/OfferService';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(req: Request) {
@@ -80,23 +81,44 @@ export async function GET(req: Request) {
       },
     });
 
-    const items = products.map((p) => {
-      const avgRating =
-        p.reviews.length > 0
-          ? Math.round((p.reviews.reduce((acc, r) => acc + r.rating, 0) / p.reviews.length) * 10) / 10
-          : 5.0;
+    const items = await Promise.all(
+      products.map(async (p) => {
+        const avgRating =
+          p.reviews.length > 0
+            ? Math.round((p.reviews.reduce((acc, r) => acc + r.rating, 0) / p.reviews.length) * 10) / 10
+            : 5.0;
 
-      const discountPercentage = p.comparePrice
-        ? Math.round(((p.comparePrice - p.price) / p.comparePrice) * 100)
-        : 0;
+        const activeOffer = await OfferService.getActiveApprovedOfferForProduct(p.id);
 
-      return {
-        ...p,
-        rating: avgRating,
-        reviewCount: p.reviews.length,
-        discountPercentage,
-      };
-    });
+        let finalPrice = p.price;
+        let finalComparePrice = p.comparePrice;
+        let discountPercentage = 0;
+
+        if (activeOffer) {
+          finalPrice = activeOffer.salePrice;
+          finalComparePrice = activeOffer.claimedOriginalPrice;
+          discountPercentage = activeOffer.discountPercentage;
+        } else if (p.comparePrice && p.comparePrice > p.price) {
+          discountPercentage = Math.round(((p.comparePrice - p.price) / p.comparePrice) * 100);
+        }
+
+        return {
+          ...p,
+          price: finalPrice,
+          comparePrice: finalComparePrice,
+          rating: avgRating,
+          reviewCount: p.reviews.length,
+          discountPercentage,
+          activeOffer: activeOffer ? {
+            id: activeOffer.id,
+            offerName: activeOffer.offerName,
+            claimedOriginalPrice: activeOffer.claimedOriginalPrice,
+            salePrice: activeOffer.salePrice,
+            discountPercentage: activeOffer.discountPercentage,
+          } : null,
+        };
+      })
+    );
 
     return NextResponse.json({
       products: items,

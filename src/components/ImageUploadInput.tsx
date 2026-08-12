@@ -120,16 +120,16 @@ export default function ImageUploadInput({
       {/* Live Preview Thumbnail if an image is selected */}
       {value ? (
         <div className="relative bg-surface border border-border p-2 flex items-center space-x-3">
-          <img src={value} alt="Preview" className="w-16 h-16 object-cover border border-border bg-canvas" />
+          <img src={normalizeImageUrl(value)} alt="Preview" className="w-16 h-16 object-cover border border-border bg-canvas" />
           <div className="flex-1 min-w-0">
-            <span className="font-mono text-[10px] font-semibold text-accent uppercase block">Image Uploaded</span>
+            <span className="font-mono text-[10px] font-semibold text-accent uppercase block">Image Set</span>
             <p className="text-xs font-mono text-muted truncate">{value}</p>
           </div>
           <button
             type="button"
             onClick={() => onChange('')}
             className="p-1 text-muted hover:text-ink"
-            title="Remove Image"
+            title="Remove / Change Image"
           >
             <X className="w-4 h-4" />
           </button>

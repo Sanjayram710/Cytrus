@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
+import { processAndSaveImageUrl } from '@/lib/server-utils';
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   try {
     await requireAdmin();
     const body = await req.json();
+
+    const processedImage = body.image ? await processAndSaveImageUrl(body.image) : undefined;
+    const processedMobileImage = body.mobileImage ? await processAndSaveImageUrl(body.mobileImage) : undefined;
 
     const slide = await prisma.heroSlide.update({
       where: { id: params.id },
@@ -13,8 +17,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         title: body.title,
         subtitle: body.subtitle,
         description: body.description,
-        image: body.image,
-        mobileImage: body.mobileImage,
+        image: processedImage,
+        mobileImage: processedMobileImage,
         buttonText: body.buttonText,
         buttonUrl: body.buttonUrl,
         displayOrder: body.displayOrder !== undefined ? parseInt(body.displayOrder, 10) : undefined,

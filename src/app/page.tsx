@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Eye, Heart, ShoppingBag, ArrowRight, Sparkles, Star } from 'lucide-react';
+import { Eye, Heart, ShoppingBag, ArrowRight, Sparkles, Star, Zap } from 'lucide-react';
 import HeroSlider, { HeroSlideData } from '@/components/HeroSlider';
 import QuickViewModal from '@/components/QuickViewModal';
+import ProductOffersModal from '@/components/ProductOffersModal';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
@@ -16,6 +17,7 @@ export default function HomePage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [collections, setCollections] = useState<any[]>([]);
   const [quickViewProduct, setQuickViewProduct] = useState<any | null>(null);
+  const [offerModalProduct, setOfferModalProduct] = useState<any | null>(null);
 
   const { addItem } = useCartStore();
   const { toggleWishlist, isInWishlist } = useWishlistStore();
@@ -136,16 +138,24 @@ export default function HomePage() {
                     />
                   </Link>
 
-                  {/* Minimal Status Badge */}
+                  {/* Minimal Status Badge & Offers Trigger */}
                   <div className="absolute top-3 left-3 flex flex-col space-y-1 z-10">
                     <span className="bg-ink text-canvas font-mono text-[9px] uppercase tracking-widest px-2 py-0.5">
                       DROP
                     </span>
-                    {product.discountPercentage > 0 && (
-                      <span className="bg-surface border border-border text-ink font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5">
-                        -{product.discountPercentage}%
-                      </span>
-                    )}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setOfferModalProduct(product);
+                      }}
+                      className="bg-accent text-canvas font-mono text-[9px] uppercase tracking-widest px-1.5 py-0.5 font-bold flex items-center space-x-0.5 hover:bg-ink transition-colors border border-accent"
+                      title="View Product Offers"
+                    >
+                      <Zap className="w-2.5 h-2.5 text-canvas" />
+                      <span>OFFERS</span>
+                    </button>
                   </div>
 
                   {/* Wishlist Button */}
@@ -362,10 +372,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Global Quick View Modal */}
+      {/* Global Quick View & Product Offers Modals */}
       {quickViewProduct && (
         <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
       )}
+      <ProductOffersModal
+        isOpen={Boolean(offerModalProduct)}
+        onClose={() => setOfferModalProduct(null)}
+        product={offerModalProduct}
+      />
     </div>
   );
 }

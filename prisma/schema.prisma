@@ -87,6 +87,7 @@ model Product {
   isBestSeller Boolean          @default(false)
   status       String           @default("ACTIVE") // ACTIVE, DRAFT, ARCHIVED
   videoUrl     String?
+  customOffer  String?
   
   categoryId   String
   category     Category         @relation(fields: [categoryId], references: [id])
@@ -104,6 +105,8 @@ model Product {
   wishlistItems WishlistItem[]
   orderItems   OrderItem[]
   inventories  Inventory[]
+  priceHistories ProductPriceHistory[]
+  offers       Offer[]
 }
 
 model ProductImage {
@@ -129,6 +132,7 @@ model ProductVariant {
 
   cartItems   CartItem[]
   inventories Inventory[]
+  priceHistories ProductPriceHistory[]
 }
 
 model HeroSlide {
@@ -327,3 +331,60 @@ model Inventory {
   lowStockThreshold Int             @default(5)
   updatedAt         DateTime        @updatedAt
 }
+
+model ProductPriceHistory {
+  id          String          @id @default(cuid())
+  productId   String
+  product     Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variantId   String?
+  variant     ProductVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  oldPrice    Float?
+  price       Float
+  currency    String          @default("INR")
+  reason      String          @default("PRICE_UPDATE") // INITIAL_PRICE, PRICE_UPDATE, SALE, PROMOTION, ADMIN_UPDATE, RESTORED_PRICE
+  source      String          @default("ADMIN") // ADMIN, SYSTEM, IMPORT
+  validFrom   DateTime        @default(now())
+  validUntil  DateTime?
+  createdBy   String          @default("Admin")
+  createdAt   DateTime        @default(now())
+}
+
+model Offer {
+  id                    String    @id @default(cuid())
+  offerName             String
+  description           String?
+  productId             String
+  product               Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  claimedOriginalPrice  Float
+  salePrice             Float
+  discountPercentage    Float
+  startDate             DateTime
+  endDate               DateTime
+  maxUsage              Int?
+  usageCount            Int       @default(0)
+  minOrderValue         Float?    @default(0)
+  status                String    @default("PENDING_REVIEW") // DRAFT, PENDING_REVIEW, APPROVED, ACTIVE, EXPIRED, REJECTED, SUSPENDED
+  validationResult      String    @default("PENDING") // VALID, WARNING, INVALID
+  validationReason      String?
+  createdBy             String    @default("Admin")
+  reviewedBy            String?
+  reviewedAt            DateTime?
+  reviewNotes           String?
+  isOverride            Boolean   @default(false)
+  overrideReason        String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  user      String   @default("Admin")
+  action    String   // PRICE_CHANGED, OFFER_CREATED, OFFER_APPROVED, OFFER_REJECTED, OFFER_ACTIVATED, OFFER_SUSPENDED, OFFER_EXPIRED
+  entity    String   // PRODUCT, OFFER
+  entityId  String
+  oldValue  String?
+  newValue  String?
+  notes     String?
+  createdAt DateTime @default(now())
+}
+

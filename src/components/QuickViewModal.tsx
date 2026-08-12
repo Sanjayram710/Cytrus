@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { X, Star, ShoppingBag, Heart, Check } from 'lucide-react';
+import { X, Star, ShoppingBag, Heart, Check, Tag } from 'lucide-react';
+import ProductOffersModal from '@/components/ProductOffersModal';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
@@ -18,6 +19,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
   const [selectedSize, setSelectedSize] = useState(product.variants?.[0]?.size || 'M');
   const [selectedColor, setSelectedColor] = useState(product.variants?.[0]?.color || 'Black');
   const [added, setAdded] = useState(false);
+  const [offersOpen, setOffersOpen] = useState(false);
 
   const { addItem } = useCartStore();
   const { toggleWishlist, isInWishlist } = useWishlistStore();
@@ -91,6 +93,31 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                     </span>
                   )}
                 </div>
+
+                {/* Special Product Offers Banner (Only displayed when custom offer is set) */}
+                {product.customOffer && product.customOffer.trim() !== '' && (
+                  <div className="mb-4">
+                    <button
+                      type="button"
+                      onClick={() => setOffersOpen(true)}
+                      className="w-full bg-canvas border border-dashed border-accent hover:border-ink p-2.5 flex items-center justify-between text-left group transition-all"
+                    >
+                      <div className="flex items-center space-x-2.5">
+                        <div className="p-1 bg-ink text-canvas border border-ink group-hover:bg-accent transition-colors">
+                          <Tag className="w-3.5 h-3.5 text-accent group-hover:text-canvas" />
+                        </div>
+                        <div>
+                          <span className="font-mono text-[11px] font-bold text-ink uppercase tracking-wider block">
+                            SPECIAL PRODUCT OFFER (1)
+                          </span>
+                          <span className="font-mono text-[9px] text-muted uppercase">
+                            <span className="font-bold text-accent">{product.customOffer}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                )}
 
                 <p className="text-xs text-muted leading-relaxed mb-6 line-clamp-3">
                   {product.description}
@@ -193,6 +220,8 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
           </div>
         </div>
       </div>
+
+      <ProductOffersModal isOpen={offersOpen} onClose={() => setOffersOpen(false)} />
     </div>
   );
 }

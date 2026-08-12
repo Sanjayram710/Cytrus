@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
-import { normalizeImageUrl } from '@/lib/utils';
+import { processAndSaveImageUrl } from '@/lib/server-utils';
+import { PriceHistoryService } from '@/services/PriceHistoryService';
 import { z } from 'zod';
 
 const productSchema = z.object({
@@ -12,6 +13,7 @@ const productSchema = z.object({
   comparePrice: z.number().optional().nullable(),
   categoryId: z.string().min(1, 'Category is required'),
   collectionId: z.string().optional().nullable(),
+  customOffer: z.string().optional().nullable(),
   sku: z.string().optional().default(''),
   stock: z.number().min(0).default(10),
   isFeatured: z.boolean().default(false),
@@ -22,33 +24,6 @@ const productSchema = z.object({
   sizes: z.array(z.string()).default(['S', 'M', 'L']),
   colors: z.array(z.object({ name: z.string(), hex: z.string() })).default([{ name: 'Black', hex: '#000000' }]),
 });
-
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
-
-async function processAndSaveImageUrl(url: string): Promise<string> {
-  if (!url) return '';
-  const normalized = normalizeImageUrl(url);
-  if (normalized.includes('lh3.googleusercontent.com/d/')) {
-    try {
-      const res = await fetch(normalized);
-      if (res.ok) {
-        const bytes = await res.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const match = normalized.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        const fileId = match ? match[1] : Date.now().toString();
-        const fileName = `upload_${Date.now()}_drive_${fileId}.jpg`;
-        const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-        await mkdir(uploadsDir, { recursive: true });
-        await writeFile(path.join(uploadsDir, fileName), buffer);
-        return `/uploads/${fileName}`;
-      }
-    } catch (e) {
-      console.error('Failed to download drive image locally:', e);
-    }
-  }
-  return normalized;
-}
 
 export async function GET() {
   try {
@@ -93,6 +68,7 @@ export async function POST(req: Request) {
         status: validated.status,
         categoryId: validated.categoryId,
         collectionId: validated.collectionId,
+        customOffer: validated.customOffer || null,
         images: {
           create: processedImages.map((url, idx) => ({
             url,
@@ -126,6 +102,14 @@ export async function POST(req: Request) {
         stock: validated.stock,
         lowStockThreshold: 5,
       },
+    });
+
+    await PriceHistoryService.recordPriceChange({
+      productId: product.id,
+      newPrice: validated.price,
+      oldPrice: null,
+      reason: 'INITIAL_PRICE',
+      source: 'ADMIN',
     });
 
     return NextResponse.json({ success: true, product });
