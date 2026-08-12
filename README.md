@@ -83,17 +83,6 @@ npm test
 
 ---
 
-## 🤖 AI Development & Safety Documentation
-
-This repository is configured for safe development with AI coding agents (such as **Meta Muse Code**). AI tools operate exclusively as external developer assistants and are **NEVER** included as runtime dependencies or production web app code.
-
-* 📜 [AI Development Guidelines](file:///c:/Cytrus/docs/AI_DEVELOPMENT_GUIDELINES.md) — 18 mandatory rules for AI coding agents.
-* 🧩 [AI Project Context](file:///c:/Cytrus/docs/AI_PROJECT_CONTEXT.md) — Architecture, modules, and data model relationships.
-* 🗄️ [Database Safety](file:///c:/Cytrus/docs/DATABASE_SAFETY.md) — Supabase PostgreSQL & Prisma safety protocols.
-* 💳 [Payment & SMS Safety](file:///c:/Cytrus/docs/PAYMENT_AND_SMS_SAFETY.md) — Razorpay, Fast2SMS, and secret key protection rules.
-* 💻 [Developer Workflow & Commands](file:///c:/Cytrus/docs/DEVELOPER_WORKFLOW_AND_COMMANDS.md) — Standard dev commands and 12-step AI agent workflow.
-
----
 
 ## 📄 License
 © 2026 CYTRUS HAUTE COUTURE. All Rights Reserved.
