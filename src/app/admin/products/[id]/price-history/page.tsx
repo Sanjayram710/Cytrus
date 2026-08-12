@@ -11,24 +11,24 @@ export default function ProductPriceHistoryPage({ params }: { params: { id: stri
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchHistory = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/admin/products/${params.id}/price-history`);
+        const data = await res.json();
+        if (data.history) {
+          setHistory(data.history);
+          if (data.history.length > 0 && data.history[0].product) {
+            setProduct(data.history[0].product);
+          }
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchHistory();
   }, [params.id]);
-
-  const fetchHistory = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/admin/products/${params.id}/price-history`);
-      const data = await res.json();
-      if (data.history) {
-        setHistory(data.history);
-        if (data.history.length > 0 && data.history[0].product) {
-          setProduct(data.history[0].product);
-        }
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
