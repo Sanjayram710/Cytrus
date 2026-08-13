@@ -50,11 +50,6 @@ export default function CelebrityDropsPage() {
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#FFFFFF_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto text-center relative z-10 space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 bg-white/10 border border-white/20 text-white font-mono text-[10px] uppercase tracking-[0.25em] mb-2">
-            <Flame className="w-3.5 h-3.5 text-accent animate-pulse" />
-            <span>Strictly Numbered Runs • 2026 Collaboration Edition</span>
-          </div>
-
           <h1 className="font-serif text-4xl sm:text-6xl font-normal tracking-[0.15em] uppercase text-white">
             CELEBRITY DROPS
           </h1>
@@ -62,23 +57,6 @@ export default function CelebrityDropsPage() {
           <p className="font-mono text-xs sm:text-sm text-canvas/70 max-w-2xl mx-auto uppercase tracking-wider leading-relaxed">
             Exclusive celebrity collaborations, limited numbered drops &amp; high-density 240 GSM organic French Terry streetwear capsules.
           </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-4 text-xs font-mono text-canvas/80">
-            <div className="flex items-center space-x-1.5">
-              <ShieldCheck className="w-4 h-4 text-accent" />
-              <span>NFC Authenticated</span>
-            </div>
-            <span>•</span>
-            <div className="flex items-center space-x-1.5">
-              <Sparkles className="w-4 h-4 text-accent" />
-              <span>Limited 500 Pieces Worldwide</span>
-            </div>
-            <span>•</span>
-            <div className="flex items-center space-x-1.5">
-              <Zap className="w-4 h-4 text-accent" />
-              <span>240 GSM Heavyweight French Terry</span>
-            </div>
-          </div>
         </div>
       </section>
 
