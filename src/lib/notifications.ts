@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { formatPrice } from '@/lib/utils';
+import { generateOrderPdfInvoice } from '@/lib/pdf-generator';
 
 export interface OrderNotificationPayload {
   id: string;
@@ -26,9 +27,26 @@ export interface OrderNotificationPayload {
   }>;
 }
 
+function getSmtpTransporter() {
+  const port = parseInt(process.env.SMTP_PORT || '587', 10);
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port,
+    secure: port === 465 || process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
+}
+
 export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const trackingUrl = `${baseUrl}/orders/${order.id}`;
+  const invoicePdfUrl = `${baseUrl}/api/orders/${order.id}/invoice`;
 
   let parsedAddress: any = {};
   try {
@@ -58,43 +76,37 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>CELEBRITEE.in Order Receipt #${order.orderNumber}</title>
+      <title>CYTRUS Order Receipt #${order.orderNumber}</title>
     </head>
-    <body style="margin:0; padding:0; background-color: #F8FAFC; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F8FAFC; padding: 40px 10px;">
+    <body style="margin:0; padding:0; background-color: #FAF8F5; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #FAF8F5; padding: 40px 10px;">
         <tr>
           <td align="center">
-            <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,72,217,0.08); overflow: hidden;">
+            <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; border: 1px solid #EAE5DC; border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden;">
               <!-- Header -->
               <tr>
-                <td style="background-color: #0048D9; padding: 32px; text-align: center;">
-                  <h1 style="color: #FFFFFF; font-style: italic; font-weight: 900; font-size: 28px; letter-spacing: -0.5px; margin: 0;">
-                    CELEBRI<span style="color: #FF4D97;">TEE.in</span>
-                  </h1>
-                  <p style="color: #EFF4FF; font-size: 10px; letter-spacing: 0.3em; margin: 6px 0 0 0; font-weight: bold; text-transform: uppercase;">LUXURY CELEBRITY-COMMERCE</p>
+                <td style="background-color: #121212; padding: 30px; text-align: center;">
+                  <h1 style="color: #FAF8F5; font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.2em; margin: 0;">CYTRUS</h1>
+                  <p style="color: #D4AF37; font-size: 10px; letter-spacing: 0.3em; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">HEAVYWEIGHT TEES ATELIER</p>
                 </td>
               </tr>
 
               <!-- Greeting & Order Info -->
               <tr>
                 <td style="padding: 30px 40px 20px 40px;">
-                  <h2 style="color: #0B0F19; font-size: 20px; margin-top: 0; font-weight: bold;">Order Confirmation & Official Receipt</h2>
+                  <h2 style="font-family: Georgia, serif; color: #121212; font-size: 20px; margin-top: 0;">Order Confirmation & Official Receipt</h2>
                   <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Dear <strong>${order.customerName}</strong>,</p>
-                  <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Thank you for your order with CELEBRITEE.in. Your limited collaboration drop order has been confirmed and is currently being prepared for white-glove dispatch.</p>
+                  <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Thank you for your order with CYTRUS. Your bespoke t-shirt order has been confirmed and is currently being processed by our atelier staff.</p>
                   
-                  <div style="background-color: #F4F7FC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 15px 20px; margin: 20px 0;">
+                  <div style="background-color: #FAF8F5; border: 1px solid #EAE5DC; padding: 15px 20px; margin: 20px 0;">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td style="font-size: 12px; color: #64748B; text-transform: uppercase; letter-spacing: 0.1em; font-weight: bold;">Order Reference</td>
-                        <td style="font-size: 14px; font-weight: bold; color: #0048D9; font-family: monospace; text-align: right;">${order.orderNumber}</td>
+                        <td style="font-size: 12px; color: #707070; text-transform: uppercase; letter-spacing: 0.1em;">Order Reference</td>
+                        <td style="font-size: 14px; font-weight: bold; color: #D4AF37; font-family: monospace; text-align: right;">${order.orderNumber}</td>
                       </tr>
                       <tr>
-                        <td style="font-size: 12px; color: #64748B; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 8px; font-weight: bold;">Payment Method</td>
-                        <td style="font-size: 12px; font-weight: bold; color: #0B0F19; font-family: monospace; text-align: right; padding-top: 8px;">${order.paymentMethod}</td>
-                      </tr>
-                      <tr>
-                        <td style="font-size: 12px; color: #64748B; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 8px; font-weight: bold;">Order Date</td>
-                        <td style="font-size: 12px; font-weight: bold; color: #0B0F19; font-family: monospace; text-align: right; padding-top: 8px;">${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                        <td style="font-size: 12px; color: #707070; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 8px;">Payment Method</td>
+                        <td style="font-size: 12px; font-weight: bold; color: #121212; text-align: right; padding-top: 8px; text-transform: uppercase;">${order.paymentMethod}</td>
                       </tr>
                     </table>
                   </div>
@@ -103,43 +115,41 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
 
               <!-- Items Table -->
               <tr>
-                <td style="padding: 0 40px 20px 40px;">
-                  <h3 style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #0B0F19; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; margin-bottom: 12px; font-weight: bold;">Reserved Pieces</h3>
+                <td style="padding: 0 40px;">
+                  <h3 style="font-family: Georgia, serif; font-size: 16px; color: #121212; border-bottom: 2px solid #121212; padding-bottom: 8px; margin-bottom: 10px;">Ordered Items</h3>
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     ${itemsHtml}
                   </table>
                 </td>
               </tr>
 
-              <!-- Totals -->
+              <!-- Calculation Totals -->
               <tr>
-                <td style="padding: 10px 40px 30px 40px;">
-                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top: 1px solid #E2E8F0; padding-top: 15px;">
+                <td style="padding: 20px 40px 30px 40px;">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top: 2px solid #121212; padding-top: 15px;">
                     <tr>
-                      <td style="font-size: 13px; color: #64748B; padding-bottom: 6px;">Subtotal</td>
-                      <td style="font-size: 13px; color: #0B0F19; font-family: monospace; text-align: right; padding-bottom: 6px;">${formatPrice(order.subtotal)}</td>
+                      <td style="font-size: 12px; color: #707070; padding: 4px 0;">Subtotal</td>
+                      <td style="font-size: 12px; font-weight: bold; color: #121212; text-align: right; padding: 4px 0;">${formatPrice(order.subtotal)}</td>
                     </tr>
                     ${
                       order.discount > 0
-                        ? `
-                      <tr>
-                        <td style="font-size: 13px; color: #0048D9; font-weight: bold; padding-bottom: 6px;">VIP Promo Discount</td>
-                        <td style="font-size: 13px; color: #0048D9; font-family: monospace; font-weight: bold; text-align: right; padding-bottom: 6px;">-${formatPrice(order.discount)}</td>
-                      </tr>
-                    `
+                        ? `<tr>
+                            <td style="font-size: 12px; color: #2E7D32; padding: 4px 0;">Voucher Discount</td>
+                            <td style="font-size: 12px; font-weight: bold; color: #2E7D32; text-align: right; padding: 4px 0;">-${formatPrice(order.discount)}</td>
+                           </tr>`
                         : ''
                     }
                     <tr>
-                      <td style="font-size: 13px; color: #64748B; padding-bottom: 6px;">White-Glove Courier</td>
-                      <td style="font-size: 13px; color: #0B0F19; font-family: monospace; text-align: right; padding-bottom: 6px;">${order.shippingFee === 0 ? 'FREE' : formatPrice(order.shippingFee)}</td>
+                      <td style="font-size: 12px; color: #707070; padding: 4px 0;">Estimated Tax (12% GST)</td>
+                      <td style="font-size: 12px; font-weight: bold; color: #121212; text-align: right; padding: 4px 0;">${formatPrice(order.tax)}</td>
                     </tr>
                     <tr>
-                      <td style="font-size: 13px; color: #64748B; padding-bottom: 10px;">Estimated GST (12%)</td>
-                      <td style="font-size: 13px; color: #0B0F19; font-family: monospace; text-align: right; padding-bottom: 10px;">${formatPrice(order.tax)}</td>
+                      <td style="font-size: 12px; color: #707070; padding: 4px 0;">Express Courier Shipping</td>
+                      <td style="font-size: 12px; font-weight: bold; color: #121212; text-align: right; padding: 4px 0;">${formatPrice(order.shippingFee)}</td>
                     </tr>
-                    <tr style="border-top: 2px solid #0048D9;">
-                      <td style="font-size: 15px; font-weight: bold; color: #0B0F19; padding-top: 10px;">Total Investment</td>
-                      <td style="font-size: 18px; font-weight: bold; color: #0048D9; font-family: monospace; text-align: right; padding-top: 10px;">${formatPrice(order.total)}</td>
+                    <tr style="border-top: 1px solid #EAE5DC;">
+                      <td style="font-size: 16px; font-family: Georgia, serif; font-weight: bold; color: #121212; padding-top: 12px;">Total Paid / Payable</td>
+                      <td style="font-size: 18px; font-weight: bold; color: #D4AF37; text-align: right; padding-top: 12px;">${formatPrice(order.total)}</td>
                     </tr>
                   </table>
 
@@ -151,9 +161,12 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
                     Contact Phone: <strong>${order.customerPhone}</strong>
                   </div>
 
-                  <!-- Live Tracking CTA -->
+                  <!-- Live Tracking & PDF Download CTAs -->
                   <div style="text-align: center; margin-top: 30px;">
-                    <a href="${trackingUrl}" style="background-color: #121212; color: #FAF8F5; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.2em; padding: 14px 30px; display: inline-block; border-radius: 2px;">
+                    <a href="${invoicePdfUrl}" style="background-color: #6B5B45; color: #FFFFFF; text-decoration: none; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; padding: 13px 22px; display: inline-block; border-radius: 2px; margin-right: 8px; margin-bottom: 10px;">
+                      📄 DOWNLOAD TAX INVOICE (PDF)
+                    </a>
+                    <a href="${trackingUrl}" style="background-color: #121212; color: #FAF8F5; text-decoration: none; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; padding: 13px 22px; display: inline-block; border-radius: 2px; margin-bottom: 10px;">
                       TRACK YOUR ORDER LIVE →
                     </a>
                   </div>
@@ -178,24 +191,30 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
   // Send email if SMTP config is present in environment
   if (process.env.SMTP_HOST && process.env.SMTP_USER) {
     try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT || '587', 10),
-        secure: process.env.SMTP_SECURE === 'true',
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      });
+      const transporter = getSmtpTransporter();
+
+      // Generate PDF Tax Invoice attachment
+      let attachments: any[] = [];
+      try {
+        const pdfBuffer = await generateOrderPdfInvoice(order);
+        attachments.push({
+          filename: `CYTRUS_Tax_Invoice_${order.orderNumber}.pdf`,
+          content: pdfBuffer,
+          contentType: 'application/pdf',
+        });
+      } catch (pdfErr) {
+        console.error('PDF invoice generation warning:', pdfErr);
+      }
 
       await transporter.sendMail({
-        from: `"CELEBRITEE.in Concierge" <${process.env.SMTP_FROM || 'concierge@celebritee.in'}>`,
+        from: `"CYTRUS Atelier" <${process.env.SMTP_FROM || 'orders@cytrus.com'}>`,
         to: order.customerEmail,
-        subject: `CELEBRITEE.in Order Confirmation & Receipt #${order.orderNumber}`,
+        subject: `CYTRUS Order Confirmation & Tax Invoice #${order.orderNumber}`,
         html: htmlTemplate,
+        attachments,
       });
 
-      console.log(`✅ [EMAIL DISPATCHED] Order receipt sent to ${order.customerEmail}`);
+      console.log(`✅ [EMAIL DISPATCHED] Order receipt & PDF Tax Invoice sent to ${order.customerEmail}`);
       return { success: true, mode: 'SMTP' };
     } catch (err: any) {
       console.error(`❌ [EMAIL ERROR] Failed to send email via SMTP:`, err.message);
@@ -206,7 +225,7 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
   console.log('====================================================');
   console.log(`📧 [EMAIL RECEIPT SIMULATED DISPATCH]`);
   console.log(`TO: ${order.customerEmail}`);
-  console.log(`SUBJECT: CELEBRITEE.in Order Confirmation & Receipt #${order.orderNumber}`);
+  console.log(`SUBJECT: CYTRUS Order Confirmation & Receipt #${order.orderNumber}`);
   console.log(`TOTAL AMOUNT: ${formatPrice(order.total)} | PAYMENT: ${order.paymentMethod}`);
   console.log(`TRACKING URL: ${trackingUrl}`);
   console.log('====================================================');
@@ -218,23 +237,57 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const trackingUrl = `${baseUrl}/orders/${order.id}`;
 
-  const smsText = `[CELEBRITEE.in] Hello ${order.customerName}, your order #${order.orderNumber} for ${formatPrice(order.total)} has been confirmed! Track your shipment live: ${trackingUrl}`;
+  const smsText = `[CYTRUS] Hello ${order.customerName}, your order #${order.orderNumber} for ${formatPrice(order.total)} has been confirmed! Track your shipment live: ${trackingUrl}`;
 
-  // If Twilio env variables exist, send real SMS
+  // 1. Fast2SMS Integration (Instant Indian SMS Gateway)
+  if (process.env.FAST2SMS_API_KEY) {
+    try {
+      const cleanPhone = order.customerPhone.replace(/\D/g, '').slice(-10);
+      const orderRefDigits = order.orderNumber.replace(/\D/g, '') || '101';
+
+      const f2sRes = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+        method: 'POST',
+        headers: {
+          authorization: process.env.FAST2SMS_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          route: 'otp',
+          variables_values: orderRefDigits.slice(-6),
+          numbers: cleanPhone,
+        }),
+      });
+      const f2sData = await f2sRes.json();
+      if (f2sData && f2sData.return) {
+        console.log(`✅ [FAST2SMS DISPATCHED] Order #${order.orderNumber} SMS sent to ${order.customerPhone}`);
+        return { success: true, mode: 'FAST2SMS' };
+      } else {
+        console.error('Fast2SMS dispatch warning:', f2sData);
+      }
+    } catch (err: any) {
+      console.error(`❌ [FAST2SMS ERROR] Failed to send SMS via Fast2SMS:`, err.message);
+    }
+  }
+
+  // 2. Twilio Integration (Global SMS Gateway)
   if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
     try {
-      const accountSid = process.env.TWILIO_ACCOUNT_SID;
-      const authToken = process.env.TWILIO_AUTH_TOKEN;
-      const client = require('twilio')(accountSid, authToken);
-
-      await client.messages.create({
-        body: smsText,
-        from: process.env.TWILIO_PHONE_NUMBER || '+1234567890',
-        to: order.customerPhone,
-      });
-
-      console.log(`✅ [SMS DISPATCHED] SMS receipt sent to ${order.customerPhone}`);
-      return { success: true, mode: 'TWILIO' };
+      let twilioModule: any = null;
+      try {
+        twilioModule = eval('require')('twilio');
+      } catch (e) {
+        twilioModule = null;
+      }
+      if (twilioModule) {
+        const client = twilioModule(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+        await client.messages.create({
+          body: smsText,
+          from: process.env.TWILIO_PHONE_NUMBER || '+1234567890',
+          to: order.customerPhone,
+        });
+        console.log(`✅ [SMS DISPATCHED] SMS receipt sent to ${order.customerPhone}`);
+        return { success: true, mode: 'TWILIO' };
+      }
     } catch (err: any) {
       console.error(`❌ [SMS ERROR] Failed to send SMS via Twilio:`, err.message);
     }
@@ -249,3 +302,142 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
 
   return { success: true, mode: 'SIMULATED' };
 }
+
+export async function sendOrderWhatsAppNotification(order: OrderNotificationPayload) {
+  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const trackingUrl = `${baseUrl}/orders/${order.id}`;
+  const cleanPhone = order.customerPhone.replace(/\D/g, '').slice(-10);
+
+  const whatsappText = `*CYTRUS Atelier Order Confirmation*\n\nHello ${order.customerName},\nThank you for your order *#${order.orderNumber}*!\n\n*Total Amount:* ${formatPrice(order.total)}\n*Payment Method:* ${order.paymentMethod}\n\nTrack your shipment live:\n${trackingUrl}`;
+
+  // 1. UltraMsg WhatsApp API Integration
+  if (process.env.WHATSAPP_ULTRAMSG_INSTANCE_ID && process.env.WHATSAPP_ULTRAMSG_TOKEN) {
+    try {
+      const instanceId = process.env.WHATSAPP_ULTRAMSG_INSTANCE_ID;
+      const token = process.env.WHATSAPP_ULTRAMSG_TOKEN;
+      const params = new URLSearchParams({
+        token,
+        to: `+91${cleanPhone}`,
+        body: whatsappText,
+      });
+
+      const waRes = await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      });
+      const waData = await waRes.json();
+      if (waData && waData.sent === 'true') {
+        console.log(`✅ [WHATSAPP DISPATCHED] UltraMsg WhatsApp sent to ${order.customerPhone}`);
+        return { success: true, mode: 'ULTRAMSG' };
+      }
+    } catch (err: any) {
+      console.error(`❌ [WHATSAPP ERROR] UltraMsg error:`, err.message);
+    }
+  }
+
+  // 2. Twilio WhatsApp Integration
+  if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_WHATSAPP_NUMBER) {
+    try {
+      let twilioModule: any = null;
+      try {
+        twilioModule = eval('require')('twilio');
+      } catch (e) {
+        twilioModule = null;
+      }
+      if (twilioModule) {
+        const client = twilioModule(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+        await client.messages.create({
+          body: whatsappText,
+          from: process.env.TWILIO_WHATSAPP_NUMBER.startsWith('whatsapp:')
+            ? process.env.TWILIO_WHATSAPP_NUMBER
+            : `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`,
+          to: `whatsapp:+91${cleanPhone}`,
+        });
+        console.log(`✅ [WHATSAPP DISPATCHED] Twilio WhatsApp sent to ${order.customerPhone}`);
+        return { success: true, mode: 'TWILIO_WHATSAPP' };
+      }
+    } catch (err: any) {
+      console.error(`❌ [WHATSAPP ERROR] Twilio WhatsApp error:`, err.message);
+    }
+  }
+
+  const directWaLink = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(whatsappText)}`;
+  console.log('====================================================');
+  console.log(`🟢 [WHATSAPP ORDER NOTIFICATION LINK READY]`);
+  console.log(`CUSTOMER PHONE: +91 ${cleanPhone}`);
+  console.log(`DIRECT WHATSAPP LINK: ${directWaLink}`);
+  console.log('====================================================');
+
+  return { success: true, mode: 'WA_LINK', link: directWaLink };
+}
+
+export async function sendOrderStatusEmail(order: any, newStatus: string, trackingNumber?: string, courierName?: string) {
+  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  const trackingUrl = `${baseUrl}/orders/${order.id}`;
+
+  const htmlTemplate = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="margin:0; padding:0; background-color: #FAF8F5; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #FAF8F5; padding: 40px 10px;">
+        <tr>
+          <td align="center">
+            <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; border: 1px solid #EAE5DC; border-radius: 4px; overflow: hidden;">
+              <tr>
+                <td style="background-color: #121212; padding: 30px; text-align: center;">
+                  <h1 style="color: #FAF8F5; font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.2em; margin: 0;">CYTRUS</h1>
+                  <p style="color: #D4AF37; font-size: 10px; letter-spacing: 0.3em; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">ATELIER ORDER UPDATE</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 30px 40px;">
+                  <h2 style="font-family: Georgia, serif; color: #121212; font-size: 20px;">Order Status Update: ${newStatus}</h2>
+                  <p style="font-size: 13px; color: #4A4A4A;">Dear <strong>${order.customerName}</strong>,</p>
+                  <p style="font-size: 13px; color: #4A4A4A;">Your order <strong>#${order.orderNumber}</strong> status has been updated to: <strong style="color: #D4AF37;">${newStatus}</strong>.</p>
+                  ${
+                    trackingNumber
+                      ? `<div style="background-color: #FAF8F5; border: 1px solid #EAE5DC; padding: 15px; margin: 20px 0; font-size: 13px;">
+                          <strong>Courier:</strong> ${courierName || 'Express Courier'}<br/>
+                          <strong>Tracking Number:</strong> <span style="font-family: monospace; font-weight: bold;">${trackingNumber}</span>
+                        </div>`
+                      : ''
+                  }
+                  <div style="text-align: center; margin-top: 30px;">
+                    <a href="${trackingUrl}" style="background-color: #121212; color: #FAF8F5; text-decoration: none; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.2em; padding: 14px 30px; display: inline-block;">
+                      VIEW ORDER STATUS →
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+
+  if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+    try {
+      const transporter = getSmtpTransporter();
+
+      await transporter.sendMail({
+        from: `"CYTRUS Atelier" <${process.env.SMTP_FROM || 'orders@cytrus.com'}>`,
+        to: order.customerEmail,
+        subject: `CYTRUS Order #${order.orderNumber} Status Updated: ${newStatus}`,
+        html: htmlTemplate,
+      });
+
+      console.log(`✅ [EMAIL DISPATCHED] Order status update sent to ${order.customerEmail}`);
+      return { success: true, mode: 'SMTP' };
+    } catch (err: any) {
+      console.error(`❌ [EMAIL ERROR] Failed to send status email via SMTP:`, err.message);
+    }
+  }
+
+  console.log(`📧 [SIMULATED STATUS EMAIL] Order #${order.orderNumber} -> ${newStatus} to ${order.customerEmail}`);
+  return { success: true, mode: 'SIMULATED' };
+}
+

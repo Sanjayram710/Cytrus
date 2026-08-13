@@ -25,6 +25,7 @@ import {
   Package,
 } from 'lucide-react';
 import SizeGuideModal from '@/components/SizeGuideModal';
+import ProductOffersModal from '@/components/ProductOffersModal';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { formatPrice } from '@/lib/utils';
@@ -39,6 +40,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [quantity, setQuantity] = useState(1);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [offersOpen, setOffersOpen] = useState(false);
   const [added, setAdded] = useState(false);
 
   // Delivery Pincode Checker State
@@ -253,6 +255,34 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
                 Only 14 of 250 Units Left
               </span>
             </div>
+
+            {/* Special Product Offer Banner */}
+            {product.customOffer && product.customOffer.trim() !== '' && (
+              <div className="mb-6">
+                <button
+                  type="button"
+                  onClick={() => setOffersOpen(true)}
+                  className="w-full bg-royal-subtle border border-royal/30 p-3.5 flex items-center justify-between hover:border-royal transition-all group rounded-xl"
+                >
+                  <div className="flex items-center space-x-3 text-left">
+                    <div className="w-7 h-7 rounded-full bg-royal text-white flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-royal block font-bold">
+                        SPECIAL PRODUCT OFFER (1)
+                      </span>
+                      <span className="font-mono text-xs text-charcoal font-bold">
+                        {product.customOffer}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-royal group-hover:underline font-bold">
+                    View & Apply →
+                  </span>
+                </button>
+              </div>
+            )}
 
             {/* Garment Editorial Description */}
             <p className="text-xs sm:text-sm text-charcoal/80 leading-relaxed mb-6 font-normal">
@@ -498,8 +528,9 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
         </div>
       )}
 
-      {/* Global Size Guide Modal */}
+      {/* Global Size Guide & Offers Modals */}
       <SizeGuideModal isOpen={sizeGuideOpen} onClose={() => setSizeGuideOpen(false)} />
+      <ProductOffersModal isOpen={offersOpen} onClose={() => setOffersOpen(false)} product={product} />
     </div>
   );
 }

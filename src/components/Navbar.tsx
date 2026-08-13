@@ -61,6 +61,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   const navLinks = [
     { name: 'Vault', href: '/shop' },
     { name: 'Celebrity Drops', href: '/#icons' },
+    { name: 'Custom Studio', href: '/custom-design' },
     { name: 'Oversized', href: '/shop?category=oversized-tees' },
     { name: 'Vintage Acid', href: '/shop?category=vintage-wash-tees' },
     { name: 'Journal', href: '/#journal' },

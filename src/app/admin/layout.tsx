@@ -50,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Categories', href: '/admin/categories', icon: FolderTree },
     { name: 'Collections', href: '/admin/collections', icon: Sparkles },
     { name: 'Inventory Stock', href: '/admin/inventory', icon: Warehouse },
-    { name: 'Coupons', href: '/admin/coupons', icon: Tag },
+    { name: 'Offers & Integrity', href: '/admin/offers', icon: Tag },
     { name: 'Customer Reviews', href: '/admin/reviews', icon: Star },
     { name: 'Customers', href: '/admin/customers', icon: Users },
     { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },

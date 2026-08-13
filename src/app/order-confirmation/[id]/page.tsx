@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, Package, Truck, Calendar, MapPin, ArrowRight } from 'lucide-react';
+import { CheckCircle2, Package, MapPin, Download, MessageSquare, ArrowRight } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import CelebriteeLogo from '@/components/CelebriteeLogo';
 
@@ -35,6 +35,13 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
   }
 
   const shippingAddr = JSON.parse(order.shippingAddressJson || '{}');
+  const cleanPhone = (order.customerPhone || '').replace(/\D/g, '').slice(-10);
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const whatsappMsg = encodeURIComponent(
+    `Hello ${order.customerName}, your CELEBRITEE.in Order #${order.orderNumber} for ${formatPrice(order.total)} is confirmed! Track live: ${origin}/orders/${order.id}`
+  );
+  const whatsappUrl = `https://wa.me/91${cleanPhone}?text=${whatsappMsg}`;
+  const pdfInvoiceUrl = `/api/orders/${order.id}/invoice`;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-white text-charcoal">
@@ -56,18 +63,40 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
         </p>
 
         <p className="text-xs text-charcoal/80 leading-relaxed max-w-lg mx-auto mb-6">
-          We have received your CELEBRITEE order. An official receipt and notification with dispatch tracking will be sent to your contact details.
+          We have received your CELEBRITEE order. An official receipt and notification with dispatch tracking have been dispatched to your contact details.
         </p>
 
         <div className="bg-surface-tint border border-border p-4 mb-8 max-w-lg mx-auto text-left space-y-2 font-mono rounded-xl text-charcoal">
           <div className="flex items-center space-x-2 text-xs">
             <span className="text-base">📧</span>
-            <span>Official Receipt dispatched to <strong className="font-bold text-charcoal">{order.customerEmail}</strong></span>
+            <span>Official Email Receipt sent to <strong className="font-bold text-charcoal">{order.customerEmail}</strong></span>
           </div>
           <div className="flex items-center space-x-2 text-xs">
             <span className="text-base">📱</span>
-            <span>Notification sent to <strong className="font-bold text-charcoal">{order.customerPhone}</strong></span>
+            <span>Notification dispatched to <strong className="font-bold text-charcoal">{order.customerPhone}</strong></span>
           </div>
+        </div>
+
+        {/* Action Bar: Download PDF & WhatsApp Updates */}
+        <div className="flex flex-col sm:flex-row justify-center gap-3 mb-10 max-w-xl mx-auto">
+          <a
+            href={pdfInvoiceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center space-x-2 bg-[#0F172A] text-white px-6 py-3.5 font-mono text-xs uppercase tracking-wider font-bold hover:bg-black transition-colors rounded-md shadow-sm"
+          >
+            <Download className="w-4 h-4 text-white" />
+            <span>Download Tax Invoice (PDF)</span>
+          </a>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center space-x-2 bg-[#25D366] text-white px-6 py-3.5 font-mono text-xs uppercase tracking-wider font-bold hover:opacity-95 transition-opacity rounded-md shadow-sm"
+          >
+            <MessageSquare className="w-4 h-4 text-white" />
+            <span>WhatsApp Order Notification</span>
+          </a>
         </div>
 
         {/* Details Grid */}

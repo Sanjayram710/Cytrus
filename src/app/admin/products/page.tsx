@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Search, X, Check } from 'lucide-react';
+import Link from 'next/link';
+import { Plus, Edit, Trash2, Search, X, Check, History } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
+import ImageUploadInput from '@/components/ImageUploadInput';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -25,6 +27,8 @@ export default function AdminProductsPage() {
     categoryId: '',
     collectionId: '',
     imageUrl: '',
+    imageUrl2: '',
+    customOffer: '',
     isFeatured: false,
     isNewArrival: false,
     isBestSeller: false,
@@ -60,6 +64,8 @@ export default function AdminProductsPage() {
       categoryId: categories[0]?.id || '',
       collectionId: collections[0]?.id || '',
       imageUrl: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1000',
+      imageUrl2: '',
+      customOffer: 'FLAT ₹500 OFF (Code: TEE500)',
       isFeatured: true,
       isNewArrival: true,
       isBestSeller: false,
@@ -81,6 +87,8 @@ export default function AdminProductsPage() {
       categoryId: prod.categoryId,
       collectionId: prod.collectionId || '',
       imageUrl: prod.images?.[0]?.url || '',
+      imageUrl2: prod.images?.[1]?.url || '',
+      customOffer: prod.customOffer || '',
       isFeatured: prod.isFeatured,
       isNewArrival: prod.isNewArrival,
       isBestSeller: prod.isBestSeller,
@@ -97,32 +105,40 @@ export default function AdminProductsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const generatedSku = formData.sku.trim() || `TEE-${(formData.name || 'ITEM').replace(/[^a-zA-Z0-9]/g, '').substring(0, 3).toUpperCase() || 'ITEM'}-${Math.floor(100 + Math.random() * 900)}`;
     const payload = {
       ...formData,
+      sku: generatedSku,
       price: parseFloat(formData.price),
       comparePrice: formData.comparePrice ? parseFloat(formData.comparePrice) : null,
       stock: parseInt(formData.stock, 10),
-      images: [formData.imageUrl],
+      images: formData.imageUrl2 ? [formData.imageUrl, formData.imageUrl2] : [formData.imageUrl],
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
       colors: [{ name: 'Emerald Green', hex: '#004B49' }, { name: 'Obsidian Black', hex: '#121212' }],
     };
 
+    let res: Response;
     if (editingProduct) {
-      await fetch(`/api/admin/products/${editingProduct.id}`, {
+      res = await fetch(`/api/admin/products/${editingProduct.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
     } else {
-      await fetch('/api/admin/products', {
+      res = await fetch('/api/admin/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
     }
 
-    setModalOpen(false);
-    fetchProducts();
+    const data = await res.json();
+    if (res.ok && data.success) {
+      setModalOpen(false);
+      fetchProducts();
+    } else {
+      alert(data.error || 'Failed to save product. Please check form fields.');
+    }
   };
 
   const filteredProducts = products.filter(
@@ -184,7 +200,14 @@ export default function AdminProductsPage() {
               {filteredProducts.map((prod) => (
                 <tr key={prod.id} className="hover:bg-luxury-cream/40">
                   <td className="p-3 flex items-center space-x-3">
-                    <img src={prod.images?.[0]?.url} alt={prod.name} className="w-10 h-14 object-cover border" />
+                    <img
+                      src={prod.images?.[0]?.url || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000'}
+                      alt={prod.name}
+                      className="w-10 h-14 object-cover border"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1000';
+                      }}
+                    />
                     <div>
                       <span className="font-serif font-bold text-luxury-black text-xs block">{prod.name}</span>
                       <span className="text-[10px] text-luxury-gold uppercase font-semibold">
@@ -206,6 +229,13 @@ export default function AdminProductsPage() {
                     </span>
                   </td>
                   <td className="p-3 text-right space-x-2">
+                    <Link
+                      href={`/admin/products/${prod.id}/price-history`}
+                      className="p-1.5 inline-block text-luxury-gold hover:text-luxury-black"
+                      title="View Price History"
+                    >
+                      <History className="w-4 h-4" />
+                    </Link>
                     <button
                       onClick={() => handleOpenEditModal(prod)}
                       className="p-1.5 text-luxury-black hover:text-luxury-gold"
@@ -239,10 +269,10 @@ export default function AdminProductsPage() {
               {editingProduct ? 'Edit Product' : 'Create New Product'}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <form onSubmit={handleSubmit} className="space-y-4 text-xs text-luxury-black">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block uppercase font-bold mb-1">Product Name</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Product Name</label>
                   <input
                     type="text"
                     required
@@ -258,77 +288,95 @@ export default function AdminProductsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">Slug</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Slug</label>
                   <input
                     type="text"
                     required
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-mono"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-mono"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block uppercase font-bold mb-1">Description</label>
+                <label className="block uppercase font-bold mb-1 text-luxury-black">Description</label>
                 <textarea
                   rows={3}
                   required
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                  className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <ImageUploadInput
+                  label="Primary Product Image"
+                  value={formData.imageUrl}
+                  onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                />
+
+                <ImageUploadInput
+                  label="Secondary Hover Image (Optional)"
+                  value={formData.imageUrl2}
+                  onChange={(url) => setFormData({ ...formData, imageUrl2: url })}
                 />
               </div>
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block uppercase font-bold mb-1">Price (INR)</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Price (INR)</label>
                   <input
                     type="number"
                     required
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-bold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">Original Price (INR)</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Original Price (INR)</label>
                   <input
                     type="number"
                     value={formData.comparePrice}
                     onChange={(e) => setFormData({ ...formData, comparePrice: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
                   />
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">SKU</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">SKU</label>
                   <input
                     type="text"
                     required
                     value={formData.sku}
                     onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-mono"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-mono"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block uppercase font-bold mb-1">Stock Units</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Stock Units</label>
                   <input
                     type="number"
+                    min="0"
                     required
                     value={formData.stock}
-                    onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-bold"
+                    onChange={(e) => {
+                      const val = Math.max(0, parseInt(e.target.value, 10) || 0);
+                      setFormData({ ...formData, stock: val.toString() });
+                    }}
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-bold"
                   />
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">Category</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Category</label>
                   <select
                     value={formData.categoryId}
                     onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
                   >
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
@@ -336,11 +384,11 @@ export default function AdminProductsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block uppercase font-bold mb-1">Collection</label>
+                  <label className="block uppercase font-bold mb-1 text-luxury-black">Collection</label>
                   <select
                     value={formData.collectionId}
                     onChange={(e) => setFormData({ ...formData, collectionId: e.target.value })}
-                    className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold"
+                    className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
                   >
                     <option value="">None</option>
                     {collections.map((col) => (
@@ -350,15 +398,39 @@ export default function AdminProductsPage() {
                 </div>
               </div>
 
+              {/* Custom Product Offer / Promo Badge */}
               <div>
-                <label className="block uppercase font-bold mb-1">Primary Image URL</label>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="block uppercase font-bold text-luxury-black text-xs">
+                    ⚡ CUSTOM PRODUCT OFFER / PROMO BADGE (OPTIONAL)
+                  </label>
+                  <span className="font-mono text-[10px] text-gray-500 uppercase">Displayed in Offers Modal & Badge</span>
+                </div>
                 <input
-                  type="url"
-                  required
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  className="w-full border border-luxury-border p-2.5 bg-white focus:outline-none focus:border-luxury-gold font-mono"
+                  type="text"
+                  placeholder="e.g. FLAT ₹500 INSTANT DISCOUNT or BUY 2 FOR ₹1,599"
+                  value={formData.customOffer}
+                  onChange={(e) => setFormData({ ...formData, customOffer: e.target.value })}
+                  className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold font-mono text-xs"
                 />
+                <div className="flex flex-wrap gap-1.5 mt-2 font-mono text-[10px]">
+                  <span className="text-gray-400 self-center uppercase font-bold">Quick Presets:</span>
+                  {[
+                    'FLAT ₹500 INSTANT DISCOUNT',
+                    'BUY 2 FOR ₹1,599 BUNDLE',
+                    'FREE CYTRUS TOTE BAG GIFT',
+                    'EXTRA 15% UPI CASHBACK',
+                  ].map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, customOffer: preset })}
+                      className="bg-gray-100 border border-gray-300 hover:border-black px-2 py-0.5 text-gray-700 hover:text-black transition-colors"
+                    >
+                      + {preset}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="flex space-x-6 pt-2">

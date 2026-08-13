@@ -8,6 +8,7 @@ import SearchModal from '@/components/SearchModal';
 import QuickViewModal from '@/components/QuickViewModal';
 import SizeGuideModal from '@/components/SizeGuideModal';
 import SplashScreen from '@/components/SplashScreen';
+import WhatsAppWidget from '@/components/WhatsAppWidget';
 import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main>{children}</main>
         </div>
         <Footer />
+        <WhatsAppWidget />
 
         {/* Global Modals */}
         <CartDrawer />
