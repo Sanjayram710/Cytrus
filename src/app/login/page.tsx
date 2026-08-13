@@ -53,7 +53,7 @@ export default function LoginPage() {
           CLIENT ACCESS
         </span>
         <h1 className="font-serif text-3xl font-normal text-ink mt-1 mb-2">
-          Sign In to CYTRUS
+          Sign In to Celebritee.in
         </h1>
         <p className="font-mono text-xs text-muted uppercase tracking-widest mb-8">
           Access your saved drop vault, order tracking, and fit profile.
@@ -107,7 +107,7 @@ export default function LoginPage() {
         {/* Create Account Link / Button */}
         <div className="mt-8 pt-6 border-t border-border font-mono text-xs uppercase tracking-wider text-center space-y-3">
           <p className="text-muted">
-            Don&apos;t have a CYTRUS account yet?
+            Don&apos;t have a Celebritee.in account yet?
           </p>
           <Link
             href="/register"

@@ -25,7 +25,7 @@ export default function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps)
           </button>
 
           <h2 className="font-serif text-2xl font-normal uppercase tracking-wider text-ink mb-1">
-            CYTRUS Size Guide
+            Celebritee.in Size Guide
           </h2>
           <p className="font-mono text-xs uppercase tracking-widest text-muted mb-6 font-medium">
             Oversized & Heavyweight Cut Measurements (Inches)

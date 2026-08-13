@@ -1,8 +1,8 @@
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 
-const key_id = process.env.RAZORPAY_KEY_ID || 'rzp_test_cytrus_mock_key';
-const key_secret = process.env.RAZORPAY_KEY_SECRET || 'cytrus_mock_secret_key';
+const key_id = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_celebritee_mock_key';
+const key_secret = process.env.RAZORPAY_KEY_SECRET || 'celebritee_mock_secret_key';
 
 export const razorpayInstance = new Razorpay({
   key_id,
@@ -13,7 +13,7 @@ export async function createRazorpayOrder(amountInRupees: number, orderId: strin
   const amountInPaise = Math.round(amountInRupees * 100);
 
   // If mock keys are active, return a simulated Razorpay order ID
-  if (key_id.includes('mock') || !process.env.RAZORPAY_KEY_ID) {
+  if (key_id.includes('mock') || (!process.env.RAZORPAY_KEY_ID && !process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID)) {
     return {
       id: `rzp_order_mock_${Date.now()}_${orderId}`,
       amount: amountInPaise,
@@ -25,9 +25,9 @@ export async function createRazorpayOrder(amountInRupees: number, orderId: strin
   const razorpayOrder = await razorpayInstance.orders.create({
     amount: amountInPaise,
     currency: 'INR',
-    receipt: orderId,
+    receipt: orderId.slice(0, 40),
     notes: {
-      platform: 'CYTRUS',
+      platform: 'Celebritee.in',
       orderId,
     },
   });

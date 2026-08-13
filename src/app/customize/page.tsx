@@ -72,7 +72,7 @@ export default function CustomizePage() {
   const [viewSide, setViewSide] = useState<'front' | 'back'>('front');
 
   // Typography States
-  const [headlineText, setHeadlineText] = useState('CYTRUS ATELIER');
+  const [headlineText, setHeadlineText] = useState('CELEBRITEE ATELIER');
   const [taglineText, setTaglineText] = useState('LIMITED BESPOKE DROP / 2026');
   const [selectedFont, setSelectedFont] = useState(FONT_OPTIONS[0]);
   const [textScale, setTextScale] = useState<'sm' | 'md' | 'lg'>('md');
@@ -128,7 +128,7 @@ export default function CustomizePage() {
     setSelectedColor(COLOR_OPTIONS[0]);
     setSelectedPlacement(PLACEMENT_OPTIONS[0]);
     setViewSide('front');
-    setHeadlineText('CYTRUS ATELIER');
+    setHeadlineText('CELEBRITEE ATELIER');
     setTaglineText('LIMITED BESPOKE DROP / 2026');
     setSelectedFont(FONT_OPTIONS[0]);
     setTextScale('md');
@@ -483,7 +483,7 @@ export default function CustomizePage() {
                     value={headlineText}
                     maxLength={32}
                     onChange={(e) => setHeadlineText(e.target.value)}
-                    placeholder="Enter headline (e.g. CYTRUS ATELIER)"
+                    placeholder="Enter headline (e.g. CELEBRITEE ATELIER)"
                     className="w-full bg-white border border-border px-3.5 py-2.5 text-xs text-ink font-mono focus:border-ink focus:outline-none"
                   />
                 </div>

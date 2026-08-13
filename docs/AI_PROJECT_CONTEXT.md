@@ -1,13 +1,13 @@
-# AI Project Context for Cytrus
+# AI Project Context for Celebritee.in
 
-This document provides a comprehensive technical overview of the **Cytrus** repository architecture, data models, module relationships, and technology stack for AI development tools such as **Meta Muse Code**.
+This document provides a comprehensive technical overview of the **Celebritee.in** repository architecture, data models, module relationships, and technology stack.
 
 ---
 
 ## 📌 Project Overview
 
-* **Project Name**: Cytrus
-* **Application Type**: Luxury Fashion & Dress E-Commerce Platform
+* **Project Name**: Celebritee.in
+* **Application Type**: Luxury Streetwear & Heavyweight Apparel E-Commerce Platform
 * **Architecture**: Serverless Next.js App Router (Fullstack React + API Routes)
 * **Target Audience**: High-end fashion consumers and administrative e-commerce managers
 

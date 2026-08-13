@@ -36,7 +36,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
   const shippingAddr = JSON.parse(order.shippingAddressJson || '{}');
   const cleanPhone = (order.customerPhone || '').replace(/\D/g, '').slice(-10);
   const whatsappMsg = encodeURIComponent(
-    `Hello ${order.customerName}, your CYTRUS Order #${order.orderNumber} for ${formatPrice(order.total)} is confirmed! Track live: ${window.location.origin}/orders/${order.id}`
+    `Hello ${order.customerName}, your Celebritee.in Order #${order.orderNumber} for ${formatPrice(order.total)} is confirmed! Track live: ${window.location.origin}/orders/${order.id}`
   );
   const whatsappUrl = `https://wa.me/91${cleanPhone}?text=${whatsappMsg}`;
   const pdfInvoiceUrl = `/api/orders/${order.id}/invoice`;
@@ -56,7 +56,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
         </p>
 
         <p className="text-xs text-muted leading-relaxed max-w-lg mx-auto mb-6">
-          We have received your CYTRUS order. An official receipt and notification with dispatch tracking have been dispatched to your contact details.
+          We have received your Celebritee.in order. An official receipt and notification with dispatch tracking have been dispatched to your contact details.
         </p>
 
         <div className="bg-canvas border border-border p-4 mb-8 max-w-lg mx-auto text-left space-y-3 font-mono">

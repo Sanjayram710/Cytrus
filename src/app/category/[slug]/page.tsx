@@ -52,7 +52,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
       <div className="relative bg-surface text-ink p-8 sm:p-14 mb-12 border border-border overflow-hidden">
         <div className="relative z-10 max-w-2xl">
           <span className="font-mono text-muted text-xs uppercase font-medium tracking-[0.25em]">
-            CYTRUS SILHOUETTE
+            CELEBRITEE SILHOUETTE
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-normal uppercase mt-1 mb-4 text-ink">
             {categoryName}
