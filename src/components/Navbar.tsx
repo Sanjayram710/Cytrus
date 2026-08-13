@@ -34,12 +34,17 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<UserSession | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const { openCart, getCartItemCount } = useCartStore();
   const { items: wishlistItems } = useWishlistStore();
 
-  const itemCount = getCartItemCount();
-  const wishlistCount = wishlistItems.length;
+  const itemCount = mounted ? getCartItemCount() : 0;
+  const wishlistCount = mounted ? wishlistItems.length : 0;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -172,8 +177,11 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 title="Wishlist"
               >
                 <Heart className="w-4 h-4 text-charcoal" />
-                {wishlistCount > 0 && (
-                  <span className="absolute top-0 right-0 bg-pink text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-mono font-bold shadow-sm">
+                {mounted && wishlistCount > 0 && (
+                  <span
+                    suppressHydrationWarning
+                    className="absolute top-0 right-0 bg-pink text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-mono font-bold shadow-sm"
+                  >
                     {wishlistCount}
                   </span>
                 )}
@@ -187,7 +195,10 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               >
                 <ShoppingBag className="w-3.5 h-3.5 text-white" />
                 <span className="hidden sm:inline text-white">Bag</span>
-                <span className="bg-white text-royal text-[10px] px-1.5 py-0.5 rounded-full font-mono font-black shadow-sm">
+                <span
+                  suppressHydrationWarning
+                  className="bg-white text-royal text-[10px] px-1.5 py-0.5 rounded-full font-mono font-black shadow-sm"
+                >
                   {itemCount}
                 </span>
               </button>
