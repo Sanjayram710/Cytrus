@@ -53,9 +53,9 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-md mx-auto my-20 text-center p-8 bg-[#101D3F] border border-white/10 rounded-2xl shadow-subtle text-white">
-        <h2 className="font-serif text-2xl font-normal text-white mb-2">Your Bag is Empty</h2>
-        <p className="font-mono text-xs text-slate-400 mb-6 uppercase tracking-wider">Please add items to your bag before proceeding to checkout.</p>
+      <div className="max-w-md mx-auto my-20 text-center p-8 bg-white border border-border rounded-2xl shadow-subtle text-charcoal">
+        <h2 className="font-serif text-2xl font-normal text-charcoal mb-2">Your Bag is Empty</h2>
+        <p className="font-mono text-xs text-muted mb-6 uppercase tracking-wider">Please add items to your bag before proceeding to checkout.</p>
         <Link href="/shop" className="bg-royal hover:bg-royal-dark text-white px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-colors rounded-md shadow-sm">
           Browse Drops
         </Link>
@@ -203,46 +203,46 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-[#0A1128] text-white">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white text-charcoal">
       {/* Stepper */}
-      <div className="border-b border-white/10 pb-8 mb-10 text-white">
+      <div className="border-b border-border pb-8 mb-10 text-charcoal">
         <div className="flex justify-between items-center max-w-xl mx-auto">
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 1 ? 'text-white' : 'text-slate-500'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 1 ? 'bg-royal text-white shadow-sm' : 'bg-[#101D3F] border border-white/10 text-slate-500'}`}>1</span>
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 1 ? 'text-charcoal' : 'text-slate-400'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 1 ? 'bg-royal text-white shadow-sm' : 'bg-surface-tint border border-border text-muted'}`}>1</span>
             <span>Contact</span>
           </div>
-          <div className="w-12 h-[1px] bg-white/10" />
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 2 ? 'text-white' : 'text-slate-500'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 2 ? 'bg-royal text-white shadow-sm' : 'bg-[#101D3F] border border-white/10 text-slate-500'}`}>2</span>
+          <div className="w-12 h-[1px] bg-border" />
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 2 ? 'text-charcoal' : 'text-slate-400'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 2 ? 'bg-royal text-white shadow-sm' : 'bg-surface-tint border border-border text-muted'}`}>2</span>
             <span>Shipping</span>
           </div>
-          <div className="w-12 h-[1px] bg-white/10" />
-          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 3 ? 'text-white' : 'text-slate-500'}`}>
-            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 3 ? 'bg-royal text-white shadow-sm' : 'bg-[#101D3F] border border-white/10 text-slate-500'}`}>3</span>
+          <div className="w-12 h-[1px] bg-border" />
+          <div className={`flex items-center space-x-2 font-mono text-xs uppercase tracking-widest font-bold ${step >= 3 ? 'text-charcoal' : 'text-slate-400'}`}>
+            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] ${step >= 3 ? 'bg-royal text-white shadow-sm' : 'bg-surface-tint border border-border text-muted'}`}>3</span>
             <span>Payment</span>
           </div>
         </div>
       </div>
 
       {errorMsg && (
-        <div className="bg-rose-900/30 border border-rose-500/50 p-4 mb-8 font-mono text-xs text-rose-300 flex items-center rounded-xl font-bold">
+        <div className="bg-rose-50 border border-rose-200 p-4 mb-8 font-mono text-xs text-rose-700 flex items-center rounded-xl font-bold">
           <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 text-white">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 text-charcoal">
         {/* Step Forms (7 cols) */}
-        <div className="lg:col-span-7 bg-[#101D3F] border border-white/10 p-6 sm:p-8 space-y-8 rounded-2xl shadow-subtle text-white">
+        <div className="lg:col-span-7 bg-white border border-border p-6 sm:p-8 space-y-8 rounded-2xl shadow-subtle text-charcoal">
           {/* STEP 1: Customer Contact */}
           {step === 1 && (
-            <div className="space-y-6 text-white">
-              <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-white border-b border-white/10 pb-3">
+            <div className="space-y-6 text-charcoal">
+              <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-charcoal border-b border-border pb-3">
                 1. Customer Details
               </h2>
-              <div className="space-y-4 text-white">
+              <div className="space-y-4 text-charcoal">
                 <div>
-                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Full Name</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">Full Name</label>
                   <input
                     type="text"
                     name="customerName"
@@ -250,11 +250,11 @@ export default function CheckoutPage() {
                     value={formData.customerName}
                     onChange={handleInputChange}
                     placeholder="e.g. Aarya Sharma"
-                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+                    className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Email Address</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">Email Address</label>
                   <input
                     type="email"
                     name="customerEmail"
@@ -262,11 +262,11 @@ export default function CheckoutPage() {
                     value={formData.customerEmail}
                     onChange={handleInputChange}
                     placeholder="e.g. aarya@example.com"
-                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+                    className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Phone Number</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">Phone Number</label>
                   <input
                     type="tel"
                     name="customerPhone"
@@ -274,7 +274,7 @@ export default function CheckoutPage() {
                     value={formData.customerPhone}
                     onChange={handleInputChange}
                     placeholder="+91 98765 43210"
-                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+                    className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
                   />
                 </div>
               </div>
@@ -298,19 +298,19 @@ export default function CheckoutPage() {
 
           {/* STEP 2: Shipping Address */}
           {step === 2 && (
-            <div className="space-y-6 text-white">
-              <div className="flex justify-between items-center border-b border-white/10 pb-3">
-                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-white">
+            <div className="space-y-6 text-charcoal">
+              <div className="flex justify-between items-center border-b border-border pb-3">
+                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-charcoal">
                   2. Shipping Address
                 </h2>
-                <button onClick={() => setStep(1)} className="font-mono text-xs uppercase text-royal-light hover:underline font-bold">
+                <button onClick={() => setStep(1)} className="font-mono text-xs uppercase text-royal hover:underline font-bold">
                   Edit Contact
                 </button>
               </div>
 
-              <div className="space-y-4 text-white">
+              <div className="space-y-4 text-charcoal">
                 <div>
-                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Recipient Name</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">Recipient Name</label>
                   <input
                     type="text"
                     name="fullName"
@@ -318,11 +318,11 @@ export default function CheckoutPage() {
                     value={formData.fullName}
                     onChange={handleInputChange}
                     placeholder="e.g. Aarya Sharma"
-                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+                    className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Street Address</label>
+                  <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">Street Address</label>
                   <input
                     type="text"
                     name="street"
@@ -330,12 +330,12 @@ export default function CheckoutPage() {
                     value={formData.street}
                     onChange={handleInputChange}
                     placeholder="45 Indiranagar, 12th Main Road"
-                    className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+                    className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">City</label>
+                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">City</label>
                     <input
                       type="text"
                       name="city"
@@ -343,11 +343,11 @@ export default function CheckoutPage() {
                       value={formData.city}
                       onChange={handleInputChange}
                       placeholder="Bengaluru"
-                      className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+                      className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
                     />
                   </div>
                   <div>
-                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">State</label>
+                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">State</label>
                     <input
                       type="text"
                       name="state"
@@ -355,13 +355,13 @@ export default function CheckoutPage() {
                       value={formData.state}
                       onChange={handleInputChange}
                       placeholder="Karnataka"
-                      className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+                      className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
                     />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Pincode</label>
+                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">Pincode</label>
                     <input
                       type="text"
                       name="postalCode"
@@ -369,17 +369,17 @@ export default function CheckoutPage() {
                       value={formData.postalCode}
                       onChange={handleInputChange}
                       placeholder="560038"
-                      className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+                      className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
                     />
                   </div>
                   <div>
-                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">Country</label>
+                    <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">Country</label>
                     <input
                       type="text"
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                      className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none text-white rounded-md"
+                      className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none text-charcoal rounded-md"
                     />
                   </div>
                 </div>
@@ -404,19 +404,19 @@ export default function CheckoutPage() {
 
           {/* STEP 3: Payment Choice */}
           {step === 3 && (
-            <div className="space-y-6 text-white">
-              <div className="flex justify-between items-center border-b border-white/10 pb-3">
-                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-white">
+            <div className="space-y-6 text-charcoal">
+              <div className="flex justify-between items-center border-b border-border pb-3">
+                <h2 className="font-serif text-xl font-normal uppercase tracking-wider text-charcoal">
                   3. Select Payment Method
                 </h2>
-                <button onClick={() => setStep(2)} className="font-mono text-xs uppercase text-royal-light hover:underline font-bold">
+                <button onClick={() => setStep(2)} className="font-mono text-xs uppercase text-royal hover:underline font-bold">
                   Edit Address
                 </button>
               </div>
 
               <div className="space-y-4">
                 {/* Razorpay Option */}
-                <label className={`block border p-4 cursor-pointer transition-all rounded-xl ${formData.paymentMethod === 'RAZORPAY' ? 'border-royal bg-royal/20 shadow-sm' : 'border-white/10 bg-[#0A1128]'}`}>
+                <label className={`block border p-4 cursor-pointer transition-all rounded-xl ${formData.paymentMethod === 'RAZORPAY' ? 'border-royal bg-royal-subtle shadow-sm' : 'border-border bg-white'}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <input
@@ -427,17 +427,17 @@ export default function CheckoutPage() {
                         onChange={handleInputChange}
                         className="text-royal focus:ring-royal"
                       />
-                      <CreditCard className="w-5 h-5 text-royal-light" />
+                      <CreditCard className="w-5 h-5 text-royal" />
                       <div>
-                        <p className="font-mono font-bold text-xs uppercase tracking-wider text-white">Razorpay Online Payment</p>
-                        <p className="font-mono text-[10px] text-slate-400">Credit / Debit Cards, UPI, NetBanking, Wallets</p>
+                        <p className="font-mono font-bold text-xs uppercase tracking-wider text-charcoal">Razorpay Online Payment</p>
+                        <p className="font-mono text-[10px] text-muted">Credit / Debit Cards, UPI, NetBanking, Wallets</p>
                       </div>
                     </div>
                   </div>
                 </label>
 
                 {/* Cash on Delivery Option */}
-                <label className={`block border p-4 cursor-pointer transition-all rounded-xl ${formData.paymentMethod === 'COD' ? 'border-royal bg-royal/20 shadow-sm' : 'border-white/10 bg-[#0A1128]'}`}>
+                <label className={`block border p-4 cursor-pointer transition-all rounded-xl ${formData.paymentMethod === 'COD' ? 'border-royal bg-royal-subtle shadow-sm' : 'border-border bg-white'}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <input
@@ -448,10 +448,10 @@ export default function CheckoutPage() {
                         onChange={handleInputChange}
                         className="text-royal focus:ring-royal"
                       />
-                      <Truck className="w-5 h-5 text-royal-light" />
+                      <Truck className="w-5 h-5 text-royal" />
                       <div>
-                        <p className="font-mono font-bold text-xs uppercase tracking-wider text-white">Cash on Delivery (COD)</p>
-                        <p className="font-mono text-[10px] text-slate-400">Pay upon doorstep delivery</p>
+                        <p className="font-mono font-bold text-xs uppercase tracking-wider text-charcoal">Cash on Delivery (COD)</p>
+                        <p className="font-mono text-[10px] text-muted">Pay upon doorstep delivery</p>
                       </div>
                     </div>
                   </div>
@@ -471,30 +471,30 @@ export default function CheckoutPage() {
         </div>
 
         {/* Order Summary Preview (5 cols) */}
-        <div className="lg:col-span-5 bg-[#101D3F] border border-white/10 p-6 sm:p-8 space-y-6 h-fit rounded-2xl shadow-subtle text-white">
-          <h2 className="font-serif text-lg font-normal uppercase tracking-wider text-white border-b border-white/10 pb-4">
+        <div className="lg:col-span-5 bg-white border border-border p-6 sm:p-8 space-y-6 h-fit rounded-2xl shadow-subtle text-charcoal">
+          <h2 className="font-serif text-lg font-normal uppercase tracking-wider text-charcoal border-b border-border pb-4">
             Reservation Summary ({items.length} items)
           </h2>
 
-          <div className="space-y-4 max-h-72 overflow-y-auto divide-y divide-white/10 pr-2 text-white">
+          <div className="space-y-4 max-h-72 overflow-y-auto divide-y divide-border pr-2 text-charcoal">
             {items.map((item) => (
-              <div key={`${item.productId}-${item.size}-${item.color}`} className="pt-3 first:pt-0 flex items-center justify-between text-xs text-white">
+              <div key={`${item.productId}-${item.size}-${item.color}`} className="pt-3 first:pt-0 flex items-center justify-between text-xs text-charcoal">
                 <div className="flex items-center space-x-3">
-                  <img src={item.productImage} alt={item.productName} className="w-12 h-14 object-cover bg-slate-900 border border-white/10 rounded-md" />
+                  <img src={item.productImage} alt={item.productName} className="w-12 h-14 object-cover bg-slate-100 border border-border rounded-md" />
                   <div>
-                    <h4 className="font-serif text-white line-clamp-1">{item.productName}</h4>
-                    <p className="font-mono text-[10px] text-slate-400">Size: {item.size} | Color: {item.color} | x{item.quantity}</p>
+                    <h4 className="font-serif text-charcoal line-clamp-1">{item.productName}</h4>
+                    <p className="font-mono text-[10px] text-muted">Size: {item.size} | Color: {item.color} | x{item.quantity}</p>
                   </div>
                 </div>
-                <span className="font-mono font-bold text-white">{formatPrice(item.price * item.quantity)}</span>
+                <span className="font-mono font-bold text-royal">{formatPrice(item.price * item.quantity)}</span>
               </div>
             ))}
           </div>
 
-          <div className="border-t border-white/10 pt-4 space-y-2 font-mono text-xs text-slate-300">
+          <div className="border-t border-border pt-4 space-y-2 font-mono text-xs text-charcoal">
             <div className="flex justify-between">
-              <span>Subtotal</span>
-              <span className="text-white font-bold">{formatPrice(subtotal)}</span>
+              <span className="text-muted">Subtotal</span>
+              <span className="text-charcoal font-bold">{formatPrice(subtotal)}</span>
             </div>
             {couponDiscount > 0 && (
               <div className="flex justify-between text-pink font-bold">
@@ -503,16 +503,16 @@ export default function CheckoutPage() {
               </div>
             )}
             <div className="flex justify-between">
-              <span>White-Glove Courier</span>
-              <span className="text-white font-bold">{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
+              <span className="text-muted">White-Glove Courier</span>
+              <span className="text-charcoal font-bold">{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
             </div>
             <div className="flex justify-between">
-              <span>Estimated GST (12%)</span>
-              <span className="text-white font-bold">{formatPrice(tax)}</span>
+              <span className="text-muted">Estimated GST (12%)</span>
+              <span className="text-charcoal font-bold">{formatPrice(tax)}</span>
             </div>
-            <div className="flex justify-between text-base font-bold text-white border-t border-white/10 pt-3">
+            <div className="flex justify-between text-base font-bold text-charcoal border-t border-border pt-3">
               <span>Total Investment</span>
-              <span className="text-white font-mono text-lg font-bold">{formatPrice(total)}</span>
+              <span className="text-royal font-mono text-lg font-bold">{formatPrice(total)}</span>
             </div>
           </div>
         </div>

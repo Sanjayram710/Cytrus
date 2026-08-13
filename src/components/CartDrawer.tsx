@@ -74,7 +74,7 @@ export default function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeCart}
-            className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 transition-opacity"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 transition-opacity"
           />
 
           {/* Drawer Panel */}
@@ -83,20 +83,20 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-[460px] bg-[#0A1128] border-l border-white/10 z-50 flex flex-col justify-between shadow-2xl text-white"
+            className="fixed top-0 right-0 bottom-0 w-full max-w-[460px] bg-white border-l border-border z-50 flex flex-col justify-between shadow-2xl text-charcoal"
           >
             {/* Header */}
-            <div className="p-6 border-b border-white/10 bg-[#060B1A] text-white">
+            <div className="p-6 border-b border-border bg-surface-tint text-charcoal">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center space-x-2">
-                  <ShoppingBag className="w-5 h-5 text-royal-light" />
-                  <h2 className="font-serif text-lg font-normal tracking-tight text-white">
+                  <ShoppingBag className="w-5 h-5 text-royal" />
+                  <h2 className="font-serif text-lg font-normal tracking-tight text-charcoal">
                     Client Shopping Bag ({items.reduce((acc, i) => acc + i.quantity, 0)})
                   </h2>
                 </div>
                 <button
                   onClick={closeCart}
-                  className="p-1.5 text-slate-400 hover:text-white transition-colors rounded-md"
+                  className="p-1.5 text-muted hover:text-charcoal transition-colors rounded-md"
                   aria-label="Close bag"
                 >
                   <X className="w-5 h-5" />
@@ -104,18 +104,18 @@ export default function CartDrawer() {
               </div>
 
               {/* Free Delivery Milestone Indicator */}
-              <div className="space-y-1.5 text-white">
-                <div className="flex justify-between text-[10px] font-mono uppercase tracking-wider text-slate-400">
+              <div className="space-y-1.5 text-charcoal">
+                <div className="flex justify-between text-[10px] font-mono uppercase tracking-wider text-muted">
                   <span>
                     {subtotal >= threshold ? (
-                      <strong className="text-emerald-400 font-bold">✓ Complimentary Express Courier Unlocked</strong>
+                      <strong className="text-emerald-600 font-bold">✓ Complimentary Express Courier Unlocked</strong>
                     ) : (
                       <>Add {formatPrice(threshold - subtotal)} for Free White-Glove Delivery</>
                     )}
                   </span>
-                  <span className="font-bold text-white">{progress}%</span>
+                  <span className="font-bold text-charcoal">{progress}%</span>
                 </div>
-                <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-royal transition-all duration-500 rounded-full"
                     style={{ width: `${progress}%` }}
@@ -125,14 +125,14 @@ export default function CartDrawer() {
             </div>
 
             {/* Bag Item List */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 divide-y divide-white/10 text-white">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 divide-y divide-border text-charcoal">
               {items.length === 0 ? (
-                <div className="text-center py-16 space-y-4 text-white">
-                  <div className="w-16 h-16 rounded-full bg-[#101D3F] flex items-center justify-center mx-auto text-slate-400 border border-white/10">
-                    <ShoppingBag className="w-8 h-8 text-royal-light" />
+                <div className="text-center py-16 space-y-4 text-charcoal">
+                  <div className="w-16 h-16 rounded-full bg-surface-tint flex items-center justify-center mx-auto text-muted border border-border">
+                    <ShoppingBag className="w-8 h-8 text-royal" />
                   </div>
-                  <p className="font-serif text-xl font-normal text-white">Your Bag is Empty</p>
-                  <p className="font-mono text-xs text-slate-400 max-w-xs mx-auto">
+                  <p className="font-serif text-xl font-normal text-charcoal">Your Bag is Empty</p>
+                  <p className="font-mono text-xs text-muted max-w-xs mx-auto">
                     Explore our numbered collaboration drops before units are permanently archived.
                   </p>
                   <button
@@ -144,54 +144,54 @@ export default function CartDrawer() {
                 </div>
               ) : (
                 items.map((item) => (
-                  <div key={`${item.productId}-${item.size}-${item.color}`} className="pt-5 first:pt-0 flex space-x-4 text-white">
+                  <div key={`${item.productId}-${item.size}-${item.color}`} className="pt-5 first:pt-0 flex space-x-4 text-charcoal">
                     {/* Thumbnail */}
                     <img
                       src={item.productImage}
                       alt={item.productName}
-                      className="w-20 h-24 object-cover object-center bg-slate-900 border border-white/10 flex-shrink-0 rounded-xl"
+                      className="w-20 h-24 object-cover object-center bg-slate-100 border border-border flex-shrink-0 rounded-xl"
                     />
 
-                    {/* Meta in White Typography */}
-                    <div className="flex-1 flex flex-col justify-between text-white">
+                    {/* Meta in Black Typography */}
+                    <div className="flex-1 flex flex-col justify-between text-charcoal">
                       <div>
                         <div className="flex justify-between items-start">
-                          <h3 className="font-serif text-xs font-normal text-white line-clamp-1 pr-2">
+                          <h3 className="font-serif text-xs font-normal text-charcoal line-clamp-1 pr-2">
                             {item.productName}
                           </h3>
                           <button
                             onClick={() => removeItem(item.productId, item.size, item.color)}
-                            className="text-slate-400 hover:text-pink transition-colors p-1"
+                            className="text-muted hover:text-pink transition-colors p-1"
                             title="Remove item"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
 
-                        <p className="font-mono text-[10px] uppercase tracking-wider text-slate-400 mt-0.5">
-                          Size: <span className="text-white font-bold">{item.size}</span> · Color: {item.color}
+                        <p className="font-mono text-[10px] uppercase tracking-wider text-muted mt-0.5">
+                          Size: <span className="text-charcoal font-bold">{item.size}</span> · Color: {item.color}
                         </p>
                       </div>
 
                       {/* Quantity Selector & Price */}
-                      <div className="flex items-center justify-between mt-3 text-white">
-                        <div className="flex items-center border border-white/15 bg-[#101D3F] rounded-md">
+                      <div className="flex items-center justify-between mt-3 text-charcoal">
+                        <div className="flex items-center border border-border bg-surface-tint rounded-md">
                           <button
                             onClick={() => updateQuantity(item.productId, item.size, item.color, item.quantity - 1)}
-                            className="p-1.5 text-slate-400 hover:text-white"
+                            className="p-1.5 text-muted hover:text-charcoal"
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="font-mono text-xs px-2.5 font-bold text-white">{item.quantity}</span>
+                          <span className="font-mono text-xs px-2.5 font-bold text-charcoal">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.productId, item.size, item.color, item.quantity + 1)}
-                            className="p-1.5 text-slate-400 hover:text-white"
+                            className="p-1.5 text-muted hover:text-charcoal"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
                         </div>
 
-                        <span className="font-mono text-xs font-bold text-white">
+                        <span className="font-mono text-xs font-bold text-royal">
                           {formatPrice(item.price * item.quantity)}
                         </span>
                       </div>
@@ -203,14 +203,14 @@ export default function CartDrawer() {
 
             {/* Footer Summary & Checkout */}
             {items.length > 0 && (
-              <div className="p-6 bg-[#060B1A] border-t border-white/10 space-y-4 text-white">
+              <div className="p-6 bg-surface-tint border-t border-border space-y-4 text-charcoal">
                 {/* VIP Promo Code */}
                 {couponCode ? (
-                  <div className="flex items-center justify-between bg-royal/20 border border-royal/40 p-2.5 text-xs font-mono rounded-md text-royal-light">
+                  <div className="flex items-center justify-between bg-royal-light border border-royal/30 p-2.5 text-xs font-mono rounded-md text-royal">
                     <span className="font-bold">VIP CODE: {couponCode} (-{formatPrice(couponDiscount)})</span>
                     <button
                       onClick={removeCoupon}
-                      className="text-slate-400 hover:text-white text-[10px] uppercase font-bold"
+                      className="text-muted hover:text-charcoal text-[10px] uppercase font-bold"
                     >
                       Remove
                     </button>
@@ -222,7 +222,7 @@ export default function CartDrawer() {
                       placeholder="VIP INVITATION CODE"
                       value={couponInput}
                       onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                      className="flex-1 bg-[#101D3F] border border-white/15 px-3 py-2 text-xs font-mono uppercase text-white focus:outline-none focus:border-royal placeholder:text-slate-500 rounded-md"
+                      className="flex-1 bg-white border border-border px-3 py-2 text-xs font-mono uppercase text-charcoal focus:outline-none focus:border-royal placeholder:text-muted rounded-md"
                     />
                     <button
                       type="submit"
@@ -237,10 +237,10 @@ export default function CartDrawer() {
                 {couponMsg && <p className="font-mono text-[10px] text-pink font-bold">{couponMsg}</p>}
 
                 {/* Subtotal Calculation */}
-                <div className="space-y-1.5 font-mono text-xs text-slate-300 border-t border-white/10 pt-3">
+                <div className="space-y-1.5 font-mono text-xs text-charcoal border-t border-border pt-3">
                   <div className="flex justify-between">
-                    <span>Subtotal</span>
-                    <span className="text-white font-bold">{formatPrice(subtotal)}</span>
+                    <span className="text-muted">Subtotal</span>
+                    <span className="text-charcoal font-bold">{formatPrice(subtotal)}</span>
                   </div>
                   {couponDiscount > 0 && (
                     <div className="flex justify-between text-pink font-bold">
@@ -248,9 +248,9 @@ export default function CartDrawer() {
                       <span>-{formatPrice(couponDiscount)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-white font-bold text-sm pt-2 border-t border-white/10">
+                  <div className="flex justify-between text-charcoal font-bold text-sm pt-2 border-t border-border">
                     <span>Estimated Total</span>
-                    <span className="font-mono text-white font-bold text-base">
+                    <span className="font-mono text-royal font-bold text-base">
                       {formatPrice(Math.max(0, subtotal - couponDiscount))}
                     </span>
                   </div>
@@ -265,8 +265,8 @@ export default function CartDrawer() {
                   <ArrowRight className="w-4 h-4 text-white" />
                 </button>
 
-                <div className="flex items-center justify-center space-x-2 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                  <ShieldCheck className="w-3.5 h-3.5 text-royal-light" />
+                <div className="flex items-center justify-center space-x-2 text-[10px] font-mono text-muted uppercase tracking-wider">
+                  <ShieldCheck className="w-3.5 h-3.5 text-royal" />
                   <span>Insured Packaging · Secured Checkout</span>
                 </div>
               </div>

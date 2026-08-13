@@ -54,24 +54,24 @@ export default function CartPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-[#0A1128] text-white">
-      <div className="border-b border-white/10 pb-6 mb-10 text-white">
-        <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal-light flex items-center space-x-2">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white text-charcoal">
+      <div className="border-b border-border pb-6 mb-10 text-charcoal">
+        <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal flex items-center space-x-2">
           <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
           <span>YOUR CURATED SELECTIONS</span>
         </span>
-        <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-white mt-1">
+        <h1 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-charcoal mt-1">
           Client Shopping Bag ({items.reduce((acc, i) => acc + i.quantity, 0)})
         </h1>
       </div>
 
       {items.length === 0 ? (
-        <div className="text-center py-20 bg-[#101D3F] border border-white/10 p-8 max-w-lg mx-auto rounded-2xl shadow-subtle text-white">
-          <div className="w-16 h-16 rounded-full bg-[#0A1128] flex items-center justify-center mx-auto mb-4 border border-white/10">
-            <ShoppingBag className="w-8 h-8 text-royal-light" />
+        <div className="text-center py-20 bg-white border border-border p-8 max-w-lg mx-auto rounded-2xl shadow-subtle text-charcoal">
+          <div className="w-16 h-16 rounded-full bg-surface-tint flex items-center justify-center mx-auto mb-4 border border-border">
+            <ShoppingBag className="w-8 h-8 text-royal" />
           </div>
-          <h2 className="font-serif text-2xl font-normal text-white mb-2">Your Bag is Empty</h2>
-          <p className="font-mono text-xs text-slate-400 mb-6 uppercase tracking-wider">Explore our latest exclusive celebrity collaborations.</p>
+          <h2 className="font-serif text-2xl font-normal text-charcoal mb-2">Your Bag is Empty</h2>
+          <p className="font-mono text-xs text-muted mb-6 uppercase tracking-wider">Explore our latest exclusive celebrity collaborations.</p>
           <Link
             href="/shop"
             className="inline-block bg-royal hover:bg-royal-dark text-white px-8 py-4 font-mono text-xs font-bold uppercase tracking-widest transition-colors rounded-md shadow-luxury"
@@ -80,29 +80,29 @@ export default function CartPage() {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 text-white">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 text-charcoal">
           {/* Cart Items Table (8 cols) */}
-          <div className="lg:col-span-8 space-y-6 text-white">
-            <div className="hidden sm:grid grid-cols-12 font-mono text-xs font-bold uppercase tracking-wider text-slate-400 pb-3 border-b border-white/10">
-              <div className="col-span-6 text-white">Drop Edition</div>
-              <div className="col-span-2 text-center text-white">Specifications</div>
-              <div className="col-span-2 text-center text-white">Quantity</div>
-              <div className="col-span-2 text-right text-white">Investment</div>
+          <div className="lg:col-span-8 space-y-6 text-charcoal">
+            <div className="hidden sm:grid grid-cols-12 font-mono text-xs font-bold uppercase tracking-wider text-muted pb-3 border-b border-border">
+              <div className="col-span-6 text-charcoal">Drop Edition</div>
+              <div className="col-span-2 text-center text-charcoal">Specifications</div>
+              <div className="col-span-2 text-center text-charcoal">Quantity</div>
+              <div className="col-span-2 text-right text-charcoal">Investment</div>
             </div>
 
             {items.map((item) => (
               <div
                 key={`${item.productId}-${item.size}-${item.color}`}
-                className="flex flex-col sm:grid sm:grid-cols-12 items-center gap-4 border-b border-white/10 pb-6 text-white"
+                className="flex flex-col sm:grid sm:grid-cols-12 items-center gap-4 border-b border-border pb-6 text-charcoal"
               >
                 <div className="sm:col-span-6 flex space-x-4 w-full">
-                  <img src={item.productImage} alt={item.productName} className="w-20 h-24 object-cover bg-slate-900 border border-white/10 rounded-xl" />
+                  <img src={item.productImage} alt={item.productName} className="w-20 h-24 object-cover bg-slate-100 border border-border rounded-xl" />
                   <div>
-                    <h3 className="font-serif text-sm font-normal text-white">{item.productName}</h3>
-                    <p className="font-mono text-xs font-bold text-white mt-1">{formatPrice(item.price)}</p>
+                    <h3 className="font-serif text-sm font-normal text-charcoal">{item.productName}</h3>
+                    <p className="font-mono text-xs font-bold text-royal mt-1">{formatPrice(item.price)}</p>
                     <button
                       onClick={() => removeItem(item.productId, item.size, item.color)}
-                      className="text-slate-400 hover:text-pink font-mono text-[10px] uppercase tracking-wider flex items-center space-x-1 mt-2 font-bold transition-colors"
+                      className="text-muted hover:text-pink font-mono text-[10px] uppercase tracking-wider flex items-center space-x-1 mt-2 font-bold transition-colors"
                     >
                       <Trash2 className="w-3 h-3" />
                       <span>Remove</span>
@@ -110,29 +110,29 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                <div className="sm:col-span-2 font-mono text-xs text-center text-slate-300">
-                  <span className="font-bold text-white">{item.size}</span> / {item.color}
+                <div className="sm:col-span-2 font-mono text-xs text-center text-charcoal">
+                  <span className="font-bold text-charcoal">{item.size}</span> / {item.color}
                 </div>
 
                 <div className="sm:col-span-2 flex justify-center">
-                  <div className="flex items-center border border-white/15 bg-[#101D3F] rounded-md">
+                  <div className="flex items-center border border-border bg-surface-tint rounded-md">
                     <button
                       onClick={() => updateQuantity(item.productId, item.size, item.color, item.quantity - 1)}
-                      className="p-2 text-slate-400 hover:text-white"
+                      className="p-2 text-muted hover:text-charcoal"
                     >
                       <Minus className="w-3 h-3" />
                     </button>
-                    <span className="font-mono text-xs font-bold px-2 text-white">{item.quantity}</span>
+                    <span className="font-mono text-xs font-bold px-2 text-charcoal">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.productId, item.size, item.color, item.quantity + 1)}
-                      className="p-2 text-slate-400 hover:text-white"
+                      className="p-2 text-muted hover:text-charcoal"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
                   </div>
                 </div>
 
-                <div className="sm:col-span-2 font-mono text-sm font-bold text-right text-white">
+                <div className="sm:col-span-2 font-mono text-sm font-bold text-right text-royal">
                   {formatPrice(item.price * item.quantity)}
                 </div>
               </div>
@@ -140,17 +140,17 @@ export default function CartPage() {
           </div>
 
           {/* Order Summary Column (4 cols) */}
-          <div className="lg:col-span-4 bg-[#101D3F] border border-white/10 p-8 rounded-2xl shadow-subtle space-y-6 h-fit text-white">
-            <h2 className="font-serif text-xl font-normal text-white uppercase tracking-wider border-b border-white/10 pb-4">
+          <div className="lg:col-span-4 bg-white border border-border p-8 rounded-2xl shadow-subtle space-y-6 h-fit text-charcoal">
+            <h2 className="font-serif text-xl font-normal text-charcoal uppercase tracking-wider border-b border-border pb-4">
               Order Investment
             </h2>
 
             {/* Promo Code */}
             <div>
               {couponCode ? (
-                <div className="flex items-center justify-between bg-royal/20 border border-royal/40 p-3 rounded-md text-xs font-mono text-royal-light">
+                <div className="flex items-center justify-between bg-royal-light border border-royal/30 p-3 rounded-md text-xs font-mono text-royal">
                   <span className="font-bold">VIP CODE: {couponCode}</span>
-                  <button onClick={removeCoupon} className="text-slate-400 hover:text-white font-bold uppercase text-[10px]">
+                  <button onClick={removeCoupon} className="text-muted hover:text-charcoal font-bold uppercase text-[10px]">
                     Remove
                   </button>
                 </div>
@@ -161,7 +161,7 @@ export default function CartPage() {
                     placeholder="ENTER VIP PROMO CODE"
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                    className="flex-1 bg-[#0A1128] border border-white/15 px-3 py-2 text-xs font-mono text-white placeholder:text-slate-500 focus:outline-none focus:border-royal uppercase rounded-md"
+                    className="flex-1 bg-surface-tint border border-border px-3 py-2 text-xs font-mono text-charcoal placeholder:text-muted focus:outline-none focus:border-royal uppercase rounded-md"
                   />
                   <button
                     onClick={handleApplyCoupon}
@@ -175,10 +175,10 @@ export default function CartPage() {
               {couponMsg && <p className="text-pink font-mono text-[10px] mt-1 font-bold">{couponMsg}</p>}
             </div>
 
-            <div className="space-y-3 font-mono text-xs text-slate-300 border-t border-white/10 pt-4">
+            <div className="space-y-3 font-mono text-xs text-charcoal border-t border-border pt-4">
               <div className="flex justify-between">
-                <span>Subtotal</span>
-                <span className="text-white font-bold">{formatPrice(subtotal)}</span>
+                <span className="text-muted">Subtotal</span>
+                <span className="text-charcoal font-bold">{formatPrice(subtotal)}</span>
               </div>
               {couponDiscount > 0 && (
                 <div className="flex justify-between text-pink font-bold">
@@ -187,16 +187,16 @@ export default function CartPage() {
                 </div>
               )}
               <div className="flex justify-between">
-                <span>White-Glove Delivery</span>
-                <span className="text-white font-bold">{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
+                <span className="text-muted">White-Glove Delivery</span>
+                <span className="text-charcoal font-bold">{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
               </div>
               <div className="flex justify-between">
-                <span>Estimated GST (12%)</span>
-                <span className="text-white font-bold">{formatPrice(tax)}</span>
+                <span className="text-muted">Estimated GST (12%)</span>
+                <span className="text-charcoal font-bold">{formatPrice(tax)}</span>
               </div>
-              <div className="flex justify-between text-base font-bold text-white border-t border-white/10 pt-3">
+              <div className="flex justify-between text-base font-bold text-charcoal border-t border-border pt-3">
                 <span>Total Investment</span>
-                <span className="text-white font-mono text-lg font-bold">{formatPrice(total)}</span>
+                <span className="text-royal font-mono text-lg font-bold">{formatPrice(total)}</span>
               </div>
             </div>
 

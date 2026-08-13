@@ -12,14 +12,14 @@
   }
 
   body {
-    background-color: #0A1128;
-    color: #FFFFFF;
+    background-color: #FFFFFF;
+    color: #0F172A;
     font-family: var(--font-jakarta);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Text color defaults on dark blue */
+  /* Force all headings and text elements to black/charcoal */
   h1, h2, h3, h4, h5, h6, p, span, a, label, li, dt, dd, th, td, div {
     color: inherit;
   }
@@ -39,16 +39,16 @@
   }
 }
 
-/* CELEBRITEE Deep Blue Frosted Glass Header */
+/* CELEBRITEE Clean Frosted Glass Header */
 .luxury-nav {
-  background: rgba(10, 17, 40, 0.95);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #E2E8F0;
 }
 
 .luxury-nav-dark {
-  background: rgba(6, 11, 26, 0.96);
+  background: rgba(15, 23, 42, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -56,9 +56,9 @@
 /* Signature Drop Badge */
 .drop-tag {
   position: relative;
-  background-color: rgba(30, 90, 230, 0.12);
-  border: 1px solid rgba(30, 90, 230, 0.35);
-  color: #FFFFFF;
+  background-color: rgba(30, 90, 230, 0.08);
+  border: 1px solid rgba(30, 90, 230, 0.25);
+  color: #0F172A;
   clip-path: polygon(8px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 8px);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
@@ -80,14 +80,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A1128;
+  background: #FFFFFF;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E5AE6;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF4D97;
+  background: #1E5AE6;
 }
 
 .no-scrollbar::-webkit-scrollbar {

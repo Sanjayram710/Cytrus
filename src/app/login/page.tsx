@@ -43,32 +43,32 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-20 bg-[#0A1128] text-white">
-      <div className="bg-[#101D3F] border border-white/10 p-8 text-center rounded-2xl shadow-subtle text-white">
+    <div className="max-w-md mx-auto px-4 py-20 bg-white text-charcoal">
+      <div className="bg-white border border-border p-8 text-center rounded-2xl shadow-subtle text-charcoal">
         <div className="mb-4 flex justify-center">
           <CelebriteeLogo variant="rectangle" size="sm" />
         </div>
 
-        <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal-light flex items-center justify-center space-x-2">
+        <span className="font-mono text-xs uppercase font-bold tracking-[0.25em] text-royal flex items-center justify-center space-x-2">
           <span className="w-1.5 h-1.5 rounded-full bg-royal inline-block" />
           <span>VIP CLIENT ACCESS</span>
         </span>
-        <h1 className="font-serif text-3xl font-normal text-white mt-1 mb-2">
+        <h1 className="font-serif text-3xl font-normal text-charcoal mt-1 mb-2">
           Sign In to CELEBRITEE
         </h1>
-        <p className="font-mono text-xs text-slate-400 uppercase tracking-widest mb-8">
+        <p className="font-mono text-xs text-muted uppercase tracking-widest mb-8">
           Access your saved drop vault, order tracking, and fit profile.
         </p>
 
         {error && (
-          <div className="bg-rose-900/30 border border-rose-500/50 text-rose-300 font-mono text-xs p-3 font-bold mb-6 rounded-md">
+          <div className="bg-rose-50 border border-rose-200 text-rose-700 font-mono text-xs p-3 font-bold mb-6 rounded-md">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-4 text-left text-white">
+        <form onSubmit={handleLogin} className="space-y-4 text-left text-charcoal">
           <div>
-            <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">
+            <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">
               Email Address
             </label>
             <input
@@ -77,12 +77,12 @@ export default function LoginPage() {
               placeholder="e.g. client@celebritee.in"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+              className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
             />
           </div>
 
           <div>
-            <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-slate-300">
+            <label className="block font-mono text-xs uppercase font-bold tracking-wider mb-1 text-charcoal">
               Password
             </label>
             <input
@@ -91,7 +91,7 @@ export default function LoginPage() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#0A1128] border border-white/15 p-3 font-sans text-xs focus:outline-none focus:border-royal text-white placeholder:text-slate-500 rounded-md"
+              className="w-full bg-surface-tint border border-border p-3 font-sans text-xs focus:outline-none focus:border-royal text-charcoal placeholder:text-muted rounded-md"
             />
           </div>
 
@@ -104,10 +104,10 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-white/10 font-mono text-xs text-slate-400">
+        <div className="mt-8 pt-6 border-t border-border font-mono text-xs text-muted">
           <p>
             Don't have a VIP client profile?{' '}
-            <Link href="/register" className="text-royal-light font-bold hover:underline transition-colors">
+            <Link href="/register" className="text-royal font-bold hover:underline transition-colors">
               Create Profile
             </Link>
           </p>

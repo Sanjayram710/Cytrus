@@ -12,38 +12,38 @@ const config: Config = {
         royal: "#1E5AE6",
         "royal-dark": "#1342B8",
         "royal-deep": "#0A246A",
-        "royal-light": "rgba(30, 90, 230, 0.15)",
-        "royal-subtle": "rgba(30, 90, 230, 0.08)",
-        "royal-glow": "rgba(30, 90, 230, 0.35)",
+        "royal-light": "rgba(30, 90, 230, 0.12)",
+        "royal-subtle": "#EEF4FF",
+        "royal-glow": "rgba(30, 90, 230, 0.25)",
 
         pink: "#FF4D97",
         "pink-hover": "#E63380",
-        "pink-light": "rgba(255, 77, 151, 0.15)",
-        "pink-glow": "rgba(255, 77, 151, 0.35)",
+        "pink-light": "rgba(255, 77, 151, 0.12)",
+        "pink-glow": "rgba(255, 77, 151, 0.25)",
 
-        // Canvas & Surface Tokens (Rich Deep Blue Canvas matching the logo)
-        canvas: "#0A1128",
-        surface: "#101D3F",
-        "surface-tint": "#16254F",
-        "surface-dark": "#060B1A",
+        // Canvas & Surface Tokens (Pure White Backgrounds)
+        canvas: "#FFFFFF",
+        surface: "#FFFFFF",
+        "surface-tint": "#F8FAFC",
+        "surface-dark": "#F1F5F9",
         
-        // High-Contrast Crisp Typography on Deep Blue
-        charcoal: "#FFFFFF",
-        "charcoal-dark": "#F8FAFC",
-        "charcoal-light": "#E2E8F0",
-        white: "#FFFFFF",
+        // High-Contrast Black Typography
+        charcoal: "#0F172A",
+        "charcoal-dark": "#000000",
+        "charcoal-light": "#334155",
+        black: "#000000",
 
-        muted: "#94A3B8",
-        "muted-light": "#CBD5E1",
-        border: "rgba(255, 255, 255, 0.12)",
-        "border-soft": "rgba(255, 255, 255, 0.06)",
-        "border-dark": "rgba(255, 255, 255, 0.22)",
+        muted: "#64748B",
+        "muted-light": "#94A3B8",
+        border: "#E2E8F0",
+        "border-soft": "#F1F5F9",
+        "border-dark": "#CBD5E1",
 
-        gold: "#F59E0B",
-        "gold-light": "rgba(245, 158, 11, 0.15)",
+        gold: "#D97706",
+        "gold-light": "rgba(217, 119, 6, 0.12)",
 
-        // Aliases
-        ink: "#FFFFFF",
+        // Typography Aliases
+        ink: "#0F172A",
         accent: "#1E5AE6",
       },
       fontFamily: {
@@ -53,11 +53,11 @@ const config: Config = {
       },
       boxShadow: {
         none: "none",
-        subtle: "0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2)",
-        luxury: "0 10px 25px -5px rgba(30, 90, 230, 0.35), 0 8px 10px -6px rgba(30, 90, 230, 0.2)",
-        card: "0 10px 30px -5px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3)",
+        subtle: "0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04)",
+        luxury: "0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08)",
+        card: "0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04)",
         "pink-glow": "0 10px 25px -5px rgba(255, 77, 151, 0.35)",
-        editorial: "0 20px 40px -15px rgba(0, 0, 0, 0.6)",
+        editorial: "0 20px 40px -15px rgba(0, 0, 0, 0.12)",
       },
     },
   },

@@ -69,7 +69,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   return (
     <>
       {/* 1. Top Announcement Bar - Full width */}
-      <div className="w-full bg-[#060B1A] text-white text-[10px] sm:text-[11px] font-mono tracking-[0.22em] uppercase py-2 px-3 sm:px-6 text-center border-b border-white/10 flex items-center justify-center space-x-2">
+      <div className="w-full bg-[#0F172A] text-white text-[10px] sm:text-[11px] font-mono tracking-[0.22em] uppercase py-2 px-3 sm:px-6 text-center border-b border-slate-800 flex items-center justify-center space-x-2">
         <span className="inline-block w-1.5 h-1.5 rounded-full bg-pink animate-pulse" />
         <span className="font-semibold text-white">
           LIMITED DROPS IN COLLABORATION WITH CULTURE DEFINERS
@@ -77,12 +77,12 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
         <span className="hidden md:inline text-pink font-semibold">· COMPLIMENTARY EXPRESS DELIVERY OVER ₹2,500</span>
       </div>
 
-      {/* 2. Full-Width Sticky Header - Deep Blue Frosted Luxury Canvas */}
+      {/* 2. Full-Width Sticky Header - Clean Frosted White Canvas with Black Typography */}
       <header
         className={`w-full sticky top-0 z-40 transition-all duration-300 ${
           scrolled
             ? 'luxury-nav shadow-subtle py-2 sm:py-2.5'
-            : 'bg-[#0A1128]/95 backdrop-blur-md py-2.5 sm:py-3.5 border-b border-white/10 text-white'
+            : 'bg-white/95 backdrop-blur-md py-2.5 sm:py-3.5 border-b border-border text-charcoal'
         }`}
       >
         <div className="w-full px-2 sm:px-4 lg:px-6">
@@ -93,10 +93,10 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               {/* Mobile menu trigger */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="lg:hidden p-1.5 text-white hover:text-royal transition-colors rounded-md flex-shrink-0"
+                className="lg:hidden p-1.5 text-charcoal hover:text-royal transition-colors rounded-md flex-shrink-0"
                 aria-label="Open Navigation Menu"
               >
-                <Menu className="w-5 h-5 text-white" />
+                <Menu className="w-5 h-5 text-charcoal" />
               </button>
 
               {/* CELEBRITEE.in Rectangular Badge Logo on Far Left Corner */}
@@ -108,7 +108,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                 <CelebriteeLogo variant="rectangle" size="md" className="group-hover:opacity-95" />
               </Link>
 
-              {/* Navigation Links in Pure White */}
+              {/* Navigation Links in Black Text */}
               <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
@@ -116,13 +116,13 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`text-[11px] xl:text-xs uppercase tracking-[0.2em] font-bold transition-all duration-200 relative py-1 whitespace-nowrap text-white ${
+                      className={`text-[11px] xl:text-xs uppercase tracking-[0.2em] font-bold transition-all duration-200 relative py-1 whitespace-nowrap ${
                         isActive
-                          ? 'text-white font-black'
-                          : 'text-white/80 hover:text-white'
+                          ? 'text-charcoal font-black'
+                          : 'text-charcoal/80 hover:text-royal'
                       }`}
                     >
-                      {link.name}
+                      <span className="text-charcoal font-bold">{link.name}</span>
                       {isActive && (
                         <motion.span
                           layoutId="navIndicator"
@@ -136,41 +136,41 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
             </div>
 
             {/* FAR RIGHT: Search Bar + Express Delivery + Actions */}
-            <div className="flex items-center space-x-2.5 sm:space-x-4 text-white flex-shrink-0">
+            <div className="flex items-center space-x-2.5 sm:space-x-4 text-charcoal flex-shrink-0">
               {/* Search Trigger */}
               <button
                 onClick={onOpenSearch}
-                className="group flex items-center space-x-2 border-b border-white/30 hover:border-white py-1 px-1 transition-colors text-white"
+                className="group flex items-center space-x-2 border-b border-border hover:border-charcoal py-1 px-1 transition-colors text-charcoal"
                 title="Search Products"
               >
-                <Search className="w-4 h-4 text-white group-hover:text-white transition-colors" />
-                <span className="hidden md:inline font-sans text-xs text-white/80 group-hover:text-white tracking-wide">
+                <Search className="w-4 h-4 text-charcoal group-hover:text-royal transition-colors" />
+                <span className="hidden md:inline font-sans text-xs text-charcoal/80 group-hover:text-charcoal tracking-wide font-medium">
                   Search Vault...
                 </span>
               </button>
 
               {/* Express Delivery Badge Pill */}
-              <div className="hidden 2xl:flex items-center space-x-2 bg-[#101D3F] border border-white/15 px-3 py-1.5 rounded-full font-mono text-[10px] text-white font-semibold">
-                <Truck className="w-3.5 h-3.5 text-white" />
+              <div className="hidden 2xl:flex items-center space-x-2 bg-surface-tint border border-border px-3 py-1.5 rounded-full font-mono text-[10px] text-charcoal font-semibold">
+                <Truck className="w-3.5 h-3.5 text-royal" />
                 <span>EXPRESS DISPATCH</span>
               </div>
 
               {/* Client Profile */}
               <Link
                 href={user ? '/account' : '/login'}
-                className="p-1.5 text-white hover:text-white transition-colors rounded-md"
+                className="p-1.5 text-charcoal hover:text-royal transition-colors rounded-md"
                 title={user ? `Signed in as ${user.name}` : 'Client Sign In'}
               >
-                <User className="w-4 h-4 text-white" />
+                <User className="w-4 h-4 text-charcoal" />
               </Link>
 
               {/* Saved Wishlist */}
               <Link
                 href="/wishlist"
-                className="relative p-1.5 text-white hover:text-white transition-colors hidden sm:block rounded-md"
+                className="relative p-1.5 text-charcoal hover:text-royal transition-colors hidden sm:block rounded-md"
                 title="Wishlist"
               >
-                <Heart className="w-4 h-4 text-white" />
+                <Heart className="w-4 h-4 text-charcoal" />
                 {wishlistCount > 0 && (
                   <span className="absolute top-0 right-0 bg-pink text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-mono font-bold shadow-sm">
                     {wishlistCount}
@@ -204,24 +204,24 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 lg:hidden"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 lg:hidden"
             />
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed top-0 left-0 bottom-0 w-[84%] max-w-[360px] bg-[#0A1128] border-r border-white/10 z-50 p-6 flex flex-col justify-between overflow-y-auto lg:hidden text-white shadow-2xl"
+              className="fixed top-0 left-0 bottom-0 w-[84%] max-w-[360px] bg-white border-r border-border z-50 p-6 flex flex-col justify-between overflow-y-auto lg:hidden text-charcoal shadow-2xl"
             >
               <div>
-                <div className="flex items-center justify-between pb-6 border-b border-white/10">
+                <div className="flex items-center justify-between pb-6 border-b border-border">
                   <CelebriteeLogo variant="rectangle" size="sm" />
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="p-1.5 text-white/70 hover:text-white rounded-md"
+                    className="p-1.5 text-charcoal/70 hover:text-charcoal rounded-md"
                     aria-label="Close menu"
                   >
-                    <X className="w-5 h-5 text-white" />
+                    <X className="w-5 h-5 text-charcoal" />
                   </button>
                 </div>
 
@@ -231,20 +231,20 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                       key={link.name}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-sm uppercase tracking-[0.2em] font-bold text-white hover:text-royal transition-colors py-2 flex items-center justify-between border-b border-white/10"
+                      className="block text-sm uppercase tracking-[0.2em] font-bold text-charcoal hover:text-royal transition-colors py-2 flex items-center justify-between border-b border-border"
                     >
-                      <span className="text-white">{link.name}</span>
-                      <ChevronRight className="w-4 h-4 text-white/60" />
+                      <span className="text-charcoal">{link.name}</span>
+                      <ChevronRight className="w-4 h-4 text-muted" />
                     </Link>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-white/10 space-y-4 font-mono text-xs text-white/80">
+              <div className="pt-6 border-t border-border space-y-4 font-mono text-xs text-muted">
                 <div className="flex items-center justify-center pb-2">
                   <CelebriteeLogo variant="rectangle" size="sm" />
                 </div>
-                <p className="uppercase tracking-widest text-[10px] text-center text-white/70">
+                <p className="uppercase tracking-widest text-[10px] text-center text-muted">
                   CELEBRITEE.IN · LIMITED DROP ATELIER
                 </p>
                 <Link
