@@ -85,31 +85,30 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
         <div className="w-full px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between min-h-[52px]">
             
-            {/* 1. FAR LEFT CORNER: Mobile Menu + CELEBRITEE .IN Brand Logo */}
-            <div className="flex items-center space-x-2.5 sm:space-x-3">
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden"
-                aria-label="Open navigation menu"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
+            {/* 1. LEFT SIDE: Mobile Menu + Logo + Category Nav Links */}
+            <div className="flex items-center space-x-5 sm:space-x-7 xl:space-x-9">
+              <div className="flex items-center space-x-2.5 sm:space-x-3">
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setMobileMenuOpen(true)}
+                  className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden"
+                  aria-label="Open navigation menu"
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
 
-              {/* CELEBRITEE Brand Logo at Far Left */}
-              <Link href="/" className="inline-flex items-baseline space-x-1 group flex-shrink-0">
-                <span className="font-serif text-xl sm:text-2xl md:text-[26px] tracking-[0.16em] font-medium uppercase text-ink group-hover:text-accent transition-colors">
-                  CELEBRITEE
-                </span>
-                <span className="font-mono text-[8px] sm:text-[9px] text-muted tracking-wider uppercase opacity-85">
-                  .IN
-                </span>
-              </Link>
-            </div>
+                {/* CELEBRITEE Brand Logo */}
+                <Link href="/" className="inline-flex items-baseline space-x-1 group flex-shrink-0">
+                  <span className="font-serif text-xl sm:text-2xl md:text-[25px] tracking-[0.15em] font-medium uppercase text-ink group-hover:text-accent transition-colors">
+                    CELEBRITEE
+                  </span>
+                  <span className="font-mono text-[8px] sm:text-[9px] text-muted tracking-wider uppercase opacity-85">
+                    .IN
+                  </span>
+                </Link>
+              </div>
 
-            {/* 2. RIGHT HAND SIDE: Category Links + Actions (Search, Account, Wishlist, Bag) */}
-            <div className="flex items-center space-x-4 lg:space-x-6 xl:space-x-7">
-              {/* Category Nav Links */}
+              {/* Category Nav Links (Moved immediately beside logo to eliminate free space) */}
               <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
@@ -117,7 +116,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`text-[11px] uppercase tracking-[0.16em] font-medium transition-colors duration-200 whitespace-nowrap ${
+                      className={`text-[11px] uppercase tracking-[0.15em] font-medium transition-colors duration-200 whitespace-nowrap ${
                         isActive
                           ? 'text-ink font-bold border-b border-ink pb-0.5'
                           : 'text-muted hover:text-ink'
@@ -128,12 +127,10 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   );
                 })}
               </nav>
+            </div>
 
-              {/* Subtle Divider between Categories and Action Suite */}
-              <div className="hidden lg:block h-3.5 w-[1px] bg-border" />
-
-              {/* Action Suite: Search, User, Wishlist, Bag */}
-              <div className="flex items-center space-x-3.5 sm:space-x-5">
+            {/* 2. RIGHT SIDE: Action Suite (Search, User, Wishlist, Bag) */}
+            <div className="flex items-center space-x-3.5 sm:space-x-5 flex-shrink-0">
                 {/* Search Trigger */}
                 <button
                   onClick={onOpenSearch}
