@@ -105,9 +105,15 @@ export default function AdminProductsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const activeCategoryId = formData.categoryId || (categories.length > 0 ? categories[0].id : '');
+    if (!activeCategoryId) {
+      alert('Category is required. Please select or create a Category first.');
+      return;
+    }
     const generatedSku = formData.sku.trim() || `TEE-${(formData.name || 'ITEM').replace(/[^a-zA-Z0-9]/g, '').substring(0, 3).toUpperCase() || 'ITEM'}-${Math.floor(100 + Math.random() * 900)}`;
     const payload = {
       ...formData,
+      categoryId: activeCategoryId,
       sku: generatedSku,
       price: parseFloat(formData.price),
       comparePrice: formData.comparePrice ? parseFloat(formData.comparePrice) : null,
@@ -374,10 +380,11 @@ export default function AdminProductsPage() {
                 <div>
                   <label className="block uppercase font-bold mb-1 text-luxury-black">Category</label>
                   <select
-                    value={formData.categoryId}
+                    value={formData.categoryId || (categories.length > 0 ? categories[0].id : '')}
                     onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
                     className="w-full border border-luxury-border p-2.5 bg-white text-luxury-black focus:outline-none focus:border-luxury-gold"
                   >
+                    {categories.length === 0 && <option value="">No categories available</option>}
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}

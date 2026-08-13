@@ -121,7 +121,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   onClick={onClose}
                   className="inline-flex items-center font-mono text-xs uppercase tracking-widest text-accent hover:text-ink font-semibold"
                 >
-                  <span>View All Results for "{query}"</span>
+                  <span>View All Results for &quot;{query}&quot;</span>
                   <ArrowRight className="w-3.5 h-3.5 ml-1" />
                 </Link>
               </div>

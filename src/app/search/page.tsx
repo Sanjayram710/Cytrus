@@ -35,7 +35,7 @@ function SearchResultsContent() {
           SEARCH CATALOG
         </span>
         <h1 className="font-serif text-3xl font-normal tracking-tight text-ink mt-1">
-          Search Results for "{query}"
+          Search Results for &quot;{query}&quot;
         </h1>
         <p className="font-mono text-xs text-muted uppercase tracking-widest mt-1">
           Found {products.length} matching item(s)
@@ -48,7 +48,7 @@ function SearchResultsContent() {
         <div className="text-center py-20 bg-surface border border-border p-8">
           <Search className="w-10 h-10 text-muted mx-auto mb-4" />
           <p className="font-serif text-xl font-normal text-ink mb-2">No Matching Products Found</p>
-          <p className="font-mono text-xs text-muted mb-6 uppercase tracking-wider">Try searching for "oversized", "graphic", "vintage wash", or "french terry".</p>
+          <p className="font-mono text-xs text-muted mb-6 uppercase tracking-wider">Try searching for &quot;oversized&quot;, &quot;graphic&quot;, &quot;vintage wash&quot;, or &quot;french terry&quot;.</p>
           <Link href="/shop" className="bg-accent text-canvas px-6 py-3 font-mono text-xs uppercase font-semibold tracking-widest hover:bg-ink border border-accent">
             Explore All Drops
           </Link>

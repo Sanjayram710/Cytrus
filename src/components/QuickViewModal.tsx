@@ -14,15 +14,15 @@ interface QuickViewModalProps {
 }
 
 export default function QuickViewModal({ product, onClose }: QuickViewModalProps) {
-  if (!product) return null;
-
-  const [selectedSize, setSelectedSize] = useState(product.variants?.[0]?.size || 'M');
-  const [selectedColor, setSelectedColor] = useState(product.variants?.[0]?.color || 'Black');
+  const [selectedSize, setSelectedSize] = useState(product?.variants?.[0]?.size || 'M');
+  const [selectedColor, setSelectedColor] = useState(product?.variants?.[0]?.color || 'Black');
   const [added, setAdded] = useState(false);
   const [offersOpen, setOffersOpen] = useState(false);
 
   const { addItem } = useCartStore();
   const { toggleWishlist, isInWishlist } = useWishlistStore();
+
+  if (!product) return null;
 
   const isWishlisted = isInWishlist(product.id);
   const primaryImage = product.images?.[0]?.url || '';
