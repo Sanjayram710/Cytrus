@@ -212,7 +212,6 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   <span className="font-bold">{itemCount}</span>
                 </button>
               </div>
-            </div>
 
           </div>
         </div>
