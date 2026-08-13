@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Eye, Heart, ShoppingBag, Sparkles, Star, Zap, Flame, ShieldCheck } from 'lucide-react';
+import { Eye, Heart, ShoppingBag } from 'lucide-react';
 import QuickViewModal from '@/components/QuickViewModal';
 import ProductOffersModal from '@/components/ProductOffersModal';
 import { useCartStore } from '@/store/useCartStore';
@@ -213,13 +213,13 @@ export default function CelebrityDropsPage() {
         <QuickViewModal
           product={quickViewProduct}
           onClose={() => setQuickViewProduct(null)}
-          onViewDetails={() => setQuickViewProduct(null)}
         />
       )}
 
       {/* Product Offers Modal */}
       {offerModalProduct && (
         <ProductOffersModal
+          isOpen={!!offerModalProduct}
           product={offerModalProduct}
           onClose={() => setOfferModalProduct(null)}
         />
