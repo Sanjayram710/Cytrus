@@ -22,37 +22,37 @@ export default function SplashScreen() {
         <motion.div
           key="celebritee-splash"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.03 }}
+          exit={{ opacity: 0, scale: 1.02 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0F172A] text-white overflow-hidden select-none"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white text-charcoal overflow-hidden select-none"
         >
-          {/* Ambient Soft Cobalt & Pink Glow */}
-          <div className="absolute w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] bg-[#1E5AE6]/20 rounded-full blur-[120px] pointer-events-none -z-10" />
-          <div className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] bg-[#FF4D97]/15 rounded-full blur-[100px] pointer-events-none -z-10 translate-x-20 -translate-y-10" />
+          {/* Ambient Subtle Soft Glow against White */}
+          <div className="absolute w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] bg-[#1E5AE6]/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+          <div className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] bg-[#FF4D97]/10 rounded-full blur-[100px] pointer-events-none -z-10 translate-x-20 -translate-y-10" />
 
           {/* Master Logo Animation */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85, y: 15 }}
+            initial={{ opacity: 0, scale: 0.88, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col items-center"
           >
             <div className="relative mb-6">
-              <CelebriteeLogo variant="badge" size="xl" className="shadow-2xl shadow-[#1E5AE6]/40" />
+              <CelebriteeLogo variant="badge" size="xl" className="shadow-2xl shadow-royal/30" />
             </div>
 
             <motion.p
               initial={{ opacity: 0, letterSpacing: '0.25em' }}
               animate={{ opacity: 1, letterSpacing: '0.35em' }}
-              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-              className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.35em] text-slate-400 font-semibold"
+              transition={{ duration: 0.8, delay: 0.15, ease: 'easeOut' }}
+              className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.35em] text-charcoal font-bold"
             >
               LUXURY CELEBRITY-COMMERCE
             </motion.p>
           </motion.div>
 
           {/* Smooth Progress Indicator */}
-          <div className="absolute bottom-12 w-36 sm:w-48 h-[3px] bg-white/10 rounded-full overflow-hidden">
+          <div className="absolute bottom-12 w-36 sm:w-48 h-[3px] bg-slate-200 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: '0%' }}
               animate={{ width: '100%' }}
