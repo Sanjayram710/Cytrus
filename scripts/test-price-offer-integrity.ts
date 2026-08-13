@@ -238,7 +238,7 @@ async function runTests() {
       data: {
         orderNumber,
         customerName: 'Test Buyer',
-        customerEmail: 'buyer@cytrus.com',
+        customerEmail: 'buyer@celebritee.in',
         customerPhone: '9998887776',
         shippingAddressJson: JSON.stringify({ street: '123 Atelier Way' }),
         subtotal: cartSummary.subtotal,

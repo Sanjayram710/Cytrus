@@ -3,9 +3,25 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Script from 'next/script';
 import { Lock, ShieldCheck, Check, CreditCard, Truck, Tag, AlertTriangle } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { formatPrice } from '@/lib/utils';
+
+const loadRazorpayScript = () => {
+  return new Promise<boolean>((resolve) => {
+    if (typeof window !== 'undefined' && (window as any).Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -229,47 +245,67 @@ export default function CheckoutPage() {
 
         if (!rzpRes.ok) throw new Error(rzpData.error || 'Razorpay order creation failed');
 
-        // Handle Razorpay Payment flow (or test mode simulated verification)
-        const options = {
-          key: rzpData.key,
-          amount: rzpData.razorpayOrder.amount,
-          currency: 'INR',
-          name: 'CYTRUS',
-          description: `Order ${orderData.orderNumber}`,
-          order_id: rzpData.razorpayOrder.id,
-          handler: async function (response: any) {
-            const verifyRes = await fetch('/api/payments/razorpay/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                orderId: orderData.orderId,
-                razorpayOrderId: response.razorpay_order_id || rzpData.razorpayOrder.id,
-                razorpayPaymentId: response.razorpay_payment_id || `pay_mock_${Date.now()}`,
-                razorpaySignature: response.razorpay_signature || 'mock_valid_signature',
-              }),
-            });
+        const scriptLoaded = await loadRazorpayScript();
 
-            if (verifyRes.ok) {
-              clearCart();
-              router.push(`/order-confirmation/${orderData.orderId}`);
-            } else {
-              setErrorMsg('Payment signature verification failed.');
-            }
-          },
-          prefill: {
-            name: formData.fullName,
-            email: formData.customerEmail,
-            contact: formData.phone,
-          },
-          theme: {
-            color: '#6B5B45',
-          },
-        };
+        if (scriptLoaded && typeof window !== 'undefined' && (window as any).Razorpay) {
+          const options = {
+            key: rzpData.key,
+            amount: rzpData.razorpayOrder.amount,
+            currency: rzpData.razorpayOrder.currency || 'INR',
+            name: 'Celebritee.in',
+            description: `Order #${orderData.orderNumber || orderData.orderId}`,
+            order_id: rzpData.razorpayOrder.id,
+            handler: async function (response: any) {
+              setLoading(true);
+              try {
+                const verifyRes = await fetch('/api/payments/razorpay/verify', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    orderId: orderData.orderId,
+                    razorpayOrderId: response.razorpay_order_id,
+                    razorpayPaymentId: response.razorpay_payment_id,
+                    razorpaySignature: response.razorpay_signature,
+                  }),
+                });
 
-        if (typeof window !== 'undefined' && (window as any).Razorpay) {
+                const verifyData = await verifyRes.json();
+
+                if (verifyRes.ok) {
+                  clearCart();
+                  router.push(`/order-confirmation/${orderData.orderId}`);
+                } else {
+                  setErrorMsg(verifyData.error || 'Payment signature verification failed.');
+                  setLoading(false);
+                }
+              } catch (vErr: any) {
+                setErrorMsg(vErr.message || 'Payment verification failed');
+                setLoading(false);
+              }
+            },
+            prefill: {
+              name: formData.fullName || formData.customerName,
+              email: formData.customerEmail,
+              contact: formData.phone || formData.customerPhone,
+            },
+            theme: {
+              color: '#000000',
+            },
+            modal: {
+              ondismiss: function () {
+                setLoading(false);
+              },
+            },
+          };
+
           const rzp = new (window as any).Razorpay(options);
+          rzp.on('payment.failed', function (response: any) {
+            setErrorMsg(response.error?.description || 'Payment failed. Please try again.');
+            setLoading(false);
+          });
           rzp.open();
-        } else {
+          return;
+        } else if (rzpData.key.includes('mock')) {
           // Fallback test mode simulation if Razorpay script is unavailable
           const verifyRes = await fetch('/api/payments/razorpay/verify', {
             method: 'POST',
@@ -285,6 +321,8 @@ export default function CheckoutPage() {
             clearCart();
             router.push(`/order-confirmation/${orderData.orderId}`);
           }
+        } else {
+          throw new Error('Unable to load Razorpay Checkout SDK. Please check your internet connection.');
         }
       }
     } catch (err: any) {
@@ -302,7 +340,7 @@ export default function CheckoutPage() {
           SECURE CHECKOUT
         </span>
         <h1 className="font-serif text-3xl font-normal tracking-tight text-ink mt-1">
-          CYTRUS Order Placement
+          Celebritee.in Order Placement
         </h1>
 
         <div className="flex justify-center items-center space-x-6 mt-6">

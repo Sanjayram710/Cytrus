@@ -29,10 +29,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>CYTRUS | Luxury Heavyweight Streetwear & Bespoke Drops</title>
+        <title>Celebritee.in | Luxury Heavyweight Streetwear & Bespoke Drops</title>
         <meta
           name="description"
-          content="Discover CYTRUS 240 GSM organic French Terry oversized tees, vintage mineral washes, graphic streetwear capsules, and custom bespoke tees."
+          content="Discover Celebritee.in 240 GSM organic French Terry oversized tees, vintage mineral washes, graphic streetwear capsules, and custom bespoke tees."
         />
       </head>
       <body className="min-h-screen flex flex-col justify-between bg-canvas text-ink font-sans antialiased selection:bg-surface selection:text-ink">

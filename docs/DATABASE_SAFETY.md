@@ -1,6 +1,6 @@
 # Database Safety & Schema Guidelines
 
-This document details the database safety protocols, Prisma ORM practices, and migration guidelines for **Cytrus**.
+This document details the database safety protocols, Prisma ORM practices, and migration guidelines for **Celebritee.in**.
 
 ---
 

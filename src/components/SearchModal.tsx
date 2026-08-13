@@ -79,7 +79,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           )}
 
           {/* Results Grid */}
-          {loading && <p className="text-center py-8 font-mono text-xs uppercase tracking-widest text-muted">Searching CYTRUS Catalog...</p>}
+          {loading && <p className="text-center py-8 font-mono text-xs uppercase tracking-widest text-muted">Searching Celebritee.in Catalog...</p>}
 
           {results.length > 0 && (
             <div className="mt-8">

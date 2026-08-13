@@ -1,6 +1,6 @@
-# CYTRUS — Premium Fashion E-Commerce Platform
+# CELEBRITEE.IN — Premium Fashion E-Commerce Platform
 
-CYTRUS is an editorial, production-ready haute couture fashion e-commerce web application featuring a customer storefront and a protected admin dashboard.
+CELEBRITEE.IN is an editorial, production-ready haute couture fashion e-commerce web application featuring a customer storefront and a protected admin dashboard.
 
 ---
 
@@ -9,7 +9,7 @@ CYTRUS is an editorial, production-ready haute couture fashion e-commerce web ap
 ### 🛍️ Customer Storefront
 - **5-Slide Hero Showcase**: 100% Database-driven hero slider featuring auto-play, touch swipe on mobile, pause on hover, slide indicators, and Framer Motion text/image reveal animations.
 - **New Arrivals & Bestsellers**: Product cards with secondary hover image reveal, discount badges, quick view preview modal, wishlist toggle, and instant cart additions.
-- **Editorial Collections & Silhouette Categories**: Dedicated landing pages for silk gowns, Banarasi sarees, velvet blazers, and resort linen.
+- **Editorial Collections & Silhouette Categories**: Dedicated landing pages for oversized tees, vintage wash drops, graphic tees, and bespoke customizer.
 - **Rich Product Experience**: Multi-image thumbnail gallery, main image hover zoom, fullscreen lightbox modal, interactive Size Guide modal, color swatches, stock count warnings, and client reviews.
 - **Cart & Persistent Wishlist**: Persisted in `localStorage` with server database sync. Includes coupon applier and automatic 12% GST tax calculation.
 - **Multi-Step Checkout**: Contact info -> Shipping address -> Payment method selection (Razorpay online or Cash on Delivery).
@@ -51,12 +51,12 @@ npm install
 ### 2. Configure Environment Variables (`.env`)
 The repository includes pre-configured defaults in `.env`:
 ```env
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="cytrus_super_secret_jwt_key_2026_production_grade"
+DATABASE_URL="postgresql://..."
+JWT_SECRET="celebritee_super_secret_jwt_key_2026_production_grade"
 NEXTAUTH_URL="http://localhost:3000"
 
-RAZORPAY_KEY_ID="rzp_test_cytrus_mock_key"
-RAZORPAY_KEY_SECRET="cytrus_mock_secret_key"
+RAZORPAY_KEY_ID="rzp_test_celebritee_mock_key"
+RAZORPAY_KEY_SECRET="celebritee_mock_secret_key"
 ```
 
 ### 3. Push Database Schema & Seed Data
@@ -64,7 +64,7 @@ RAZORPAY_KEY_SECRET="cytrus_mock_secret_key"
 npm run db:push
 npm run db:seed
 ```
-*Seeds 32 products, 8 categories, 5 collections, 5 homepage slides, 20 customer accounts, 1 admin account, sample coupons, reviews, and orders.*
+*Seeds products, categories, collections, homepage slides, customer accounts, admin accounts, coupons, reviews, and orders.*
 
 ### 4. Run Development Server
 ```bash
@@ -85,7 +85,7 @@ npm test
 
 ## 🤖 AI Development & Safety Documentation
 
-This repository is configured for safe development with AI coding agents (such as **Meta Muse Code**). AI tools operate exclusively as external developer assistants and are **NEVER** included as runtime dependencies or production web app code.
+This repository is configured for safe development with AI coding agents. AI tools operate exclusively as external developer assistants and are **NEVER** included as runtime dependencies or production web app code.
 
 * 📜 [AI Development Guidelines](file:///c:/Cytrus/docs/AI_DEVELOPMENT_GUIDELINES.md) — 18 mandatory rules for AI coding agents.
 * 🧩 [AI Project Context](file:///c:/Cytrus/docs/AI_PROJECT_CONTEXT.md) — Architecture, modules, and data model relationships.
@@ -96,4 +96,4 @@ This repository is configured for safe development with AI coding agents (such a
 ---
 
 ## 📄 License
-© 2026 CYTRUS HAUTE COUTURE. All Rights Reserved.
+© 2026 CELEBRITEE.IN. All Rights Reserved.

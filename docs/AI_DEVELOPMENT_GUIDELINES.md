@@ -1,12 +1,12 @@
-# AI Development Guidelines for Cytrus
+# AI Development Guidelines for Celebritee.in
 
-This document establishes the safety rules, operating principles, and development protocols for **Meta Muse Code** and any other AI coding agent operating on the **Cytrus** codebase.
+This document establishes the safety rules, operating principles, and development protocols for AI coding agents operating on the **Celebritee.in** codebase.
 
 ---
 
 ## 🛑 Fundamental Directives for AI Coding Agents
 
-1. **Developer-Side Only**: Muse Code is a developer-side coding assistant. **NEVER** install `muse-code` or any AI agent packages into `package.json` as runtime dependencies. **NEVER** import AI tools into production Next.js React components or API routes.
+1. **Developer-Side Only**: AI agents operate as developer-side coding assistants. **NEVER** install AI agent packages into `package.json` as runtime dependencies. **NEVER** import AI tools into production Next.js React components or API routes.
 2. **Read Before Editing**: Always inspect the existing files, architecture, and type signatures before modifying code.
 3. **No Destructive Database Actions**: Never run `prisma migrate reset`, `prisma db push --force-reset`, `DROP TABLE`, or `DROP DATABASE`.
 
@@ -21,7 +21,7 @@ This document establishes the safety rules, operating principles, and developmen
 5. **Never Hardcode API Keys**: All secrets must be loaded via `process.env.VARIABLE_NAME`.
 6. **Check Prisma Models Before Schema Changes**: Inspect [prisma/schema.prisma](file:///c:/Cytrus/prisma/schema.prisma) to avoid creating duplicate or conflicting models.
 7. **Never Create Duplicate Models**: Use existing models (`User`, `Product`, `Category`, `Collection`, `Order`, `Inventory`, etc.) rather than introducing redundant abstractions.
-8. **Never Create a Second Database**: Cytrus relies on a single relational database instance (Supabase PostgreSQL via Prisma). Do not instantiate secondary databases or sqlite fallbacks in production logic.
+8. **Never Create a Second Database**: Celebritee.in relies on a single relational database instance (Supabase PostgreSQL via Prisma). Do not instantiate secondary databases or sqlite fallbacks in production logic.
 9. **Review Payment & Order Architecture**: Never modify payment verifications or price calculations without reviewing existing server-side price calculation and Razorpay signature handlers.
 10. **Run TypeScript Check**: Always execute `npx tsc --noEmit` after making code changes.
 11. **Run Lint Check**: Always execute `npm run lint` after making UI or API changes.

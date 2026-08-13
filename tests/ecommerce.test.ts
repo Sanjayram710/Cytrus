@@ -5,7 +5,7 @@ import { hashPassword, comparePassword, signToken, verifyToken } from '../src/li
 
 async function runTests() {
   console.log('==============================================');
-  console.log('    CYTRUS AUTOMATED VERIFICATION TEST SUITE');
+  console.log('    CELEBRITEE AUTOMATED VERIFICATION TEST SUITE');
   console.log('==============================================\n');
 
   let passed = 0;
@@ -28,7 +28,7 @@ async function runTests() {
   const isValidPass = await comparePassword(password, hashed);
   assert(isValidPass, 'Password hashing & comparison logic');
 
-  const token = signToken({ id: 'user_1', name: 'Test Admin', email: 'admin@cytrus.com', role: 'ADMIN' });
+  const token = signToken({ id: 'user_1', name: 'Test Admin', email: 'admin@celebritee.in', role: 'ADMIN' });
   const verifiedUser = verifyToken(token);
   assert(verifiedUser?.role === 'ADMIN', 'JWT Token generation and role verification');
 
@@ -83,7 +83,7 @@ async function runTests() {
     cut: cuts[0], // 2499
     color: colors[0],
     placement: placements[0], // 0 surcharge
-    headlineText: 'CYTRUS',
+    headlineText: 'CELEBRITEE',
     taglineText: 'DROP 2026',
     font: fonts[0],
     textScale: 'md',
@@ -96,7 +96,7 @@ async function runTests() {
     cut: cuts[0], // 2499
     color: colors[1],
     placement: placements[2], // Back statement (+100)
-    headlineText: 'CYTRUS ATELIER',
+    headlineText: 'CELEBRITEE ATELIER',
     taglineText: 'LIMITED EDITION',
     font: fonts[1],
     textScale: 'lg',
@@ -114,7 +114,7 @@ async function runTests() {
   // 6. Registration Database Write & Duplicate Handling
   console.log('\n--- 6. Testing Registration DB Write & Error Handling ---');
   const { prisma } = await import('../src/lib/prisma');
-  const testRegEmail = `testuser_${Date.now()}@cytrus.com`;
+  const testRegEmail = `testuser_${Date.now()}@celebritee.in`;
   const rawPlainPass = 'SecurePass@2026';
   const hashedPass = await hashPassword(rawPlainPass);
 

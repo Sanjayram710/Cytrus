@@ -132,7 +132,7 @@ export default function RealisticTShirt({
       <img
         key={`${silhouette}-${viewSide}-${color.id}`}
         src={imageSrc}
-        alt={`CYTRUS ${silhouette} ${color.name} ${viewSide} view`}
+        alt={`Celebritee ${silhouette} ${color.name} ${viewSide} view`}
         className="relative z-10 w-full h-full object-contain filter contrast-[1.03] transition-all duration-300 pointer-events-none"
       />
 

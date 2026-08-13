@@ -1,6 +1,6 @@
 # Payment, SMS, and Secret Handling Safety Guidelines
 
-This document outlines the security rules for handling third-party integrations in **Cytrus**, including **Razorpay**, **Fast2SMS**, **UltraMsg WhatsApp**, and **Nodemailer SMTP**.
+This document outlines the security rules for handling third-party integrations in **Celebritee.in**, including **Razorpay**, **Fast2SMS**, **UltraMsg WhatsApp**, and **Nodemailer SMTP**.
 
 ---
 

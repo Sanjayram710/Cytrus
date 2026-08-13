@@ -173,7 +173,7 @@ export default function RegisterPage() {
         {/* Back to Sign In Link */}
         <div className="mt-8 pt-6 border-t border-border text-center space-y-3 font-mono text-xs uppercase tracking-wider">
           <p className="text-muted">
-            Already have a CYTRUS account?
+            Already have a Celebritee.in account?
           </p>
           <Link
             href="/login"

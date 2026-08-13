@@ -15,7 +15,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     const timer = setTimeout(() => {
       setIsVisible(false);
       try {
-        sessionStorage.setItem('cytrus_entrance_seen', 'true');
+        sessionStorage.setItem('celebritee_entrance_seen', 'true');
       } catch (e) {}
       if (onComplete) {
         onComplete();
@@ -29,7 +29,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          key="cytrus-standalone-entrance"
+          key="celebritee-standalone-entrance"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
@@ -48,7 +48,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
             <div className="relative mb-5">
               <motion.img
                 src="/logo.png"
-                alt="CYTRUS Logo"
+                alt="Celebritee Logo"
                 className="w-28 h-28 sm:w-36 sm:h-36 object-contain"
                 animate={{
                   scale: [1, 1.03, 1],
@@ -67,7 +67,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
               transition={{ duration: 0.9, delay: 0.15, ease: 'easeOut' }}
               className="font-sans text-3xl sm:text-4xl font-extrabold tracking-[0.35em] uppercase text-ink pl-1"
             >
-              CYTRUS
+              CELEBRITEE
             </motion.h1>
           </motion.div>
 

@@ -33,7 +33,7 @@ async function main() {
 
   const admin1 = await prisma.user.create({
     data: {
-      name: 'CYTRUS Admin',
+      name: 'Celebritee Admin',
       email: 'admin@luxewear.com',
       password: adminPassword,
       role: 'ADMIN',
@@ -44,8 +44,8 @@ async function main() {
 
   const admin2 = await prisma.user.create({
     data: {
-      name: 'CYTRUS Admin',
-      email: 'admin@cytrus.com',
+      name: 'Celebritee Admin',
+      email: 'admin@celebritee.in',
       password: adminPassword,
       role: 'ADMIN',
       phone: '+91 98765 43211',

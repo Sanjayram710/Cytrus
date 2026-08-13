@@ -96,7 +96,7 @@ function ShopContent() {
       {/* Header Banner */}
       <div className="border-b border-border pb-8 mb-8 text-center sm:text-left">
         <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
-          CYTRUS CATALOG
+          CELEBRITEE CATALOG
         </span>
         <h1 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-ink mt-1">
           {currentCategory ? `${currentCategory.replace('-', ' ')} Collection` : 'All Streetwear & Silhouette Drops'}

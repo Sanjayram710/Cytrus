@@ -76,7 +76,7 @@ export default function Footer() {
           {/* Brand Gazette Newsletter Column */}
           <div className="md:col-span-2 space-y-4">
             <h3 className="font-serif text-2xl font-normal tracking-[0.2em] text-canvas">
-              CYTRUS
+              CELEBRITEE
             </h3>
             <p className="text-xs text-canvas/70 leading-relaxed max-w-sm font-normal">
               Subscribe for exclusive drop alerts, limited edition mineral washes, and private streetwear capsule releases.
@@ -147,7 +147,7 @@ export default function Footer() {
 
         {/* Footer Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-canvas/10 flex flex-col sm:flex-row items-center justify-between font-mono text-[10px] text-canvas/40 uppercase tracking-widest">
-          <p>© 2026 CYTRUS. ALL RIGHTS RESERVED.</p>
+          <p>© 2026 CELEBRITEE.IN. ALL RIGHTS RESERVED.</p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
             <a href="#" className="hover:text-canvas">PRIVACY POLICY</a>
             <a href="#" className="hover:text-canvas">TERMS OF SERVICE</a>
