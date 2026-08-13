@@ -23,7 +23,7 @@ interface RealisticTShirtProps {
   graphic: CustomizerGraphicOption;
 }
 
-// Dedicated High-Resolution Studio Apparel Mockup per Color for Oversized Tees
+// Dedicated High-Resolution Studio Apparel Mockup per Color
 const COLOR_MOCKUP_MAP: Record<string, { front: string; back: string }> = {
   'obsidian-black': {
     front: '/mockups/tshirt_black_front.png',
@@ -64,29 +64,21 @@ export default function RealisticTShirt({
 }: RealisticTShirtProps) {
   const isPrintVisible = placement.viewSide === viewSide;
   
-  // 1. Resolve distinct base garment mockup based on silhouette
-  let imageSrc = '';
-  if (silhouette === 'graphic-tees') {
-    imageSrc = viewSide === 'front' 
-      ? '/mockups/tshirt_graphic_front.png' 
-      : '/mockups/tshirt_graphic_back.png';
-  } else if (silhouette === 'vintage-wash') {
-    imageSrc = viewSide === 'front' 
-      ? '/mockups/tshirt_vintage_wash_front.png' 
-      : '/mockups/tshirt_vintage_wash_back.png';
-  } else {
-    // Oversized Tees
-    const mockups = COLOR_MOCKUP_MAP[color.id] || COLOR_MOCKUP_MAP['obsidian-black'];
-    imageSrc = viewSide === 'front' ? mockups.front : mockups.back;
+  // 1. Resolve distinct garment mockup based on color & silhouette
+  const mockups = COLOR_MOCKUP_MAP[color.id] || COLOR_MOCKUP_MAP['obsidian-black'];
+  let imageSrc = viewSide === 'front' ? mockups.front : mockups.back;
+
+  if (color.id === 'obsidian-black') {
+    if (silhouette === 'graphic-tees') {
+      imageSrc = viewSide === 'front' ? '/mockups/tshirt_graphic_front.png' : '/mockups/tshirt_graphic_back.png';
+    } else if (silhouette === 'vintage-wash') {
+      imageSrc = viewSide === 'front' ? '/mockups/tshirt_vintage_wash_front.png' : '/mockups/tshirt_vintage_wash_back.png';
+    }
   }
 
-  // 2. Calculate text & artwork contrast
-  let effectiveTextColor = color.textColor;
-  if (silhouette === 'graphic-tees' || silhouette === 'vintage-wash') {
-    effectiveTextColor = '#FAF7F2';
-  } else {
-    effectiveTextColor = color.textColor;
-  }
+  // 2. High-contrast typography color based on fabric tone
+  const isLightFabric = color.id === 'vintage-chalk' || color.id === 'sand-dune';
+  const effectiveTextColor = isLightFabric ? '#1C1917' : '#FAF7F2';
 
   // 3. Exact coordinates and responsive scaling for all 4 placement zones
   const isPocket = placement.id === 'pocket-left';
@@ -128,22 +120,20 @@ export default function RealisticTShirt({
   return (
     <div className="relative w-full max-w-[440px] aspect-square flex items-center justify-center select-none overflow-hidden rounded-md bg-transparent">
       
-      {/* 1. Distinct Base Studio T-Shirt Mockup */}
+      {/* 1. Real Studio T-Shirt Mockup In The Chosen Color */}
       <img
         key={`${silhouette}-${viewSide}-${color.id}`}
         src={imageSrc}
-        alt={`CYTRUS ${silhouette} ${color.name} ${viewSide} view`}
+        alt={`CELEBRITEE ${silhouette} ${color.name} ${viewSide} view`}
         className="relative z-10 w-full h-full object-contain filter contrast-[1.03] transition-all duration-300 pointer-events-none"
       />
 
-      {/* 1.1 Dynamic Color Tone Overlay for Graphic Tees & Vintage Wash */}
-      {(silhouette === 'graphic-tees' || silhouette === 'vintage-wash') && color.id !== 'obsidian-black' && (
+      {/* 1.1 Vintage Wash Texture Effect for Vintage Silhouette in non-black colors */}
+      {silhouette === 'vintage-wash' && color.id !== 'obsidian-black' && (
         <div
-          className="absolute inset-0 z-20 pointer-events-none transition-all duration-300"
+          className="absolute inset-0 z-20 pointer-events-none opacity-40 mix-blend-overlay"
           style={{
-            backgroundColor: color.hex,
-            mixBlendMode: silhouette === 'vintage-wash' ? 'color' : 'color-burn',
-            opacity: silhouette === 'vintage-wash' ? 0.85 : 0.65,
+            backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.2) 100%)',
             maskImage: `url(${imageSrc})`,
             WebkitMaskImage: `url(${imageSrc})`,
             maskSize: 'contain',
@@ -185,10 +175,7 @@ export default function RealisticTShirt({
                 src={graphic.previewUrl}
                 alt="Graphic Artwork"
                 className={`w-full h-full object-cover rounded-sm ${
-                  (silhouette === 'oversized-tees' && color.id !== 'obsidian-black' && color.id !== 'washed-espresso') ||
-                  (silhouette !== 'oversized-tees' && (color.id === 'vintage-chalk' || color.id === 'sand-dune'))
-                    ? 'mix-blend-multiply'
-                    : 'brightness-110'
+                  isLightFabric ? 'mix-blend-multiply' : 'brightness-110'
                 }`}
               />
             </motion.div>

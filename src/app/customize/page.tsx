@@ -328,23 +328,7 @@ export default function CustomizePage() {
             </div>
 
             {/* Realistic T-Shirt Mockup on Subtle Dotted-Grid Background */}
-            <div
-              className="relative w-full aspect-[4/5] max-w-[500px] border border-border flex items-center justify-center p-6 shadow-sm overflow-hidden rounded-none transition-colors duration-500"
-              style={{
-                backgroundColor:
-                  selectedColor.id === 'sand-dune'
-                    ? '#EBE3D5'
-                    : selectedColor.id === 'vintage-chalk'
-                    ? '#F7F4EE'
-                    : selectedColor.id === 'distressed-clay'
-                    ? '#EFEBE7'
-                    : selectedColor.id === 'mineral-slate'
-                    ? '#E5E7E9'
-                    : selectedColor.id === 'washed-espresso'
-                    ? '#EDE8E3'
-                    : '#FAF8F5',
-              }}
-            >
+            <div className="relative w-full aspect-[4/5] max-w-[500px] border border-border flex items-center justify-center p-6 shadow-sm overflow-hidden rounded-none bg-surface">
               {/* Subtle Dotted-Grid Canvas Background */}
               <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#2E2822_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
