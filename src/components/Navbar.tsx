@@ -67,6 +67,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   const navLinks = [
     { name: 'Oversized Tees', href: '/category/oversized-tees' },
     { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
+    { name: 'Celebrity Drops', href: '/celebrity-drops' },
     { name: 'Graphic Tees', href: '/category/graphic-tees' },
     { name: 'Custom Design', href: '/custom-design' },
   ];
