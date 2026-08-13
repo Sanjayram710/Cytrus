@@ -64,29 +64,29 @@ export default function RealisticTShirt({
 }: RealisticTShirtProps) {
   const isPrintVisible = placement.viewSide === viewSide;
   
-  // 1. Resolve distinct garment mockup based on color & silhouette
+  // 1. Resolve base mockup image for the active color
   const mockups = COLOR_MOCKUP_MAP[color.id] || COLOR_MOCKUP_MAP['obsidian-black'];
-  let imageSrc = viewSide === 'front' ? mockups.front : mockups.back;
+  const imageSrc = viewSide === 'front' ? mockups.front : mockups.back;
 
-  if (color.id === 'obsidian-black') {
-    if (silhouette === 'graphic-tees') {
-      imageSrc = viewSide === 'front' ? '/mockups/tshirt_graphic_front.png' : '/mockups/tshirt_graphic_back.png';
-    } else if (silhouette === 'vintage-wash') {
-      imageSrc = viewSide === 'front' ? '/mockups/tshirt_vintage_wash_front.png' : '/mockups/tshirt_vintage_wash_back.png';
-    }
+  // 2. Garment styling filter based on silhouette
+  let garmentFilter = 'contrast(1.02)';
+  if (silhouette === 'vintage-wash') {
+    garmentFilter = 'contrast(1.14) brightness(0.96) saturate(0.88)';
+  } else if (silhouette === 'graphic-tees') {
+    garmentFilter = 'contrast(1.08) brightness(1.01)';
   }
 
-  // 2. High-contrast typography color based on fabric tone
+  // 3. High-contrast typography color based on fabric tone
   const isLightFabric = color.id === 'vintage-chalk' || color.id === 'sand-dune';
   const effectiveTextColor = isLightFabric ? '#1C1917' : '#FAF7F2';
 
-  // 3. Exact coordinates and responsive scaling for all 4 placement zones
+  // 4. Exact coordinates and responsive scaling for all 4 placement zones
   const isPocket = placement.id === 'pocket-left';
   const isLowerHem = placement.id === 'lower-hem';
   const isBack = placement.id === 'back-oversized';
 
   let placementStyle: React.CSSProperties = {
-    top: silhouette === 'graphic-tees' ? '36%' : '34%',
+    top: '34%',
     left: '50%',
     transform: 'translateX(-50%)',
     width: '60%',
@@ -95,7 +95,7 @@ export default function RealisticTShirt({
 
   if (isPocket) {
     placementStyle = {
-      top: silhouette === 'graphic-tees' ? '30%' : '28%',
+      top: '28%',
       left: '26%',
       width: '28%',
       maxWidth: '95px',
@@ -118,33 +118,16 @@ export default function RealisticTShirt({
   }
 
   return (
-    <div className="relative w-full max-w-[440px] aspect-square flex items-center justify-center select-none overflow-hidden rounded-md bg-transparent">
+    <div className="relative w-full max-w-[440px] aspect-square flex items-center justify-center select-none overflow-hidden bg-white">
       
-      {/* 1. Real Studio T-Shirt Mockup In The Chosen Color */}
+      {/* 1. Base Studio T-Shirt Mockup In Chosen Color */}
       <img
         key={`${silhouette}-${viewSide}-${color.id}`}
         src={imageSrc}
         alt={`CELEBRITEE ${silhouette} ${color.name} ${viewSide} view`}
-        className="relative z-10 w-full h-full object-contain filter contrast-[1.03] transition-all duration-300 pointer-events-none"
+        style={{ filter: garmentFilter }}
+        className="relative z-10 w-full h-full object-contain mix-blend-multiply transition-all duration-300 pointer-events-none"
       />
-
-      {/* 1.1 Vintage Wash Texture Effect for Vintage Silhouette in non-black colors */}
-      {silhouette === 'vintage-wash' && color.id !== 'obsidian-black' && (
-        <div
-          className="absolute inset-0 z-20 pointer-events-none opacity-40 mix-blend-overlay"
-          style={{
-            backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.2) 100%)',
-            maskImage: `url(${imageSrc})`,
-            WebkitMaskImage: `url(${imageSrc})`,
-            maskSize: 'contain',
-            WebkitMaskSize: 'contain',
-            maskRepeat: 'no-repeat',
-            WebkitMaskRepeat: 'no-repeat',
-            maskPosition: 'center',
-            WebkitMaskPosition: 'center',
-          }}
-        />
-      )}
 
       {/* 2. Real-time Print Placement Layer */}
       {isPrintVisible && (
