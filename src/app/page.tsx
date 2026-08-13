@@ -147,12 +147,6 @@ export default function HomePage() {
 
         {/* Hero Content Box with Crisp Black Typography */}
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-charcoal space-y-6 py-16 sm:py-24">
-          {/* VIP Drop Badge */}
-          <div className="inline-flex items-center space-x-2 bg-white/95 backdrop-blur-md border border-slate-300 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-charcoal rounded-full shadow-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-pink animate-pulse" />
-            <span className="font-bold tracking-widest text-charcoal">EXCLUSIVE COLLABORATION DROPS // 2026</span>
-          </div>
-
           {/* Master Headline in Black */}
           <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight leading-[1.08] text-charcoal drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
             The Art of Being Iconic.
@@ -179,15 +173,6 @@ export default function HomePage() {
             >
               <span>View New Arrivals</span>
             </Link>
-          </div>
-
-          {/* Bottom Drop Indicator */}
-          <div className="pt-6 flex items-center justify-center space-x-6 text-[10px] font-mono text-charcoal uppercase tracking-widest font-bold drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-            <span>STRICTLY NUMBERED RUNS</span>
-            <span className="w-1 h-1 bg-royal rounded-full" />
-            <span>NFC AUTHENTICATED</span>
-            <span className="w-1 h-1 bg-royal rounded-full" />
-            <span>320 GSM FRENCH TERRY</span>
           </div>
         </div>
       </section>
