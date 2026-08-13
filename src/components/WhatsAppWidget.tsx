@@ -6,7 +6,7 @@ import { MessageSquare } from 'lucide-react';
 export default function WhatsAppWidget() {
   const whatsappNumber = '919345452087';
   const message = encodeURIComponent(
-    'Hello CYTRUS Atelier, I need assistance with an order / size inquiry.'
+    'Hello Celebritee Atelier, I need assistance with an order / size inquiry.'
   );
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 

@@ -336,7 +336,7 @@ export default function HomePage() {
             <div className="relative h-[440px] border border-border bg-surface">
               <img
                 src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=1000"
-                alt="CYTRUS T-Shirt Studio"
+                alt="Celebritee T-Shirt Studio"
                 className="w-full h-full object-cover"
               />
               <div className="absolute -bottom-4 -right-4 bg-ink text-canvas p-5 hidden sm:block border border-border">
@@ -347,13 +347,13 @@ export default function HomePage() {
 
             <div className="space-y-6">
               <span className="font-mono text-xs uppercase font-medium tracking-[0.25em] text-muted">
-                THE CYTRUS ATELIER
+                THE CELEBRITEE ATELIER
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-ink">
                 Architectural Oversized Fits & Non-Deforming Heavy Ribbed Collars
               </h2>
               <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                Most t-shirts lose their structure after three washes. At CYTRUS, every garment is constructed with high-density 240 GSM French Terry organic cotton and double-needle reinforced necklines.
+                Most t-shirts lose their structure after three washes. At Celebritee.in, every garment is constructed with high-density 240 GSM French Terry organic cotton and double-needle reinforced necklines.
               </p>
               <p className="text-xs sm:text-sm text-muted leading-relaxed">
                 From hand-dyed mineral acid washes to high-density puff prints, our t-shirts are crafted for the modern luxury streetwear aesthetic.

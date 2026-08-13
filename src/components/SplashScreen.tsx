@@ -15,7 +15,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     const timer = setTimeout(() => {
       setIsVisible(false);
       try {
-        sessionStorage.setItem('cytrus_entrance_seen', 'true');
+        sessionStorage.setItem('celebritee_entrance_seen', 'true');
       } catch (e) {}
       if (onComplete) {
         onComplete();

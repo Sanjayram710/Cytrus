@@ -21,7 +21,7 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
         .fillColor('#FAF8F5')
         .fontSize(24)
         .font('Helvetica')
-        .text('CYTRUS', 60, 58, { characterSpacing: 4 });
+        .text('CELEBRITEE', 60, 58, { characterSpacing: 4 });
 
       doc
         .fillColor('#D4AF37')
@@ -172,7 +172,7 @@ export async function generateOrderPdfInvoice(order: OrderNotificationPayload): 
         .fillColor('#888888')
         .fontSize(8)
         .font('Helvetica')
-        .text('Thank you for choosing CYTRUS Heavyweight Atelier. For any queries, contact support@cytrus.com', 40, 780, {
+        .text('Thank you for choosing Celebritee.in Heavyweight Atelier. For any queries, contact support@celebritee.in', 40, 780, {
           align: 'center',
           width: 515,
         });

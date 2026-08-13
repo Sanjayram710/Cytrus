@@ -425,7 +425,7 @@ export default function AdminProductsPage() {
                   {[
                     'FLAT ₹500 INSTANT DISCOUNT',
                     'BUY 2 FOR ₹1,599 BUNDLE',
-                    'FREE CYTRUS TOTE BAG GIFT',
+                    'FREE CELEBRITEE TOTE BAG GIFT',
                     'EXTRA 15% UPI CASHBACK',
                   ].map((preset) => (
                     <button

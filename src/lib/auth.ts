@@ -3,8 +3,8 @@ import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 import { prisma } from './prisma';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'cytrus_super_secret_jwt_key_2026_production_grade';
-const AUTH_COOKIE_NAME = 'cytrus_session';
+const JWT_SECRET = process.env.JWT_SECRET || 'celebritee_super_secret_jwt_key_2026_production_grade';
+const AUTH_COOKIE_NAME = 'celebritee_session';
 
 export interface UserSession {
   id: string;

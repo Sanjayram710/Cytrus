@@ -21,7 +21,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `inline; filename="CYTRUS_Invoice_${order.orderNumber}.pdf"`,
+        'Content-Disposition': `inline; filename="Celebritee_Invoice_${order.orderNumber}.pdf"`,
         'Cache-Control': 'no-cache',
       },
     });

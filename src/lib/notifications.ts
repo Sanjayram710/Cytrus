@@ -76,7 +76,7 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>CYTRUS Order Receipt #${order.orderNumber}</title>
+      <title>Celebritee.in Order Receipt #${order.orderNumber}</title>
     </head>
     <body style="margin:0; padding:0; background-color: #FAF8F5; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #FAF8F5; padding: 40px 10px;">
@@ -86,7 +86,7 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
               <!-- Header -->
               <tr>
                 <td style="background-color: #121212; padding: 30px; text-align: center;">
-                  <h1 style="color: #FAF8F5; font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.2em; margin: 0;">CYTRUS</h1>
+                  <h1 style="color: #FAF8F5; font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.2em; margin: 0;">CELEBRITEE</h1>
                   <p style="color: #D4AF37; font-size: 10px; letter-spacing: 0.3em; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">HEAVYWEIGHT TEES ATELIER</p>
                 </td>
               </tr>
@@ -96,7 +96,7 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
                 <td style="padding: 30px 40px 20px 40px;">
                   <h2 style="font-family: Georgia, serif; color: #121212; font-size: 20px; margin-top: 0;">Order Confirmation & Official Receipt</h2>
                   <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Dear <strong>${order.customerName}</strong>,</p>
-                  <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Thank you for your order with CYTRUS. Your bespoke t-shirt order has been confirmed and is currently being processed by our atelier staff.</p>
+                  <p style="font-size: 13px; color: #4A4A4A; line-height: 1.6;">Thank you for your order with Celebritee.in. Your bespoke t-shirt order has been confirmed and is currently being processed by our atelier staff.</p>
                   
                   <div style="background-color: #FAF8F5; border: 1px solid #EAE5DC; padding: 15px 20px; margin: 20px 0;">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -176,8 +176,8 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
               <!-- Footer -->
               <tr>
                 <td style="background-color: #FAF8F5; border-top: 1px solid #EAE5DC; padding: 20px; text-align: center; font-size: 11px; color: #999999;">
-                  &copy; 2026 CYTRUS Heavyweight Tees. All Rights Reserved.<br/>
-                  45 Marine Drive, Mumbai 400020 &bull; Support: support@cytrus.com
+                  &copy; 2026 Celebritee.in Heavyweight Tees. All Rights Reserved.<br/>
+                  45 Marine Drive, Mumbai 400020 &bull; Support: support@celebritee.in
                 </td>
               </tr>
             </table>
@@ -198,7 +198,7 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
       try {
         const pdfBuffer = await generateOrderPdfInvoice(order);
         attachments.push({
-          filename: `CYTRUS_Tax_Invoice_${order.orderNumber}.pdf`,
+          filename: `Celebritee_Tax_Invoice_${order.orderNumber}.pdf`,
           content: pdfBuffer,
           contentType: 'application/pdf',
         });
@@ -207,9 +207,9 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
       }
 
       await transporter.sendMail({
-        from: `"CYTRUS Atelier" <${process.env.SMTP_FROM || 'orders@cytrus.com'}>`,
+        from: `"Celebritee.in Atelier" <${process.env.SMTP_FROM || 'orders@celebritee.in'}>`,
         to: order.customerEmail,
-        subject: `CYTRUS Order Confirmation & Tax Invoice #${order.orderNumber}`,
+        subject: `Celebritee.in Order Confirmation & Tax Invoice #${order.orderNumber}`,
         html: htmlTemplate,
         attachments,
       });
@@ -225,7 +225,7 @@ export async function sendOrderEmailReceipt(order: OrderNotificationPayload) {
   console.log('====================================================');
   console.log(`📧 [EMAIL RECEIPT SIMULATED DISPATCH]`);
   console.log(`TO: ${order.customerEmail}`);
-  console.log(`SUBJECT: CYTRUS Order Confirmation & Receipt #${order.orderNumber}`);
+  console.log(`SUBJECT: Celebritee.in Order Confirmation & Receipt #${order.orderNumber}`);
   console.log(`TOTAL AMOUNT: ${formatPrice(order.total)} | PAYMENT: ${order.paymentMethod}`);
   console.log(`TRACKING URL: ${trackingUrl}`);
   console.log('====================================================');
@@ -237,7 +237,7 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const trackingUrl = `${baseUrl}/orders/${order.id}`;
 
-  const smsText = `[CYTRUS] Hello ${order.customerName}, your order #${order.orderNumber} for ${formatPrice(order.total)} has been confirmed! Track your shipment live: ${trackingUrl}`;
+  const smsText = `[Celebritee.in] Hello ${order.customerName}, your order #${order.orderNumber} for ${formatPrice(order.total)} has been confirmed! Track your shipment live: ${trackingUrl}`;
 
   // 1. Fast2SMS Integration (Instant Indian SMS Gateway)
   if (process.env.FAST2SMS_API_KEY) {
@@ -308,7 +308,7 @@ export async function sendOrderWhatsAppNotification(order: OrderNotificationPayl
   const trackingUrl = `${baseUrl}/orders/${order.id}`;
   const cleanPhone = order.customerPhone.replace(/\D/g, '').slice(-10);
 
-  const whatsappText = `*CYTRUS Atelier Order Confirmation*\n\nHello ${order.customerName},\nThank you for your order *#${order.orderNumber}*!\n\n*Total Amount:* ${formatPrice(order.total)}\n*Payment Method:* ${order.paymentMethod}\n\nTrack your shipment live:\n${trackingUrl}`;
+  const whatsappText = `*Celebritee.in Atelier Order Confirmation*\n\nHello ${order.customerName},\nThank you for your order *#${order.orderNumber}*!\n\n*Total Amount:* ${formatPrice(order.total)}\n*Payment Method:* ${order.paymentMethod}\n\nTrack your shipment live:\n${trackingUrl}`;
 
   // 1. UltraMsg WhatsApp API Integration
   if (process.env.WHATSAPP_ULTRAMSG_INSTANCE_ID && process.env.WHATSAPP_ULTRAMSG_TOKEN) {
@@ -387,7 +387,7 @@ export async function sendOrderStatusEmail(order: any, newStatus: string, tracki
             <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; border: 1px solid #EAE5DC; border-radius: 4px; overflow: hidden;">
               <tr>
                 <td style="background-color: #121212; padding: 30px; text-align: center;">
-                  <h1 style="color: #FAF8F5; font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.2em; margin: 0;">CYTRUS</h1>
+                  <h1 style="color: #FAF8F5; font-family: Georgia, serif; font-size: 26px; letter-spacing: 0.2em; margin: 0;">CELEBRITEE</h1>
                   <p style="color: #D4AF37; font-size: 10px; letter-spacing: 0.3em; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">ATELIER ORDER UPDATE</p>
                 </td>
               </tr>
@@ -424,9 +424,9 @@ export async function sendOrderStatusEmail(order: any, newStatus: string, tracki
       const transporter = getSmtpTransporter();
 
       await transporter.sendMail({
-        from: `"CYTRUS Atelier" <${process.env.SMTP_FROM || 'orders@cytrus.com'}>`,
+        from: `"Celebritee.in Atelier" <${process.env.SMTP_FROM || 'orders@celebritee.in'}>`,
         to: order.customerEmail,
-        subject: `CYTRUS Order #${order.orderNumber} Status Updated: ${newStatus}`,
+        subject: `Celebritee.in Order #${order.orderNumber} Status Updated: ${newStatus}`,
         html: htmlTemplate,
       });
 

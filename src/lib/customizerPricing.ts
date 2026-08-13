@@ -1,5 +1,5 @@
 /**
- * Pure Pricing Calculation Engine for CYTRUS Bespoke Product Designer
+ * Pure Pricing Calculation Engine for Celebritee.in Bespoke Product Designer
  * Computes live, client-side, pure function of current selections.
  */
 
@@ -131,7 +131,7 @@ export const GRAPHIC_PRESETS: CustomizerGraphicOption[] = [
   },
   {
     id: 'emblem',
-    name: 'CYTRUS Atelier Emblem',
+    name: 'Celebritee Atelier Emblem',
     icon: '⚡',
     previewUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=300',
     surcharge: 150,

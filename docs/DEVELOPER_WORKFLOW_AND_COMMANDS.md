@@ -1,6 +1,6 @@
 # Developer Workflow & AI Coding Agent Operating Guide
 
-This document defines the standard development commands, git workflows, and step-by-step operating procedure for **Meta Muse Code** and human developers working on **Cytrus**.
+This document defines the standard development commands, git workflows, and step-by-step operating procedure for developers working on **Celebritee.in**.
 
 ---
 

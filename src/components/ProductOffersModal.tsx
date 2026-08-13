@@ -20,7 +20,7 @@ interface ProductOffersModalProps {
 export default function ProductOffersModal({ isOpen, onClose, product }: ProductOffersModalProps) {
   if (!isOpen) return null;
 
-  const productName = product?.name || 'CYTRUS Heavyweight Tee';
+  const productName = product?.name || 'Celebritee Heavyweight Tee';
   const productPrice = product?.price || 1500;
   const primaryImg = product?.images?.[0]?.url || product?.image || '';
 

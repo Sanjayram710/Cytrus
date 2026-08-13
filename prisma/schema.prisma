@@ -1,4 +1,4 @@
-// Prisma schema for CYTRUS Premium Fashion E-Commerce Platform
+// Prisma schema for Celebritee.in Premium Fashion E-Commerce Platform
 
 generator client {
   provider = "prisma-client-js"

@@ -50,7 +50,7 @@ export const useWishlistStore = create<WishlistStore>()(
       clearWishlist: () => set({ items: [] }),
     }),
     {
-      name: 'cytrus_wishlist_storage',
+      name: 'celebritee_wishlist_storage',
     }
   )
 );
