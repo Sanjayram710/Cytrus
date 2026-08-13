@@ -82,11 +82,11 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
             : 'bg-canvas/95 backdrop-blur-md py-4 border-b border-border'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between min-h-[52px]">
             
             {/* 1. FAR LEFT CORNER: Mobile Menu + CELEBRITEE .IN Brand Logo */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2.5 sm:space-x-3">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
@@ -97,29 +97,29 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               </button>
 
               {/* CELEBRITEE Brand Logo at Far Left */}
-              <Link href="/" className="inline-flex items-baseline space-x-1 group">
-                <span className="font-serif text-2xl sm:text-3xl tracking-[0.32em] font-normal uppercase text-ink group-hover:text-accent transition-colors">
+              <Link href="/" className="inline-flex items-baseline space-x-1 group flex-shrink-0">
+                <span className="font-serif text-xl sm:text-2xl md:text-[26px] tracking-[0.16em] font-medium uppercase text-ink group-hover:text-accent transition-colors">
                   CELEBRITEE
                 </span>
-                <span className="font-mono text-[9px] text-muted tracking-widest uppercase opacity-80">
+                <span className="font-mono text-[8px] sm:text-[9px] text-muted tracking-wider uppercase opacity-85">
                   .IN
                 </span>
               </Link>
             </div>
 
             {/* 2. RIGHT HAND SIDE: Category Links + Actions (Search, Account, Wishlist, Bag) */}
-            <div className="flex items-center space-x-5 lg:space-x-7">
+            <div className="flex items-center space-x-4 lg:space-x-6 xl:space-x-7">
               {/* Category Nav Links */}
-              <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
+              <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`text-[11px] uppercase tracking-[0.18em] font-medium transition-colors duration-200 whitespace-nowrap ${
+                      className={`text-[11px] uppercase tracking-[0.16em] font-medium transition-colors duration-200 whitespace-nowrap ${
                         isActive
-                          ? 'text-ink font-bold'
+                          ? 'text-ink font-bold border-b border-ink pb-0.5'
                           : 'text-muted hover:text-ink'
                       }`}
                     >
@@ -133,7 +133,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
               <div className="hidden lg:block h-3.5 w-[1px] bg-border" />
 
               {/* Action Suite: Search, User, Wishlist, Bag */}
-              <div className="flex items-center space-x-4 sm:space-x-5">
+              <div className="flex items-center space-x-3.5 sm:space-x-5">
                 {/* Search Trigger */}
                 <button
                   onClick={onOpenSearch}
