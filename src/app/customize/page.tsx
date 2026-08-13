@@ -194,9 +194,9 @@ export default function CustomizePage() {
   };
 
   return (
-    <div className="bg-canvas min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* Studio Header Bar: Back Arrow, Centered "Personalise this", Live Price & Reset */}
-      <section className="border-b border-border py-6 bg-canvas">
+      <section className="border-b border-border py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex flex-col md:flex-row items-center justify-between gap-4">
             
@@ -237,7 +237,7 @@ export default function CustomizePage() {
                 <span className="hidden sm:inline uppercase">Reset</span>
               </button>
 
-              <div className="border border-border bg-surface px-4 py-2 font-mono text-right">
+              <div className="border border-border bg-white px-4 py-2 font-mono text-right">
                 <span className="text-[10px] text-muted block uppercase tracking-wider">Estimated Total</span>
                 <span className="text-sm sm:text-base font-semibold text-accent leading-none">{formatPrice(livePrice)}</span>
               </div>
@@ -264,7 +264,7 @@ export default function CustomizePage() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 p-1 bg-surface border border-border">
+              <div className="grid grid-cols-3 gap-2 p-1 bg-white border border-border">
                 {SILHOUETTE_OPTIONS.map((sil) => {
                   const isSelected = selectedSilhouette === sil.id;
                   return (
@@ -280,8 +280,8 @@ export default function CustomizePage() {
                       }}
                       className={`py-2 px-2 sm:px-3 text-center transition-all font-mono text-[10px] sm:text-[11px] uppercase tracking-wider ${
                         isSelected
-                          ? 'bg-ink text-canvas font-bold shadow-sm'
-                          : 'text-muted hover:text-ink hover:bg-canvas'
+                          ? 'bg-ink text-white font-bold shadow-sm'
+                          : 'text-muted hover:text-ink hover:bg-slate-50'
                       }`}
                     >
                       {sil.name}
@@ -299,8 +299,8 @@ export default function CustomizePage() {
                   onClick={() => handleViewSideToggle('front')}
                   className={`px-4 py-1.5 border transition-all focus:outline-none focus:ring-1 focus:ring-accent ${
                     viewSide === 'front'
-                      ? 'bg-ink text-canvas border-ink font-semibold'
-                      : 'bg-surface text-muted border-border hover:text-ink'
+                      ? 'bg-ink text-white border-ink font-semibold'
+                      : 'bg-white text-muted border-border hover:text-ink'
                   }`}
                 >
                   Front View
@@ -310,8 +310,8 @@ export default function CustomizePage() {
                   onClick={() => handleViewSideToggle('back')}
                   className={`px-4 py-1.5 border transition-all focus:outline-none focus:ring-1 focus:ring-accent ${
                     viewSide === 'back'
-                      ? 'bg-ink text-canvas border-ink font-semibold'
-                      : 'bg-surface text-muted border-border hover:text-ink'
+                      ? 'bg-ink text-white border-ink font-semibold'
+                      : 'bg-white text-muted border-border hover:text-ink'
                   }`}
                 >
                   Back View
@@ -327,26 +327,10 @@ export default function CustomizePage() {
               </span>
             </div>
 
-            {/* Realistic T-Shirt Mockup on Subtle Dotted-Grid Background */}
-            <div
-              className="relative w-full aspect-[4/5] max-w-[500px] border border-border flex items-center justify-center p-6 shadow-sm overflow-hidden rounded-none transition-colors duration-500"
-              style={{
-                backgroundColor:
-                  selectedColor.id === 'sand-dune'
-                    ? '#EBE3D5'
-                    : selectedColor.id === 'vintage-chalk'
-                    ? '#F7F4EE'
-                    : selectedColor.id === 'distressed-clay'
-                    ? '#EFEBE7'
-                    : selectedColor.id === 'mineral-slate'
-                    ? '#E5E7E9'
-                    : selectedColor.id === 'washed-espresso'
-                    ? '#EDE8E3'
-                    : '#FAF8F5',
-              }}
-            >
+            {/* Realistic T-Shirt Mockup on Pure White Background */}
+            <div className="relative w-full aspect-[4/5] max-w-[500px] border border-border flex items-center justify-center p-6 shadow-sm overflow-hidden rounded-none bg-white">
               {/* Subtle Dotted-Grid Canvas Background */}
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#2E2822_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+              <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#2E2822_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
               {/* Realistic T-Shirt Garment with Real Drapery & Live Print Render */}
               <RealisticTShirt
@@ -380,7 +364,7 @@ export default function CustomizePage() {
           </div>
 
           {/* RIGHT 5 COLS: Step-by-Step Configuration Options Panel */}
-          <div className="lg:col-span-5 space-y-8 bg-surface border border-border p-6 sm:p-8">
+          <div className="lg:col-span-5 space-y-8 bg-white border border-border p-6 sm:p-8 shadow-sm">
             
             {/* STEP 1: Select Cut / Style */}
             <div>
@@ -396,8 +380,8 @@ export default function CustomizePage() {
                     onClick={() => setSelectedCut(cut)}
                     className={`w-full text-left p-3.5 border transition-all focus:outline-none focus:ring-1 focus:ring-accent ${
                       selectedCut.id === cut.id
-                        ? 'border-accent bg-canvas shadow-sm'
-                        : 'border-border bg-surface hover:border-accent/60'
+                        ? 'border-accent bg-slate-50 shadow-sm'
+                        : 'border-border bg-white hover:border-accent/60'
                     }`}
                   >
                     <div className="flex justify-between items-center mb-1">
@@ -428,8 +412,8 @@ export default function CustomizePage() {
                     onClick={() => setSelectedColor(col)}
                     className={`p-3 border text-center transition-all flex flex-col items-center space-y-2 focus:outline-none focus:ring-1 focus:ring-accent ${
                       selectedColor.id === col.id
-                        ? 'border-accent bg-canvas shadow-sm'
-                        : 'border-border bg-surface hover:border-accent/60'
+                        ? 'border-accent bg-slate-50 shadow-sm'
+                        : 'border-border bg-white hover:border-accent/60'
                     }`}
                   >
                     <div
@@ -464,8 +448,8 @@ export default function CustomizePage() {
                     onClick={() => handlePlacementChange(place)}
                     className={`p-3 border text-left transition-all focus:outline-none focus:ring-1 focus:ring-accent ${
                       selectedPlacement.id === place.id
-                        ? 'border-accent bg-canvas shadow-sm'
-                        : 'border-border bg-surface hover:border-accent/60'
+                        ? 'border-accent bg-slate-50 shadow-sm'
+                        : 'border-border bg-white hover:border-accent/60'
                     }`}
                   >
                     <div className="flex justify-between items-center mb-1">
@@ -500,7 +484,7 @@ export default function CustomizePage() {
                     maxLength={32}
                     onChange={(e) => setHeadlineText(e.target.value)}
                     placeholder="Enter headline (e.g. CYTRUS ATELIER)"
-                    className="w-full bg-canvas border border-border px-3.5 py-2.5 text-xs text-ink font-mono focus:border-ink focus:outline-none"
+                    className="w-full bg-white border border-border px-3.5 py-2.5 text-xs text-ink font-mono focus:border-ink focus:outline-none"
                   />
                 </div>
 
@@ -514,7 +498,7 @@ export default function CustomizePage() {
                     maxLength={48}
                     onChange={(e) => setTaglineText(e.target.value)}
                     placeholder="Enter subtitle (e.g. LIMITED BESPOKE DROP / 2026)"
-                    className="w-full bg-canvas border border-border px-3.5 py-2.5 text-xs text-ink font-mono focus:border-ink focus:outline-none"
+                    className="w-full bg-white border border-border px-3.5 py-2.5 text-xs text-ink font-mono focus:border-ink focus:outline-none"
                   />
                 </div>
 
@@ -531,8 +515,8 @@ export default function CustomizePage() {
                         onClick={() => setSelectedFont(f)}
                         className={`p-2.5 border text-center transition-all ${
                           selectedFont.id === f.id
-                            ? 'border-accent bg-canvas font-bold'
-                            : 'border-border bg-surface hover:border-accent/60'
+                            ? 'border-accent bg-slate-50 font-bold'
+                            : 'border-border bg-white hover:border-accent/60'
                         }`}
                       >
                         <span className={`${f.fontClass} text-xs block text-ink`}>{f.name}</span>
@@ -555,8 +539,8 @@ export default function CustomizePage() {
                         onClick={() => setTextScale(scale)}
                         className={`flex-1 py-1.5 border font-mono text-xs uppercase tracking-wider transition-all ${
                           textScale === scale
-                            ? 'bg-ink text-canvas border-ink font-semibold'
-                            : 'bg-surface text-muted border-border hover:text-ink'
+                            ? 'bg-ink text-white border-ink font-semibold'
+                            : 'bg-white text-muted border-border hover:text-ink'
                         }`}
                       >
                         {scale === 'sm' ? 'Compact' : scale === 'md' ? 'Regular' : 'Oversized'}
@@ -587,12 +571,12 @@ export default function CustomizePage() {
                     onClick={() => setSelectedGraphic(grp)}
                     className={`p-2.5 border text-center transition-all flex flex-col items-center space-y-1.5 ${
                       selectedGraphic.id === grp.id
-                        ? 'border-accent bg-canvas shadow-sm'
-                        : 'border-border bg-surface hover:border-accent/60'
+                        ? 'border-accent bg-slate-50 shadow-sm'
+                        : 'border-border bg-white hover:border-accent/60'
                     }`}
                   >
                     {grp.previewUrl ? (
-                      <div className="w-10 h-10 overflow-hidden border border-border bg-canvas">
+                      <div className="w-10 h-10 overflow-hidden border border-border bg-white">
                         <img src={grp.previewUrl} alt={grp.name} className="w-full h-full object-cover" />
                       </div>
                     ) : (
@@ -611,7 +595,7 @@ export default function CustomizePage() {
               </div>
 
               {/* Custom Image Upload */}
-              <div className="border border-dashed border-border p-4 text-center bg-canvas hover:border-ink transition-colors">
+              <div className="border border-dashed border-border p-4 text-center bg-white hover:border-ink transition-colors">
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -653,8 +637,8 @@ export default function CustomizePage() {
                     onClick={() => setSelectedSize(size)}
                     className={`py-2.5 border font-mono text-xs uppercase tracking-wider transition-all ${
                       selectedSize === size
-                        ? 'bg-ink text-canvas border-ink font-bold shadow-sm'
-                        : 'bg-surface text-muted border-border hover:text-ink'
+                        ? 'bg-ink text-white border-ink font-bold shadow-sm'
+                        : 'bg-white text-muted border-border hover:text-ink'
                     }`}
                   >
                     {size}
@@ -665,7 +649,7 @@ export default function CustomizePage() {
 
             {/* ORDER & PRICING BREAKDOWN DRAWER */}
             <div className="border-t border-border pt-6 space-y-4 font-mono">
-              <div className="bg-canvas p-4 border border-border space-y-2 text-xs">
+              <div className="bg-slate-50 p-4 border border-border space-y-2 text-xs">
                 <div className="flex justify-between text-muted">
                   <span>Base Garment ({selectedCut.name})</span>
                   <span>{formatPrice(selectedCut.basePrice)}</span>
@@ -703,7 +687,7 @@ export default function CustomizePage() {
                 type="button"
                 onClick={handleAddToCart}
                 disabled={isOrdering}
-                className="w-full bg-ink text-canvas py-4 uppercase font-mono text-xs tracking-[0.2em] font-semibold hover:bg-accent transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg disabled:opacity-75"
+                className="w-full bg-ink text-white py-4 uppercase font-mono text-xs tracking-[0.2em] font-semibold hover:bg-accent transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg disabled:opacity-75"
               >
                 <ShoppingBag className="w-4 h-4" />
                 <span>{isOrdering ? 'Crafting Atelier Piece...' : `Add To Bag · ${formatPrice(livePrice)}`}</span>

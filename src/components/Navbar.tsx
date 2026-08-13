@@ -67,6 +67,7 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
   const navLinks = [
     { name: 'Oversized Tees', href: '/category/oversized-tees' },
     { name: 'Vintage Wash', href: '/category/vintage-wash-tees' },
+    { name: 'Celebrity Drops', href: '/celebrity-drops' },
     { name: 'Graphic Tees', href: '/category/graphic-tees' },
     { name: 'Custom Design', href: '/custom-design' },
   ];
@@ -81,44 +82,43 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
             : 'bg-canvas/95 backdrop-blur-md py-4 border-b border-border'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between min-h-[52px]">
             
-            {/* 1. FAR LEFT CORNER: Mobile Menu + CELEBRITEE .IN Brand Logo */}
-            <div className="flex items-center space-x-3">
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setMobileMenuOpen(true)}
-                className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden"
-                aria-label="Open navigation menu"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
+            {/* 1. LEFT SIDE: Mobile Menu + Logo + Category Nav Links */}
+            <div className="flex items-center space-x-5 sm:space-x-7 xl:space-x-9">
+              <div className="flex items-center space-x-2.5 sm:space-x-3">
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setMobileMenuOpen(true)}
+                  className="p-1.5 text-ink hover:text-accent transition-colors lg:hidden"
+                  aria-label="Open navigation menu"
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
 
-              {/* CELEBRITEE Brand Logo at Far Left */}
-              <Link href="/" className="inline-flex items-baseline space-x-1 group">
-                <span className="font-serif text-2xl sm:text-3xl tracking-[0.32em] font-normal uppercase text-ink group-hover:text-accent transition-colors">
-                  CELEBRITEE
-                </span>
-                <span className="font-mono text-[9px] text-muted tracking-widest uppercase opacity-80">
-                  .IN
-                </span>
-              </Link>
-            </div>
+                {/* CELEBRITEE Brand Logo */}
+                <Link href="/" className="inline-flex items-baseline space-x-1 group flex-shrink-0">
+                  <span className="font-serif text-xl sm:text-2xl md:text-[25px] tracking-[0.15em] font-medium uppercase text-ink group-hover:text-accent transition-colors">
+                    CELEBRITEE
+                  </span>
+                  <span className="font-mono text-[8px] sm:text-[9px] text-muted tracking-wider uppercase opacity-85">
+                    .IN
+                  </span>
+                </Link>
+              </div>
 
-            {/* 2. RIGHT HAND SIDE: Category Links + Actions (Search, Account, Wishlist, Bag) */}
-            <div className="flex items-center space-x-5 lg:space-x-7">
-              {/* Category Nav Links */}
-              <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
+              {/* Category Nav Links (Moved immediately beside logo to eliminate free space) */}
+              <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`text-[11px] uppercase tracking-[0.18em] font-medium transition-colors duration-200 whitespace-nowrap ${
+                      className={`text-[11px] uppercase tracking-[0.15em] font-medium transition-colors duration-200 whitespace-nowrap ${
                         isActive
-                          ? 'text-ink font-bold'
+                          ? 'text-ink font-bold border-b border-ink pb-0.5'
                           : 'text-muted hover:text-ink'
                       }`}
                     >
@@ -127,12 +127,10 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   );
                 })}
               </nav>
+            </div>
 
-              {/* Subtle Divider between Categories and Action Suite */}
-              <div className="hidden lg:block h-3.5 w-[1px] bg-border" />
-
-              {/* Action Suite: Search, User, Wishlist, Bag */}
-              <div className="flex items-center space-x-4 sm:space-x-5">
+            {/* 2. RIGHT SIDE: Action Suite (Search, User, Wishlist, Bag) */}
+            <div className="flex items-center space-x-3.5 sm:space-x-5 flex-shrink-0">
                 {/* Search Trigger */}
                 <button
                   onClick={onOpenSearch}
@@ -214,7 +212,6 @@ export default function Navbar({ onOpenSearch }: NavbarProps) {
                   <span className="font-bold">{itemCount}</span>
                 </button>
               </div>
-            </div>
 
           </div>
         </div>
