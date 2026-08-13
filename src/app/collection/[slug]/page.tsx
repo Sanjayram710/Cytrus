@@ -66,7 +66,7 @@ export default function CollectionPage({ params }: { params: { slug: string } })
             {collectionName}
           </h1>
           <p className="text-xs sm:text-sm font-normal text-muted leading-relaxed">
-            {collection?.description || 'Curated capsule drops featuring 320+ GSM French Terry cotton, mineral acid washes, and bespoke streetwear silhouettes.'}
+            {collection?.description || 'Curated capsule drops featuring 240 GSM French Terry cotton, mineral acid washes, and bespoke streetwear silhouettes.'}
           </p>
         </div>
       </div>

@@ -85,7 +85,7 @@ async function main() {
     {
       name: 'Oversized Tees',
       slug: 'oversized-tees',
-      description: '280 GSM Heavyweight French Terry cotton featuring boxy drop-shoulder streetwear cuts.',
+      description: '240 GSM Heavyweight French Terry cotton featuring boxy drop-shoulder streetwear cuts.',
       image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=800',
       isFeatured: true,
     },
@@ -113,9 +113,9 @@ async function main() {
     {
       name: 'Pima Cotton Essentials',
       slug: 'pima-cotton-essentials',
-      description: 'Ultra-soft 100% Supima and Peruvian Pima cotton classic fit t-shirts.',
+      description: 'Ultra-soft everyday core luxury basics made with 100% Peruvian Pima cotton.',
       image: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&q=80&w=800',
-      isFeatured: true,
+      isFeatured: false,
     },
     {
       name: 'Drop-Shoulder Boxy',
@@ -127,16 +127,16 @@ async function main() {
     {
       name: 'Polo & Henley Tees',
       slug: 'polo-henley-tees',
-      description: 'Textured waffle-knit and ribbed collar luxury henleys and tailored polos.',
+      description: 'Smart casual waffle-knit henleys and tailored heavyweight piqué polo t-shirts.',
       image: 'https://images.unsplash.com/photo-1625910513413-3fc215c76e0b?auto=format&fit=crop&q=80&w=800',
-      isFeatured: true,
+      isFeatured: false,
     },
     {
       name: 'Athleisure Performance',
       slug: 'athleisure-performance',
-      description: 'Moisture-wicking bamboo cotton and ribbed stretch muscle-fit t-shirts.',
+      description: 'Breathable bamboo elastane and modal active tees engineered for motion.',
       image: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&q=80&w=800',
-      isFeatured: true,
+      isFeatured: false,
     },
   ];
 
@@ -151,7 +151,7 @@ async function main() {
     {
       name: 'Midnight Streetwear',
       slug: 'midnight-streetwear',
-      description: 'Noir heavy-gsm oversized t-shirts with matte black hardware and industrial accents.',
+      description: 'Noir 240 GSM oversized t-shirts with matte black hardware and industrial accents.',
       image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=1200',
       isFeatured: true,
     },
@@ -165,7 +165,7 @@ async function main() {
     {
       name: 'Heavyweight Graphic Series',
       slug: 'heavyweight-graphic-series',
-      description: 'Art-gallery inspired back prints on 300 GSM combed cotton drop-shoulder tees.',
+      description: 'Art-gallery inspired back prints on 240 GSM combed cotton drop-shoulder tees.',
       image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1200',
       isFeatured: true,
     },
@@ -194,7 +194,7 @@ async function main() {
   console.log('--- Seeding Exactly 5 T-Shirt Hero Slides ---');
   const heroSlidesData = [
     {
-      title: '280 GSM HEAVYWEIGHT OVERSIZED TEES',
+      title: '240 GSM HEAVYWEIGHT OVERSIZED TEES',
       subtitle: 'THE STREETWEAR DROP 2026',
       description: 'Discover thick French Terry organic cotton t-shirts featuring boxy drop-shoulder cuts and reinforced ribbed collar construction.',
       image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=1920',
@@ -218,7 +218,7 @@ async function main() {
     {
       title: 'HIGH-DENSITY GRAPHIC PRINTS',
       subtitle: 'ART GALLERY EDITION',
-      description: 'Heavyweight 300 GSM cotton tees over-printed with textured puff ink graphics and back prints.',
+      description: 'Heavyweight 240 GSM cotton tees over-printed with textured puff ink graphics and back prints.',
       image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=1920',
       mobileImage: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=800',
       buttonText: 'EXPLORE GRAPHICS',
@@ -257,9 +257,9 @@ async function main() {
   console.log('--- Seeding 11 Unique Luxury T-Shirt Products ---');
   const productsMaster = [
     {
-      name: 'Monolith 280 GSM Heavyweight Oversized Tee',
-      slug: 'monolith-280gsm-oversized-tee',
-      description: 'Engineered from 280 GSM 100% organic French Terry cotton. Features an architectural boxy cut, dropped shoulders, and a thick 1.2-inch ribbed crewneck collar.',
+      name: 'Monolith 240 GSM Heavyweight Oversized Tee',
+      slug: 'monolith-240gsm-oversized-tee',
+      description: 'Engineered from 240 GSM 100% organic French Terry cotton. Features an architectural boxy cut, dropped shoulders, and a thick 1.2-inch ribbed crewneck collar.',
       price: 3490,
       comparePrice: 4200,
       categorySlug: 'oversized-tees',
@@ -278,7 +278,7 @@ async function main() {
     {
       name: 'Vanguard Boxy Drop-Shoulder Heavy Tee',
       slug: 'vanguard-boxy-heavy-tee',
-      description: 'Pre-shrunk 260 GSM combed cotton t-shirt with seamless side construction and structured wide sleeves.',
+      description: 'Pre-shrunk 240 GSM combed cotton t-shirt with seamless side construction and structured wide sleeves.',
       price: 2990,
       comparePrice: 3500,
       categorySlug: 'oversized-tees',
@@ -296,7 +296,7 @@ async function main() {
     {
       name: 'Nocturne Oversized Noir Streetwear Tee',
       slug: 'nocturne-oversized-noir-tee',
-      description: 'Pitch black 300 GSM ultra-heavy cotton tee accented with matte rubberized hem label and reinforced double-needle seam stitching.',
+      description: 'Pitch black 240 GSM ultra-heavy cotton tee accented with matte rubberized hem label and reinforced double-needle seam stitching.',
       price: 3990,
       comparePrice: 4800,
       categorySlug: 'oversized-tees',
@@ -314,7 +314,7 @@ async function main() {
     {
       name: 'Cybernetic Renaissance Graphic Tee',
       slug: 'cybernetic-renaissance-graphic-tee',
-      description: 'Art gallery back-print t-shirt featuring high-density 3D puff screen printing on 260 GSM combed cotton.',
+      description: 'Art gallery back-print t-shirt featuring high-density 3D puff screen printing on 240 GSM combed cotton.',
       price: 3790,
       comparePrice: 4500,
       categorySlug: 'graphic-tees',
@@ -404,7 +404,7 @@ async function main() {
     {
       name: 'Waffle-Knit Heavy Cotton Henley Tee',
       slug: 'waffle-knit-heavy-henley-tee',
-      description: 'Textured 300 GSM thermal waffle cotton henley tee styled with custom horn buttons and ribbed collar.',
+      description: 'Textured 240 GSM thermal waffle cotton henley tee styled with custom horn buttons and ribbed collar.',
       price: 3590,
       comparePrice: 4200,
       categorySlug: 'polo-henley-tees',
@@ -545,7 +545,7 @@ async function main() {
 
   console.log('--- Seeding T-Shirt Customer Reviews ---');
   const reviewComments = [
-    { title: 'Insane 280 GSM Heavy Weight!', rating: 5, text: 'The collar does not stretch out after washing. Boxy fit is 10/10 perfection.' },
+    { title: 'Insane 240 GSM Heavy Weight!', rating: 5, text: 'The collar does not stretch out after washing. Boxy fit is 10/10 perfection.' },
     { title: 'Best Oversized Tee I Own', rating: 5, text: 'The drop shoulder drape is incredible. Super soft French Terry organic cotton.' },
     { title: 'Top Notch Quality & Stitching', rating: 5, text: 'Puff print details on the graphic are very clean. Heavy and premium.' },
     { title: 'Worth Every Penny', rating: 4, text: 'Fabric feels like luxury designer streetwear brands. Fast shipping too!' },

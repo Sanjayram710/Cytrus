@@ -287,7 +287,7 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
             {/* Garment Editorial Description */}
             <p className="text-xs sm:text-sm text-charcoal/80 leading-relaxed mb-6 font-normal">
               {product.description ||
-                'Tailored from 320 GSM organic combed French Terry cotton. Engineered with dropped shoulders, reinforced shape-retaining ribbed crewneck collar, and subtle tonal embroidery.'}
+                'Tailored from 240 GSM organic combed French Terry cotton. Engineered with dropped shoulders, reinforced shape-retaining ribbed crewneck collar, and subtle tonal embroidery.'}
             </p>
 
             {/* Color Swatches */}

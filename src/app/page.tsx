@@ -31,7 +31,7 @@ const ICON_EDITIONS = [
     dropNumber: 'DROP 01 // 200 UNITS',
     status: 'ALMOST SOLD OUT',
     tag: 'Official Collaboration',
-    description: '320 GSM French Terry streetwear engineered with raw edge hems and heavy distressed wash.',
+    description: '240 GSM French Terry streetwear engineered with raw edge hems and heavy distressed wash.',
     image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1200',
     link: '/shop?category=oversized-tees',
     badge: '92% Claimed',
@@ -67,7 +67,7 @@ const JOURNAL_ARTICLES = [
   {
     id: 'j-01',
     category: 'BEHIND THE DROP',
-    title: 'Deconstructing 320 GSM: How We Engineered The Perfect Heavyweight Drape',
+    title: 'Deconstructing 240 GSM: How We Engineered The Perfect Heavyweight Drape',
     date: 'AUGUST 2026',
     author: 'CELEBRITEE ATELIER',
     readTime: '4 MIN READ',
@@ -364,7 +364,7 @@ export default function HomePage() {
                   {/* Card Bottom Meta in Black */}
                   <div className="p-4 bg-white border-t border-border text-charcoal">
                     <p className="font-mono text-[10px] text-muted uppercase tracking-[0.2em] mb-1 font-medium">
-                      {product.category?.name || '320 GSM HEAVYWEIGHT'}
+                      {product.category?.name || '240 GSM HEAVYWEIGHT'}
                     </p>
                     <Link href={`/product/${product.slug}`}>
                       <h3 className="font-serif text-sm font-normal text-charcoal group-hover:text-royal transition-colors line-clamp-1">
@@ -477,7 +477,7 @@ export default function HomePage() {
               02
             </div>
             <h3 className="font-serif text-lg font-normal text-charcoal">
-              320+ GSM Master Knit
+              240 GSM Master Knit
             </h3>
             <p className="font-sans text-xs text-muted font-normal leading-relaxed">
               Crafted from 100% long-staple combed cotton French Terry with structured drop-shoulders and 1.2-inch shape-retaining ribbed collars.

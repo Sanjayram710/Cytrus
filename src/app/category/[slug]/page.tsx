@@ -59,7 +59,7 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
             {categoryName}
           </h1>
           <p className="text-xs sm:text-sm font-normal text-muted leading-relaxed">
-            {category?.description || 'Explore our hand-curated silhouette collection engineered with heavyweight 320+ GSM French Terry organic cotton.'}
+            {category?.description || 'Explore our hand-curated silhouette collection engineered with heavyweight 240 GSM French Terry organic cotton.'}
           </p>
         </div>
       </div>

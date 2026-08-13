@@ -53,7 +53,7 @@ export default function Footer() {
               <Sparkles className="w-5 h-5 text-pink" />
             </div>
             <h4 className="font-mono text-xs uppercase tracking-widest text-charcoal mb-1 font-bold">
-              320+ GSM Heavyweight
+              240 GSM Heavyweight
             </h4>
             <p className="font-mono text-[11px] text-muted">Master Tailored Streetwear Cotton</p>
           </div>

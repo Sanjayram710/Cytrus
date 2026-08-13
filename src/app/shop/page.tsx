@@ -96,7 +96,7 @@ function CatalogContent() {
             </h1>
           </div>
           <p className="font-mono text-xs text-muted uppercase tracking-widest max-w-sm font-medium">
-            Strictly limited editions. Engineered with 320+ GSM French Terry cotton.
+            Strictly limited editions. Engineered with 240 GSM French Terry cotton.
           </p>
         </div>
       </div>
@@ -313,7 +313,7 @@ function CatalogContent() {
                     {/* Card Meta Details in Black */}
                     <div className="p-4 bg-white border-t border-border text-charcoal">
                       <p className="font-mono text-[10px] text-muted uppercase tracking-[0.2em] mb-1 font-medium">
-                        {product.category?.name || '320 GSM HEAVYWEIGHT'}
+                        {product.category?.name || '240 GSM HEAVYWEIGHT'}
                       </p>
                       <Link href={`/product/${product.slug}`}>
                         <h3 className="font-serif text-sm font-normal text-charcoal group-hover:text-royal transition-colors line-clamp-1">

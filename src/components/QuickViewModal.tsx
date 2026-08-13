@@ -130,7 +130,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
 
                 <p className="text-xs text-charcoal/80 leading-relaxed my-4 font-normal">
                   {product.description ||
-                    '320 GSM organic French Terry cotton engineered with dropped shoulders and reinforced shape-retaining ribbed crewneck collar.'}
+                    '240 GSM organic French Terry cotton engineered with dropped shoulders and reinforced shape-retaining ribbed crewneck collar.'}
                 </p>
 
                 {/* Size Selector */}
