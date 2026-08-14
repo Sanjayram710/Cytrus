@@ -3,11 +3,21 @@ import crypto from 'crypto';
 
 async function runDPDPTests() {
   console.log('\n==============================================');
-  console.log('    CYTRUS DPDP ACT 2023 AUTOMATED TEST SUITE  ');
+  console.log('    CELEBRITEE DPDP ACT 2023 AUTOMATED TESTS   ');
   console.log('==============================================\n');
 
   let passed = 0;
   let failed = 0;
+
+  function assert(condition: boolean, testName: string) {
+    if (condition) {
+      console.log(`✅ [PASS] ${testName}`);
+      passed++;
+    } else {
+      console.error(`❌ [FAIL] ${testName}`);
+      failed++;
+    }
+  }
 
   try {
     // 1. Test ConsentLog creation & IP Anonymization
@@ -22,46 +32,33 @@ async function runDPDPTests() {
         status: 'GRANTED',
         noticeVersion: '1.0',
         ipHash,
-        userAgent: 'Jest-Test-Runner/1.0',
+        userAgent: 'Test-Runner/1.0',
       },
     });
 
-    if (consent.id && consent.ipHash === ipHash) {
-      console.log('✅ [PASS] Consent audit log recorded with anonymized SHA-256 IP hash');
-      passed++;
-    } else {
-      console.error('❌ [FAIL] Consent audit log failed');
-      failed++;
-    }
+    assert(Boolean(consent.id) && consent.ipHash === ipHash, 'Consent audit log recorded with anonymized SHA-256 IP hash');
 
     // 2. Test Grievance Redressal Ticket Creation
     console.log('\n--- 2. Testing Grievance & Rights Request Workflow ---');
     const ticketId = `DPDP-GRV-${Math.floor(100000 + Math.random() * 900000)}`;
     const grievance = await prisma.dataPrivacyRequest.create({
       data: {
-        customerEmail: 'customer@example.com',
-        customerPhone: '+91 9876543210',
+        customerEmail: 'customer@celebritee.in',
+        customerPhone: '+919876543210',
         requestType: 'ACCESS_EXPORT',
         status: 'PENDING',
         details: `Ticket: ${ticketId} | Automated test request`,
       },
     });
 
-    if (grievance.id && grievance.status === 'PENDING') {
-      console.log(`✅ [PASS] DataPrivacyRequest ticket generated successfully (${ticketId})`);
-      passed++;
-    } else {
-      console.error('❌ [FAIL] DataPrivacyRequest creation failed');
-      failed++;
-    }
+    assert(Boolean(grievance.id) && grievance.status === 'PENDING', `DataPrivacyRequest ticket generated successfully (${ticketId})`);
 
     // 3. Test Right to Erasure & Order Anonymization
     console.log('\n--- 3. Testing Right to Erasure & Financial Anonymization ---');
-    // Create a temporary user with an order
     const testUser = await prisma.user.create({
       data: {
         name: 'Erasure Test User',
-        email: `erasure_${Date.now()}@test.com`,
+        email: `erasure_${Date.now()}@celebritee.in`,
         password: 'hashed_password_123',
         phone: '+919999999999',
       },
@@ -73,7 +70,7 @@ async function runDPDPTests() {
         userId: testUser.id,
         customerName: testUser.name,
         customerEmail: testUser.email,
-        customerPhone: testUser.phone!,
+        customerPhone: testUser.phone || '+919999999999',
         shippingAddressJson: JSON.stringify({ street: '123 Main St', city: 'Bangalore' }),
         subtotal: 2499,
         total: 2798.88,
@@ -102,18 +99,13 @@ async function runDPDPTests() {
       where: { id: testOrder.id },
     });
 
-    if (
-      updatedOrder &&
-      updatedOrder.customerName === '[DELETED_USER]' &&
-      updatedOrder.customerPhone === 'XXXXXXXXXX' &&
-      updatedOrder.total === 2798.88
-    ) {
-      console.log('✅ [PASS] User erased; Order financial audit trail safely anonymized');
-      passed++;
-    } else {
-      console.error('❌ [FAIL] Erasure anonymization failed');
-      failed++;
-    }
+    assert(
+      Boolean(updatedOrder) &&
+      updatedOrder?.customerName === '[DELETED_USER]' &&
+      updatedOrder?.customerPhone === 'XXXXXXXXXX' &&
+      updatedOrder?.total === 2798.88,
+      'User erased; Order financial audit trail safely anonymized'
+    );
 
     // Clean up test data
     await prisma.order.delete({ where: { id: testOrder.id } });
@@ -134,4 +126,7 @@ async function runDPDPTests() {
   }
 }
 
-runDPDPTests();
+runDPDPTests().catch((e) => {
+  console.error('DPDP test execution error:', e);
+  process.exit(1);
+});

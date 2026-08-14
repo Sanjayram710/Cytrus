@@ -9,7 +9,7 @@
     "lint": "eslint src --ext .ts,.tsx",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
-    "test": "tsx tests/ecommerce.test.ts"
+    "test": "tsx tests/ecommerce.test.ts && tsx tests/dpdp.test.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
