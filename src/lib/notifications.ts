@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import { formatPrice } from '@/lib/utils';
 import { generateOrderPdfInvoice } from '@/lib/pdf-generator';
+import { sendN8nOrderNotification } from '@/lib/n8n';
 
 export interface OrderNotificationPayload {
   id: string;
@@ -304,13 +305,25 @@ export async function sendOrderSMSNotification(order: OrderNotificationPayload) 
 }
 
 export async function sendOrderWhatsAppNotification(order: OrderNotificationPayload) {
+  // 1. Primary: Dispatch to n8n WhatsApp Webhook Workflow
+  if (process.env.N8N_WEBHOOK_URL) {
+    try {
+      const n8nResult = await sendN8nOrderNotification(order, 'ORDER_CONFIRMED');
+      if (n8nResult.success) {
+        return { success: true, mode: 'N8N_WEBHOOK', n8nStatus: n8nResult.status };
+      }
+    } catch (n8nErr: any) {
+      console.error('[N8N WhatsApp] Dispatch error in notification service:', n8nErr?.message || n8nErr);
+    }
+  }
+
   const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   const trackingUrl = `${baseUrl}/orders/${order.id}`;
   const cleanPhone = order.customerPhone.replace(/\D/g, '').slice(-10);
 
   const whatsappText = `*Celebritee.in Atelier Order Confirmation*\n\nHello ${order.customerName},\nThank you for your order *#${order.orderNumber}*!\n\n*Total Amount:* ${formatPrice(order.total)}\n*Payment Method:* ${order.paymentMethod}\n\nTrack your shipment live:\n${trackingUrl}`;
 
-  // 1. UltraMsg WhatsApp API Integration
+  // 2. UltraMsg WhatsApp API Integration (Fallback)
   if (process.env.WHATSAPP_ULTRAMSG_INSTANCE_ID && process.env.WHATSAPP_ULTRAMSG_TOKEN) {
     try {
       const instanceId = process.env.WHATSAPP_ULTRAMSG_INSTANCE_ID;
@@ -336,7 +349,7 @@ export async function sendOrderWhatsAppNotification(order: OrderNotificationPayl
     }
   }
 
-  // 2. Twilio WhatsApp Integration
+  // 3. Twilio WhatsApp Integration (Fallback)
   if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_WHATSAPP_NUMBER) {
     try {
       let twilioModule: any = null;
