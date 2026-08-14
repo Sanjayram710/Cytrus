@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
 import { sendOrderStatusEmail } from '@/lib/notifications';
+import { sendN8nOrderNotification, N8nEventType } from '@/lib/n8n';
 
 export async function GET() {
   try {
@@ -39,6 +40,10 @@ export async function PUT(req: Request) {
         ...(trackingNumber !== undefined ? { trackingNumber } : {}),
         ...(notes !== undefined ? { notes } : {}),
       },
+      include: {
+        items: true,
+        user: true,
+      },
     });
 
     if (orderStatus && orderStatus !== currentOrder.orderStatus) {
@@ -68,6 +73,36 @@ export async function PUT(req: Request) {
           });
         }
       }
+
+      // Dispatch lifecycle event to n8n WhatsApp workflow
+      const statusEventMap: Record<string, N8nEventType> = {
+        CONFIRMED: 'ORDER_CONFIRMED',
+        PACKED: 'ORDER_PACKED',
+        ORDER_PACKED: 'ORDER_PACKED',
+        SHIPPED: 'ORDER_SHIPPED',
+        ORDER_SHIPPED: 'ORDER_SHIPPED',
+        OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
+        DELIVERED: 'DELIVERED',
+        CANCELLED: 'CANCELLED',
+      };
+
+      const mappedEvent = statusEventMap[orderStatus.toUpperCase()];
+      if (mappedEvent) {
+        try {
+          await sendN8nOrderNotification(updatedOrder, mappedEvent);
+        } catch (notifErr) {
+          console.error(`[N8N WhatsApp] Admin status update notification error (${mappedEvent}):`, notifErr);
+        }
+      }
+    }
+
+    // If payment status was updated to REFUNDED
+    if (paymentStatus === 'REFUNDED' && currentOrder.paymentStatus !== 'REFUNDED') {
+      try {
+        await sendN8nOrderNotification(updatedOrder, 'REFUNDED');
+      } catch (notifErr) {
+        console.error('[N8N WhatsApp] Admin refund notification error:', notifErr);
+      }
     }
 
     return NextResponse.json({ success: true, order: updatedOrder });
@@ -75,3 +110,4 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: error.message || 'Failed to update order' }, { status: 500 });
   }
 }
+

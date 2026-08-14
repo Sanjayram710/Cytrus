@@ -167,7 +167,11 @@ export async function POST(req: Request) {
     try {
       await sendOrderEmailReceipt(order as any);
       await sendOrderSMSNotification(order as any);
-      await sendOrderWhatsAppNotification(order as any);
+      // For COD orders, dispatch ORDER_CONFIRMED WhatsApp event immediately.
+      // For RAZORPAY orders, WhatsApp notification is dispatched strictly after payment verification.
+      if (order.paymentMethod === 'COD') {
+        await sendOrderWhatsAppNotification(order as any);
+      }
     } catch (notifErr) {
       console.error('Notification dispatch warning:', notifErr);
     }
