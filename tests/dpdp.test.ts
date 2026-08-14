@@ -1,6 +1,8 @@
 import { prisma } from '../src/lib/prisma';
 import crypto from 'crypto';
 
+const db: any = prisma;
+
 async function runDPDPTests() {
   console.log('\n==============================================');
   console.log('    CELEBRITEE DPDP ACT 2023 AUTOMATED TESTS   ');
@@ -25,7 +27,7 @@ async function runDPDPTests() {
     const ip = '192.168.1.100';
     const ipHash = crypto.createHash('sha256').update(ip).digest('hex').substring(0, 16);
 
-    const consent = await prisma.consentLog.create({
+    const consent = await db.consentLog.create({
       data: {
         sessionId: 'test_sess_123',
         consentType: 'WHATSAPP_ALERTS',
@@ -36,12 +38,12 @@ async function runDPDPTests() {
       },
     });
 
-    assert(Boolean(consent.id) && consent.ipHash === ipHash, 'Consent audit log recorded with anonymized SHA-256 IP hash');
+    assert(Boolean(consent?.id) && consent?.ipHash === ipHash, 'Consent audit log recorded with anonymized SHA-256 IP hash');
 
     // 2. Test Grievance Redressal Ticket Creation
     console.log('\n--- 2. Testing Grievance & Rights Request Workflow ---');
     const ticketId = `DPDP-GRV-${Math.floor(100000 + Math.random() * 900000)}`;
-    const grievance = await prisma.dataPrivacyRequest.create({
+    const grievance = await db.dataPrivacyRequest.create({
       data: {
         customerEmail: 'customer@celebritee.in',
         customerPhone: '+919876543210',
@@ -51,11 +53,11 @@ async function runDPDPTests() {
       },
     });
 
-    assert(Boolean(grievance.id) && grievance.status === 'PENDING', `DataPrivacyRequest ticket generated successfully (${ticketId})`);
+    assert(Boolean(grievance?.id) && grievance?.status === 'PENDING', `DataPrivacyRequest ticket generated successfully (${ticketId})`);
 
     // 3. Test Right to Erasure & Order Anonymization
     console.log('\n--- 3. Testing Right to Erasure & Financial Anonymization ---');
-    const testUser = await prisma.user.create({
+    const testUser = await db.user.create({
       data: {
         name: 'Erasure Test User',
         email: `erasure_${Date.now()}@celebritee.in`,
@@ -64,7 +66,7 @@ async function runDPDPTests() {
       },
     });
 
-    const testOrder = await prisma.order.create({
+    const testOrder = await db.order.create({
       data: {
         orderNumber: `ORD-TEST-${Date.now()}`,
         userId: testUser.id,
@@ -80,7 +82,7 @@ async function runDPDPTests() {
     });
 
     // Execute Erasure Logic
-    await prisma.order.updateMany({
+    await db.order.updateMany({
       where: { userId: testUser.id },
       data: {
         customerName: '[DELETED_USER]',
@@ -90,12 +92,12 @@ async function runDPDPTests() {
       },
     });
 
-    await prisma.user.delete({
+    await db.user.delete({
       where: { id: testUser.id },
     });
 
     // Verify Order is preserved for tax compliance while PII is masked
-    const updatedOrder = await prisma.order.findUnique({
+    const updatedOrder = await db.order.findUnique({
       where: { id: testOrder.id },
     });
 
@@ -108,9 +110,9 @@ async function runDPDPTests() {
     );
 
     // Clean up test data
-    await prisma.order.delete({ where: { id: testOrder.id } });
-    await prisma.consentLog.delete({ where: { id: consent.id } });
-    await prisma.dataPrivacyRequest.delete({ where: { id: grievance.id } });
+    if (testOrder?.id) await db.order.delete({ where: { id: testOrder.id } });
+    if (consent?.id) await db.consentLog.delete({ where: { id: consent.id } });
+    if (grievance?.id) await db.dataPrivacyRequest.delete({ where: { id: grievance.id } });
 
   } catch (error) {
     console.error('Test Suite Exception:', error);
