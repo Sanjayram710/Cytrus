@@ -156,6 +156,14 @@ export default function RegisterPage() {
             <span>{loading ? 'Creating Profile...' : 'Complete Client Registration'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
+
+          <p className="font-mono text-[10px] text-muted leading-normal mt-3 text-center">
+            By registering, you agree to our{' '}
+            <Link href="/privacy-policy" className="text-accent underline underline-offset-2">
+              DPDP Privacy Policy &amp; Terms
+            </Link>
+            .
+          </p>
         </form>
 
         {/* Features Checklist */}

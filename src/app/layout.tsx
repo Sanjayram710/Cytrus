@@ -9,6 +9,7 @@ import QuickViewModal from '@/components/QuickViewModal';
 import SizeGuideModal from '@/components/SizeGuideModal';
 import SplashScreen from '@/components/SplashScreen';
 import WhatsAppWidget from '@/components/WhatsAppWidget';
+import DPDPConsentBanner from '@/components/DPDPConsentBanner';
 import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             )}
             <SizeGuideModal isOpen={sizeGuideOpen} onClose={() => setSizeGuideOpen(false)} />
             <WhatsAppWidget />
+            <DPDPConsentBanner />
           </>
         )}
       </body>

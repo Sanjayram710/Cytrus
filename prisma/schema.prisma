@@ -27,6 +27,7 @@ model User {
   carts         Cart[]
   reviews       Review[]
   couponUsages  CouponUsage[]
+  consentLogs   ConsentLog[]
 }
 
 model Address {
@@ -388,4 +389,40 @@ model AuditLog {
   notes     String?
   createdAt DateTime @default(now())
 }
+
+// Digital Personal Data Protection Act (DPDP Act 2023) Compliance Models
+model ConsentLog {
+  id            String   @id @default(cuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId     String?  // Guest checkout / visitor session
+  consentType   String   // "ORDER_FULFILLMENT", "WHATSAPP_ALERTS", "MARKETING", "COOKIE_ANALYTICS"
+  status        String   // "GRANTED" | "WITHDRAWN"
+  noticeVersion String   @default("1.0")
+  ipHash        String?  // Anonymized SHA-256 hash of IP for audit verification
+  userAgent     String?
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([consentType])
+}
+
+model DataPrivacyRequest {
+  id            String    @id @default(cuid())
+  userId        String?
+  customerEmail String
+  customerPhone String?
+  requestType   String    // "ACCESS_EXPORT", "ERASURE_DELETE", "CORRECTION", "GRIEVANCE"
+  status        String    @default("PENDING") // "PENDING", "PROCESSING", "COMPLETED", "REJECTED"
+  details       String?
+  adminNotes    String?
+  createdAt     DateTime  @default(now())
+  resolvedAt    DateTime?
+
+  @@index([customerEmail])
+  @@index([requestType])
+  @@index([status])
+}
+
 

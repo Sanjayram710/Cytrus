@@ -111,6 +111,7 @@ export default function Footer() {
               <li><Link href="/orders" className="hover:text-canvas transition-colors">Track Order</Link></li>
               <li><Link href="/shop" className="hover:text-canvas transition-colors">Tee Size Guide</Link></li>
               <li><Link href="/checkout" className="hover:text-canvas transition-colors">Shipping & Returns</Link></li>
+              <li><Link href="/account/privacy" className="hover:text-canvas transition-colors">Privacy & Data Rights (DPDP)</Link></li>
               <li><Link href="/account" className="hover:text-canvas transition-colors">FAQ & Support</Link></li>
             </ul>
           </div>
@@ -149,9 +150,9 @@ export default function Footer() {
         <div className="mt-16 pt-8 border-t border-canvas/10 flex flex-col sm:flex-row items-center justify-between font-mono text-[10px] text-canvas/40 uppercase tracking-widest">
           <p>© 2026 CELEBRITEE.IN. ALL RIGHTS RESERVED.</p>
           <div className="flex space-x-6 mt-4 sm:mt-0">
-            <a href="#" className="hover:text-canvas">PRIVACY POLICY</a>
-            <a href="#" className="hover:text-canvas">TERMS OF SERVICE</a>
-            <a href="#" className="hover:text-canvas">ACCESSIBILITY</a>
+            <Link href="/privacy-policy" className="hover:text-canvas">PRIVACY POLICY (DPDP)</Link>
+            <Link href="/privacy-policy" className="hover:text-canvas">TERMS OF SERVICE</Link>
+            <Link href="/account/privacy" className="hover:text-canvas">DATA RIGHTS</Link>
           </div>
         </div>
       </div>

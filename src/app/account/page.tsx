@@ -91,6 +91,17 @@ export default function AccountDashboardPage() {
           </div>
         </Link>
 
+        <Link
+          href="/account/privacy"
+          className="bg-surface border border-border p-6 hover:border-accent transition-all flex items-center space-x-4"
+        >
+          <ShieldCheck className="w-7 h-7 text-accent" />
+          <div>
+            <h3 className="font-serif font-normal text-ink text-sm uppercase tracking-wider">Privacy & Data (DPDP)</h3>
+            <p className="font-mono text-xs text-muted">Export data, manage consents & erasure</p>
+          </div>
+        </Link>
+
         <div className="bg-surface border border-border p-6 flex items-center space-x-4">
           <User className="w-7 h-7 text-accent" />
           <div>

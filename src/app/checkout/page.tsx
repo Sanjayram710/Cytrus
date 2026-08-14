@@ -598,6 +598,15 @@ export default function CheckoutPage() {
               >
                 {loading ? 'Processing Drop Order...' : `COMPLETE ORDER (${formatPrice(total)})`}
               </button>
+
+              <div className="pt-2 text-center">
+                <p className="font-mono text-[10px] text-muted leading-tight">
+                  🔒 Encrypted 256-bit SSL Checkout · Personal data processed strictly for delivery under the{' '}
+                  <Link href="/privacy-policy" target="_blank" className="text-accent underline underline-offset-2">
+                    DPDP Act 2023
+                  </Link>
+                </p>
+              </div>
             </div>
           )}
         </div>
